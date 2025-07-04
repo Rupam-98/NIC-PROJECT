@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Branch Entry</title>
+  <link rel="stylesheet" href="branch_entry.css" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>Branch Entry Form</h2>
+    <form action="#" method="POST">
+        <div class="form-group">
+        <label for="branchcode">Branch Code</label>
+        <input type="text" id="branchcode" name="branchcode" placeholder="Enter Branch Code" required />
+      </div> 
+       <div class="form-group">
+        <label for="deptcode">Department Code</label>
+        <input type="text" id="deptcode" name="deptcode" placeholder="Enter Department Code" required />
+      </div>
+      <div class="form-group">
+        <label for="branchType">Branch Type</label>
+        <select id="branchType" name="branchType" required>
+          <option value="">-- Select Type --</option>
+          <option value="c">College</option>
+          <option value="h">High School</option>
+          <option value="O">Office</option>
+          <option value="g">Central Govt. Office</option>
+          <option value="b">Bank</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="barnchName">Branch Name</label>
+        <input type="text" id="barnchName" name="barnchName" placeholder="Enter Branch name" required />
+      </div>
+      <div class="form-group">
+        <label for="beeocode">BEEO Code</label>
+        <input type="text" id="beeocode" name="beeocode" placeholder="Enter BEEO Code" required />
+      </div>
+      <div class="form-group">
+        <label for="officerName">Officer Name</label>
+        <input type="text" id="officerName" name="officerName" placeholder="Enter officer name" required />
+      </div>
+      <div class="form-group">
+        <label for="officerDesignation">Officer Designation</label>
+        <select id="officerDesignation" name="officerDesignation" required>
+          <option value="">-- Select Type --</option>
+          <option value="principal"> principal</option>
+          <option value="is">Inspector of School</option>
+          <option value="hm">Head Master</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="officeEmail">Office Email</label>
+        <input type="email" id="officeEmail" name="officeEmail" placeholder="Enter office email" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="officePhone">Office Phone</label>
+        <input type="tel" id="officePhone" name="officePhone" placeholder="Enter office phone" required />
+      </div>
+      <div class="form-group">
+        <label for="officeaddress">Office Address</label>
+        <input type="text" id="officeaddress" name="officeaddress" placeholder="Enter Office Address" required />
+      </div>
+      
+      <button type="submit" class="submit-btn">Submit</button>
+    </form>
+  </div>
+</body>
+</html>
