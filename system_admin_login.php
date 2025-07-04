@@ -1,41 +1,46 @@
-
 <?php
-$host = "localhost";
-$port = "5432";
-$dbname = "PROJECT";
-$user = "postgres";
-$password = "695847";
-
-$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-
-if (!$conn) {-
-    die("Connection failed: " . pg_last_error());
-}
-
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST['email']);
-    $password_input = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    $query = "SELECT id, password FROM system_admin WHERE email = $1";
-    $result = pg_query_params($conn, $query, array($email));
+    // PostgreSQL connection
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=695847");
+    if (!$conn) {
+        die("Connection failed.");
+    }
 
-    if ($result && pg_num_rows($result) == 1) {
-        $row = pg_fetch_assoc($result);
-        $hashed_password = $row['password'];
+    $result = pg_query_params($conn, "SELECT * FROM systemlogin WHERE username = $1 AND admin_type = 'system_admin'", [$username]);
 
-        if (password_verify($password_input, $hashed_password)) {
-            $_SESSION['user_id'] = $row['id'];
-            header("Location: #.php");
-            exit();
+    if ($row = pg_fetch_assoc($result)) {
+        if (password_verify($password, $row['password'])) {
+            // Credentials valid → generate OTP
+            $otp = random_int(100000, 999999);
+
+            $_SESSION['otp'] = $otp;
+            $_SESSION['temp_user'] = $username; // Save username temporarily
+
+            // Show OTP input form
+            echo "
+                <script>alert('Your OTP is: $otp');</script>
+                <h2>Enter OTP</h2>
+                <form method='POST' action='SA_otp.php'>
+                    <label for='otp'>OTP:</label>
+                    <input type='number' name='otp' required />
+                    <button type='submit'>Verify OTP</button>
+                </form>
+            ";
+           
         } else {
             echo "Invalid password.";
         }
     } else {
-        echo "User not found.";
+        echo "User not found or not a system admin.";
     }
-}
 
-pg_close($conn);
+    pg_close($conn);
+} else {
+    echo "Invalid request.";
+}
 ?>
