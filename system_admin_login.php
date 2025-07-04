@@ -15,11 +15,11 @@ if (!$conn) {-
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST['email']);
+    $username = trim($_POST['username']);
     $password_input = $_POST['password'];
 
-    $query = "SELECT id, password FROM system_admin WHERE email = $1";
-    $result = pg_query_params($conn, $query, array($email));
+    $query = "SELECT id, password FROM systemlogin WHERE username = $1";
+    $result = pg_query_params($conn, $query, array($username));
 
     if ($result && pg_num_rows($result) == 1) {
         $row = pg_fetch_assoc($result);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password_input, $hashed_password)) {
             $_SESSION['user_id'] = $row['id'];
-            header("Location: #.php");
+            echo "LOGIN SUCCESSFULL";
             exit();
         } else {
             echo "Invalid password.";
