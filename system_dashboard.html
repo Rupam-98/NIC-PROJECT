@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>System Admin Dashboard</title>
   <link rel="stylesheet" href="system_admin_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+      padding-left: 20px;
+      background: #444;
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      padding: 8px 10px;
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+  </style>
 </head>
+
 <body>
   <div class="sidebar">
     <h2>System Admin</h2>
     <ul>
       <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
-      <li><a href="dept_entry.html"><i class="fas fa-users"></i> Department Users</a></li>
-      <li><a href="branch_entry.html"><i class="fas fa-users"></i> Branch Users</a></li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Department
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="dept_entry.html"> Dept. Entry Form</a></li>
+          <li><a href="add_dept_admin.html"> Admin Entry</a></li>
+          <li>Dept. Admin List</li>
+        </ul>
+      </li>
+
+      <li><a href=""><i class="fas fa-users"></i> Branch Users</a></li>
       <li><a href=""><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
       <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -22,7 +54,6 @@
 
   <div class="main-content">
     <header>
-      
       <h1>Dashboard</h1>
     </header>
 
@@ -56,11 +87,25 @@
             <th>Status</th>
           </tr>
         </thead>
-        
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>john@example.com</td>
+            <td>Active</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+
+  <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+  </script>
 </body>
+
 </html>
