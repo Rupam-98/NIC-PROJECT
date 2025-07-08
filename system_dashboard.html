@@ -32,7 +32,7 @@
   <div class="sidebar">
     <h2>System Admin</h2>
     <ul>
-      <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -45,9 +45,29 @@
         </ul>
       </li>
 
-      <li><a href=""><i class="fas fa-users"></i> Branch Users</a></li>
-      <li><a href=""><i class="fas fa-chart-line"></i> Reports</a></li>
-      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+
+
+       <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Branch
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="dept_entry.html"> Branch Entry Form</a></li>
+          <li><a href="add_dept_admin.html"> Admin Entry</a></li>
+          <li>Branch Admin List</li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-cog"></i>Settings<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Update</a></li>
+          <li><a href="#">Change Password</a></li>
+        </ul>
+      </li>
+
       <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
@@ -77,22 +97,22 @@
     </div>
 
     <div class="table-section">
-      <h2>Recent Users</h2>
+      <h2>#</h2>
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>001</td>
-            <td>John Doe</td>
-            <td>john@example.com</td>
-            <td>Active</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </tbody>
       </table>
