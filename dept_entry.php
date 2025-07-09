@@ -7,6 +7,11 @@ $user = "postgres";
 $password = "695847";
 
                         
+$dbname = "project";    // <-- Change this
+$user = "postgre";      // <-- Change this
+$password = "1035"; // <-- Change this
+
+// Connect to PostgreSQL
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 
 if (!$conn) {

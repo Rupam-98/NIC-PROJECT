@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employee Entry Form</title>
+  <link rel="stylesheet" href="employee_entry.css" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>Employee Entry Form</h2>
+    <form action="#" method="POST">
+      <label for="department">Department code :</label>
+      <input type="text" id="deptCode" name="department" required />
+
+      <label for="emp_id">Employee ID:</label>
+      <input type="text" id="emp_id" name="emp_id" required />
+
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="designation">Designation:</label>
+      <input type="text" id="designation" name="designation" required />
+
+      
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="10-digit number" required />
+
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" rows="3"></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>
