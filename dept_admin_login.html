@@ -1,24 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>Dept. Login Page</title>
-    <link rel="stylesheet" href="dept_admin_login.css" />
+  <meta charset="UTF-8" />
+  <title>System Login Page</title>
+  <link rel="stylesheet" href="dept_admin_login.css" />
+  <script>
+    let generatedOTP = '';
+
+    function generateOTP() {
+      // Generate random 6-digit OTP
+      generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      alert("Your OTP is: " + generatedOTP);
+
+      // Fill hidden input with generated OTP
+      document.getElementById('generatedOtp').value = generatedOTP;
+
+      // Show OTP input field
+      document.getElementById('otpWrapper').style.display = 'block';
+    }
+
+    function validateForm(event) {
+      const userOTP = document.getElementById('otp').value;
+      const generated = document.getElementById('generatedOtp').value;
+
+      if (generated === '') {
+        alert('Please generate an OTP first.');
+        event.preventDefault();
+        return false;
+      }
+
+      if (userOTP !== generated) {
+        alert('Invalid OTP.');
+        event.preventDefault();
+        return false;
+      }
+
+      // else allow form to submit
+      return true;
+    }
+  </script>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Department Admin Login</h1>
-        <form id="loginForm" method="POST" action="#">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your Username" required />
+  <div class="login-container">
+    <h1>Admin Login</h1>
+    <form id="loginForm" method="POST" action="dept_admin.php" onsubmit="return validateForm(event)">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" placeholder="Enter your Username" required />
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
 
-            <button type="submit">Login</button>
+      <!-- Hidden input to store generated OTP -->
+      <input type="hidden" id="generatedOtp" name="generatedOtp" />
 
-            
-        </form>
-    </div>
+      <!-- OTP input field (hidden at first) -->
+      <div id="otpWrapper" style="display:none;">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" placeholder="Enter the OTP" required />
+      </div>
+
+      <button type="button" onclick="generateOTP()">Generate OTP</button>
+      <button type="submit">Login</button>
+    </form>
+  </div>
 </body>
 </html>
