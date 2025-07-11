@@ -1,12 +1,12 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #c0d5eb;
+  background: #f0f2f5;
   margin: 0;
   padding: 0;
 }
 
 .form-container {
-  background: #ffffff;
+  background: #2fa7df;
   max-width: 650px;
   margin: 50px auto;
   padding: 30px 40px;
