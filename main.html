@@ -8,51 +8,82 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f2f5;
+      background: linear-gradient(135deg, #e0e7ff 0%, #f0f2f5 100%);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      min-height: 100vh;
+      transition: background 0.5s;
     }
 
     .container {
-      background: #fff;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 48px 36px 32px 36px;
+      border-radius: 18px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.13);
       text-align: center;
-      max-width: 400px;
+      max-width: 420px;
       width: 100%;
+      transition: box-shadow 0.3s, transform 0.3s;
+      border: 1.5px solid #e3e8f0;
     }
 
     .container h1 {
-      margin-bottom: 30px;
-      color: #333;
+      margin-bottom: 32px;
+      color: #2d3a4a;
+      font-size: 2.1rem;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     .login-btn {
       display: block;
       width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      background: #007bff;
+      padding: 16px 0;
+      margin: 14px 0;
+      background: linear-gradient(90deg, #4f8cff 0%, #007bff 100%);
       color: #fff;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 1.08rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
       text-decoration: none;
+      box-shadow: 0 2px 8px rgba(79,140,255,0.08);
+      letter-spacing: 0.5px;
     }
 
     .login-btn:hover {
-      background: #0056b3;
+      background: linear-gradient(90deg, #0056b3 0%, #4f8cff 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 18px rgba(79,140,255,0.13);
     }
 
     footer {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #666;
+      margin-top: 28px;
+      font-size: 13px;
+      color: #7a8599;
+      letter-spacing: 0.2px;
+    }
+    .container:hover {
+      transform: translateY(-7px) scale(1.01);
+      box-shadow: 0 16px 36px rgba(79,140,255,0.10);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 32px 24px;
+      }
+      .container h1 {
+        font-size: 1.8rem;
+      }
+      .login-btn {
+        font-size: 1rem;
+        padding: 14px 0;
+      }
     }
   </style>
 </head>
@@ -66,14 +97,14 @@
   </div>
 
   <script>
-    // Example: show alert when clicking a link (optional)
+    
     const links = document.querySelectorAll('.login-btn');
     links.forEach(link => {
       link.addEventListener('click', e => {
-        // Uncomment below if you want a confirm dialog
-        // if (!confirm('Do you want to continue to the login page?')) {
-        //   e.preventDefault();
-        // }
+        
+         if (!confirm('Do you want to continue to the login page?')) {
+          e.preventDefault();
+        }
       });
     });
   </script>
