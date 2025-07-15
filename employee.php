@@ -1,5 +1,5 @@
 <?php
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $host = "localhost";
 $dbname = "PROJECT";
 $user = "postgres";
@@ -63,6 +63,7 @@ if ($result) {
 }
 
 pg_close($conn);
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +76,7 @@ pg_close($conn);
 
     <h2>Employee Entry Form</h2>
 
-    <form action="employee.php" method="post">
+    <form  method="post">
         <label for="slno">Sl. No</label>
         <input type="number" id="slno" name="slno" required>
 
