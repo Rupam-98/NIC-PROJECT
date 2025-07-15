@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Username and password are required.");
     }
 
-    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=695847");
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
     if (!$conn) {
         die("Connection failed.");
     }

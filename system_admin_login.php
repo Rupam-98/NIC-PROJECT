@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     // You can also check $_POST['otp'] if you want
 
-    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=695847");
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
 
     if (!$conn) {
         die("Connection failed.");
