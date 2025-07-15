@@ -1,0 +1,70 @@
+/* DA_edit.css - Styles for Edit Department Admin page */
+
+body {
+  background: #f4f6fb;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.edit-container {
+  background: #fff;
+  max-width: 420px;
+  margin: 50px auto 0 auto;
+  padding: 32px 36px 28px 36px;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  border: 1px solid #e3e7ee;
+}
+
+.edit-container h1 {
+  text-align: center;
+  color: #2d3a4b;
+  margin-bottom: 28px;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+label {
+  color: #3a4a5d;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 9px 12px;
+  margin-top: 6px;
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border: 1.5px solid #4a90e2;
+  outline: none;
+  background: #fff;
+}
+
+button[type="submit"] {
+  width: 100%;
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button[type="submit"]:hover {
+  background: #357abd;
+}
