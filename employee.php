@@ -1,18 +1,18 @@
 <?php
-// Database connection settings
-$host = "localhost";
-$dbname = "employee_db";
-$user = "postgres";
-$password = "yourpassword";
 
-// Connect to PostgreSQL
+$host = "localhost";
+$dbname = "PROJECT";
+$user = "postgres";
+$password = "695847";
+
+
 $conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
 
 if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-// Collect POST data
+
 $data = [
     'slno' => $_POST['slno'],
     'depcode' => $_POST['depcode'],
@@ -40,23 +40,21 @@ $data = [
     'bank_branch_address' => $_POST['bank_branch_address']
 ];
 
-// Insert query
-$query = "INSERT INTO employees (
-    slno, depcode, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
-    home_lac, residential_lac, branch_lac, beeo_code, basic, gazeted, remarks, education, dor,
-    ac_no, ifsc_code, branch_name, bank_branch_address
-) VALUES (
-    '{$data['slno']}', '{$data['depcode']}', '{$data['department']}', '{$data['branch_code']}',
-    '{$data['branch_address']}', '{$data['name']}', '{$data['desig']}', '{$data['sex']}',
-    '{$data['age']}', '{$data['epic']}', '{$data['phone']}', '{$data['home_lac']}',
-    '{$data['residential_lac']}', '{$data['branch_lac']}', '{$data['beeo_code']}',
-    '{$data['basic']}', {$data['gazeted']}, '{$data['remarks']}', '{$data['education']}',
-    '{$data['dor']}', '{$data['ac_no']}', '{$data['ifsc_code']}', '{$data['branch_name']}',
-    '{$data['bank_branch_address']}'
-)";
 
-// Execute query
-$result = pg_query($conn, $query);
+$query = "
+    INSERT INTO employees (
+        slno, depcode, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
+        home_lac, residential_lac, branch_lac, beeo_code, basic, gazeted, remarks, education, dor,
+        ac_no, ifsc_code, branch_name, bank_branch_address
+    ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+        $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
+        $21, $22, $23, $24
+    )
+";
+
+
+$result = pg_query_params($conn, $query, array_values($data));
 
 if ($result) {
     echo "Employee record inserted successfully!";
