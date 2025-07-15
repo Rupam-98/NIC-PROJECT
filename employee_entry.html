@@ -9,29 +9,29 @@
     <h2>Employee Entry Form</h2>
 
     <form action="employee.php" method="post">
-      <label for="slno">Sl. No</label>
+        <label for="slno">Sl. No</label>
         <input type="number" id="slno" name="slno" required>
 
         <label for="depcode">DEPCODE</label>
-        <input type="text" id="depcode" name="depcode">
+        <input type="text" id="depcode" name="depcode" required>
 
         <label for="department">DEPARTMENT</label>
-        <input type="text" id="department" name="department">
+        <input type="text" id="department" name="department" required>
 
-        <label for="branchcode">BRANCH_CODE</label>
-        <input type="text" id="branchcode" name="branchcode">
+        <label for="branch_code">BRANCH CODE</label>
+        <input type="text" id="branch_code" name="branch_code" required>
 
-        <label for="branchaddress">BRANCH_ADDRESS</label>
-        <input type="text" id="branchaddress" name="branchaddress">
+        <label for="branch_address">BRANCH ADDRESS</label>
+        <input type="text" id="branch_address" name="branch_address" required>
 
         <label for="name">NAME</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" required>
 
-        <label for="desig">DESIG</label>
-        <input type="text" id="desig" name="desig">
+        <label for="desig">DESIGNATION</label>
+        <input type="text" id="desig" name="desig" required>
 
         <label for="sex">SEX</label>
-        <select id="sex" name="sex">
+        <select id="sex" name="sex" required>
             <option value="">Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -39,56 +39,56 @@
         </select>
 
         <label for="age">AGE</label>
-        <input type="number" id="age" name="age">
+        <input type="number" id="age" name="age" required>
 
         <label for="epic">VOTER ID (EPIC)</label>
-        <input type="text" id="epic" name="epic">
+        <input type="text" id="epic" name="epic" required>
 
         <label for="phone">PHONE</label>
-        <input type="text" id="phone" name="phone">
+        <input type="text" id="phone" name="phone" required>
 
-        <label for="homelac">HOME LAC</label>
-        <input type="text" id="homelac" name="homelac">
+        <label for="home_lac">HOME LAC</label>
+        <input type="text" id="home_lac" name="home_lac" required>
 
-        <label for="reslac">RESIDENTIAL LAC</label>
-        <input type="text" id="reslac" name="reslac">
+        <label for="residential_lac">RESIDENTIAL LAC</label>
+        <input type="text" id="residential_lac" name="residential_lac" required>
 
-        <label for="branchlac">BRANCH_LAC</label>
-        <input type="text" id="branchlac" name="branchlac">
+        <label for="branch_lac">BRANCH LAC</label>
+        <input type="text" id="branch_lac" name="branch_lac" required>
 
-        <label for="beeocode">BEEO_CODE</label>
-        <input type="text" id="beeocode" name="beeocode">
+        <label for="beeo_code">BEEO CODE</label>
+        <input type="text" id="beeo_code" name="beeo_code" required>
 
         <label for="basic">BASIC</label>
-        <input type="number" id="basic" name="basic">
+        <input type="number" id="basic" name="basic" step="0.01" required>
 
         <label for="gazeted">GAZETED</label>
-        <select id="gazeted" name="gazeted">
+        <select id="gazeted" name="gazeted" required>
             <option value="">Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            <option value="1">Yes</option>
+            <option value="0">No</option>
         </select>
 
         <label for="remarks">REMARKS</label>
-        <input type="text" id="remarks" name="remarks">
+        <input type="text" id="remarks" name="remarks" required>
 
         <label for="education">EDUCATION</label>
-        <input type="text" id="education" name="education">
+        <input type="text" id="education" name="education" required>
 
         <label for="dor">DOR (Date of Retirement)</label>
-        <input type="date" id="dor" name="dor">
+        <input type="date" id="dor" name="dor" required>
 
-        <label for="acno">AC No</label>
-        <input type="text" id="acno" name="acno">
+        <label for="ac_no">ACCOUNT NUMBER</label>
+        <input type="text" id="ac_no" name="ac_no" required>
 
-        <label for="ifsccode">IFSC CODE</label>
-        <input type="text" id="ifsccode" name="ifsccode">
+        <label for="ifsc_code">IFSC CODE</label>
+        <input type="text" id="ifsc_code" name="ifsc_code" required>
 
-        <label for="branchname">BRANCH NAME</label>
-        <input type="text" id="branchname" name="branchname">
+        <label for="branch_name">BANK BRANCH NAME</label>
+        <input type="text" id="branch_name" name="branch_name" required>
 
-        <label for="bankbranchaddress">BRANCH ADDRESS (BANK)</label>
-        <input type="text" id="bankbranchaddress" name="bankbranchaddress">
+        <label for="bank_branch_address">BANK BRANCH ADDRESS</label>
+        <input type="text" id="bank_branch_address" name="bank_branch_address" required>
 
         <input type="submit" value="Submit">
     </form>
