@@ -54,7 +54,7 @@ body {
   text-decoration: none;
   display: block;
   padding: 15px 20px;
-  transition: all 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .sidebar ul li a:hover {

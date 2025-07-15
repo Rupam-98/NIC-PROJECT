@@ -1,0 +1,122 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* Basic reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Body styling with gradient background */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Login container box */
+.login-container {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+/* Form labels and inputs */
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+/* OTP input field styling with fade-in */
+#otpWrapper {
+  margin-top: 10px;
+  display: none;
+  animation: fadeInOtp 0.5s ease forwards;
+}
+
+@keyframes fadeInOtp {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+#otpWrapper input {
+  margin-bottom: 20px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button[type="button"] {
+  background: #28a745;
+  color: #fff;
+}
+
+button[type="button"]:hover {
+  background: #218838;
+  transform: translateY(-2px);
+}
+
+button[type="submit"] {
+  background: #007bff;
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  .login-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+}
