@@ -3,7 +3,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $host = "localhost";
 $dbname = "PROJECT";
 $user = "postgres";
-$password = "695847";
+$password = "1035";
 
 
 $conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");

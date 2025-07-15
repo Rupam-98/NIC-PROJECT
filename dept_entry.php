@@ -4,7 +4,7 @@ $host = "localhost";
 $port = "5432";
 $dbname = "PROJECT"; 
 $user = "postgres";  
-$password = "695847";
+$password = "1035";
 
                         
 $dbname = "project";    // <-- Change this
