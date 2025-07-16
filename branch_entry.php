@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $officeaddress = $_POST['officeaddress'];
 
     // Prepare SQL INSERT query
-    $query = "INSERT INTO branch_entry (
+    $query = "INSERT INTO branches (
         branchcode, deptcode, branch_type, branch_name, beeocode, 
         officer_name, officer_designation, office_email, office_phone, office_address
     ) VALUES (
