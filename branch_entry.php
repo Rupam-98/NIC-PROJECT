@@ -18,18 +18,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data and sanitize
     $branchcode = $_POST['branchcode'];
     $deptcode = $_POST['deptcode'];
-    $branchType = $_POST['branchType'];
-    $branchName = $_POST['barnchName']; // note: this name matches your HTML field
+    $branchType = $_POST['branch_Type'];
+    $branchName = $_POST['barnch_Name']; // note: this name matches your HTML field
     $beeocode = $_POST['beeocode'];
-    $officerName = $_POST['officerName'];
-    $officerDesignation = $_POST['officerDesignation'];
-    $officeEmail = $_POST['officeEmail'];
-    $officePhone = $_POST['officePhone'];
-    $officeaddress = $_POST['officeaddress'];
+    $officerName = $_POST['officer_Name'];
+    $officerDesignation = $_POST['officer_designation'];
+    $officeEmail = $_POST['office_Email'];
+    $officePhone = $_POST['office_Phone'];
+    $officeaddress = $_POST['office_address'];
 
     // Prepare SQL INSERT query
     $query = "INSERT INTO branches (
-        branchcode, deptcode, branch_type, branch_name, beeocode, 
+        branchcode, deptcode, branchtype, branchname, beeocode, 
         officer_name, officer_designation, office_email, office_phone, office_address
     ) VALUES (
         $1, $2, $3, $4, $5, 
