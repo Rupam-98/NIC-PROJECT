@@ -2,8 +2,8 @@
 // Database connection details
 $host = "localhost";
 $port = "5432";
-$dbname = "your_database_name";
-$user = "your_username";
+$dbname = "PROJECT";
+$user = "postgres";
 $password = "1035";
 
 // Connect to PostgreSQL
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password_raw, PASSWORD_DEFAULT);
 
     // Prepare query
-    $query = "INSERT INTO branch_admin (
+    $query = "INSERT INTO branch_admins (
         branch_code, dept_code, branch_name, officer_name, designation, 
         district, email, phone, username, password
     ) VALUES (
