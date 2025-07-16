@@ -6,6 +6,25 @@
   <title>Department Dashboard</title>
   <link rel="stylesheet" href="dept_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+      padding-left: 20px;
+      background: #444;
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      padding: 8px 10px;
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div class="sidebar">
@@ -15,12 +34,21 @@
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
-      <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="branch_entry.html"> Branch Entry Form</a></li>
+          <li><a href="add_branch_admin.html"> Admin Entry</a></li>
+          <li>Branch Admin List</li>
+        </ul>
+      </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -82,5 +110,12 @@
       </table>
     </div>
   </div>
+  <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
