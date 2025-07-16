@@ -9,7 +9,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f6f9;
   display: flex;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   color: #222;
 }
 
@@ -17,11 +17,12 @@ body {
   width: 240px;
   background: linear-gradient(135deg, #2f3542 80%, #576574 100%);
   color: #fff;
-  min-height: 100vh;
+  height: 100vh;
   padding: 32px 20px 20px 20px;
   position: fixed;
   left: 0;
   top: 0;
+  overflow-y: auto;
   box-shadow: 2px 0 12px rgba(47, 53, 66, 0.08);
   z-index: 100;
   transition: width 0.3s;
