@@ -2,8 +2,8 @@
 // PostgreSQL connection settings
 $host = "localhost";
 $port = "5432";
-$dbname = "your_database_name";
-$user = "your_username";
+$dbname = "PROJECT";
+$user = "postgre";
 $password = "1035";
 
 // Connect to PostgreSQL
