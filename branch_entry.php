@@ -3,7 +3,7 @@
 $host = "localhost";
 $port = "5432";
 $dbname = "PROJECT";
-$user = "postgre";
+$user = "postgres";
 $password = "1035";
 
 // Connect to PostgreSQL
