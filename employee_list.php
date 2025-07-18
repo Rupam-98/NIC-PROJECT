@@ -114,7 +114,7 @@ $result = pg_query($conn, $query);
                 <td class="action-btns">
                     <form method="get" action="employee_view.php" style="display:inline;">
                         <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
-                        <button class="view">View</button>
+                        <button class="view">View More</button>
                     </form>
                     <form method="get" action="employee_edit.php" style="display:inline;">
                         <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
