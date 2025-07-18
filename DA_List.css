@@ -1,135 +1,104 @@
-/* DA_List.css */
-
-/* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap');
-
-/* Base styling */
+/* Reset */
 body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f0f2f5;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fb;
+  color: #2c3e50;
 }
 
 .admin-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 95%;
+  margin: 40px auto;
   background: #fff;
+  border-radius: 8px;
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
 }
 
-h1 {
+.admin-container h1 {
   text-align: center;
-  color: #333;
   margin-bottom: 30px;
-  font-weight: 600;
+  font-size: 2rem;
+  color: #2d3a4b;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
 }
 
-thead {
-  background-color: #343a40;
+table thead {
+  background: #2355d6;
   color: #fff;
 }
 
-thead th {
-  padding: 14px;
+table th, table td {
   text-align: left;
-}
-
-tbody td {
-  padding: 14px;
+  padding: 12px 15px;
   border-bottom: 1px solid #ddd;
 }
 
-tbody tr:nth-child(even) {
-  background-color: #f8f9fa;
-}
+/* table tr:hover {
+  background: #f1f5fa;
+} */
 
-tbody tr:hover {
-  background-color: #e9ecef;
-}
-
-/* Action links (Edit/Delete) */
-.action-links a {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background-color: #007BFF;
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 5px;
-  margin-bottom: 5px;
+table a {
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  color: #2355d6;
+  font-weight: 500;
 }
 
-.action-links a:hover {
-  background-color: #0056b3;
+table a:hover {
+  text-decoration: underline;
 }
 
-.action-links a i {
-  margin: 0;
+a i {
+  margin-right: 4px;
 }
 
-/* Buttons for Download and Home */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 15px;
-  margin-right: 10px;
-  background-color: #007BFF;
+/* Modal Styles */
+.modal-content {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.close {
+  padding: 10px 20px;
+  background: #2355d6;
+  color: #fff;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.close:hover {
+  background: #1a3ca3;
+}
+
+/* Bottom Links */
+.admin-container a[target="_blank"] {
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+  background: #dde40e;
   color: #fff;
   padding: 10px 18px;
-  border-radius: 5px;
+  border-radius: 4px;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: background 0.2s ease;
 }
 
-.btn:hover {
-  background-color: #0056b3;
+.admin-container a[target="_blank"]:hover {
+  background: #2355d6;
 }
 
-/* Responsive table */
-@media (max-width: 768px) {
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tbody tr {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-  }
-
-  tbody td {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: none;
-    border-bottom: 1px solid #eee;
-  }
-
-  tbody td::before {
-    content: attr(data-label);
-    font-weight: bold;
-    color: #555;
-  }
+.action-links {
+  display: inline-block;
+  margin-top: 4px;
+  margin-right: 20px;
+  background: #1f9d00;
+  color: #fff;
+  padding: 5px 5px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s ease;
 }

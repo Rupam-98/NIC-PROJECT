@@ -56,7 +56,7 @@ $result = pg_query($conn, $query);
               <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
                 <i class="fas fa-edit"></i> Edit
               </a>
-              &nbsp;&nbsp;
+              
               <a class="action-links" href="delete_student.php?id=<?php echo $row['id']; ?>"
                 onclick="return confirm('Are you sure you want to delete this record?');">
                 <i class="fas fa-trash"></i> Delete
