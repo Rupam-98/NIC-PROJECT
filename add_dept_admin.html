@@ -1,13 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Add Department Admin</title>
-  <link rel="stylesheet" href="add_dept_admin.css" />
+  <title>System Admin Dashboard</title>
+  <link rel="stylesheet" href="system_admin_dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+     margin-left: 30px;
+      padding: 0;
+      
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+    body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* background:linear-gradient(135deg,  #b0cce7, #808283); */
+  margin: 0;
+  padding: 0;
+}
+
+.form-container {
+  background: #bde3f5;
+  max-width: 600px;
+ 
+  padding: 30px 40px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #080808;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 1px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: #4a90e2;
+  color: #ffffff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #357ABD;
+}
+
+  </style>
 </head>
+
 <body>
-  <div class="form-container">
+  <div class="main-content">
+    
+  <div class="sidebar">
+    <h2>System Admin</h2>
+    <ul>
+      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Department<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="dept_entry.html"> Dept. Entry Form</a></li>
+          <li><a href="add_dept_admin.html"> Admin Entry</a></li>
+          <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
+        </ul>
+      </li>
+
+
+
+       <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Branch<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="branch_entry.html"> Branch Entry Form</a></li>
+          <li><a href="add_branch_admin.html"> Admin Entry</a></li>
+          <li>Branch Admin List</li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-cog"></i>Settings<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Update</a></li>
+          <li><a href="#">Change Password</a></li>
+        </ul>
+      </li>
+
+      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+      <div class="form-container">
     <h2>Add Department Admin</h2>
     
     <form action="./add_dept_admin.php" method="POST">
@@ -101,5 +235,16 @@
       <button type="submit" class="submit-btn">Submit</button>
     </form>
   </div>
+    
+  </div>
+
+  <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+  </script>
 </body>
+
 </html>
