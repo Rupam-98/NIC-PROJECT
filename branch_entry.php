@@ -54,8 +54,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Branch Entry</title>
   <link rel="stylesheet" href="branch_entry.css" />
+  <link rel="stylesheet" href="dept_dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+  <style>
+    .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+      padding-left: 20px;
+      
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      padding: 8px 10px;
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+  </style>
+
 </head>
 <body>
+
+    <div class="sidebar">
+    <div class="welcome-section">
+      <img src="image\user.jpg" alt="User" />
+      <h3>Welcome!</h3>
+      <p>Department Admin</p>
+    </div>
+    <ul>
+      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="branch_entry.php"> Branch Entry Form</a></li>
+          <li><a href="add_branch_admin.html"> Admin Entry</a></li>
+          <li><a href="branch_admin_list.php">Branch Admin List</a></li>
+        </ul>
+      </li>
+      <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+  
   <div class="form-container">
     <h2>Branch Entry Form</h2>
     <form action="" method="POST">
@@ -124,5 +173,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button type="submit" class="submit-btn">Submit</button>
     </form>
   </div>
+  <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
+  </script>
 </body>
 </html>

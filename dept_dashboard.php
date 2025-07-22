@@ -1,3 +1,10 @@
+<?php
+// session_start();
+// if (!isset($_SESSION['dept_admin_id'])) {
+//     header("Location: dept_admin.php");
+//     exit;
+// }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +18,7 @@
       display: none;
       list-style-type: none;
       padding-left: 20px;
-      background: #444;
+      
     }
     .sidebar ul li.active > ul {
       display: block;
@@ -48,7 +55,7 @@
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -116,6 +123,22 @@
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }
+
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
   </script>
+
 </body>
 </html>

@@ -31,12 +31,11 @@
 
 <body>
   <div class="sidebar">
-    <div class="d">
-   <div class="card">
-        <h3>Welcome </h3>
+    <!-- <div class="d">
+   <div class="card"> -->
+        <h2>System Admin </h2>
         
-      </div>
-    </div>
+     
    
     <ul>
       <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
@@ -56,7 +55,7 @@
 
        <li class="dropdown">
         <a onclick="toggledropdown(event)">
-          <i class="fas fa-users" ></i> Branch<i class="fas fa-chevron-down"></i>
+          <i class="fas fa-users" ></i> Branch<i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
           <li><a href="branch_admin_list.php"> Branch Admin List</a></li>
@@ -130,6 +129,21 @@
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }
+
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
   </script>
 </body>
 

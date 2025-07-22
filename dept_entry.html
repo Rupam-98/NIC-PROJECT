@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>System Admin Dashboard</title>
   <link rel="stylesheet" href="system_admin_dashboard.css" />
+  <!-- <link rel="stylesheet" href="dept_entry.css" /> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     .sidebar ul li ul {
@@ -35,8 +36,8 @@
 
 .form-container {
   background: #bde3f5;
-  max-width: 600px;
- 
+  min-width: 600px;
+  margin-left: -220px ;
   padding: 30px 40px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -120,9 +121,9 @@
           <i class="fas fa-users" ></i> Branch<i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="branch_entry.html"> Branch Entry Form</a></li>
-          <li><a href="add_branch_admin.html"> Admin Entry</a></li>
-          <li>Branch Admin List</li>
+          <!-- <li><a href="branch_entry.html"> Branch Entry Form</a></li>
+          <li><a href="add_branch_admin.html"> Admin Entry</a></li> -->
+          <li><a href="branch_admin_list.php"> Branch Admin List</a></li>
         </ul>
       </li>
 
@@ -201,6 +202,22 @@
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }
+
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
+
   </script>
 </body>
 
