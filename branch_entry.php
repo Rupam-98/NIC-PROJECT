@@ -95,8 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </a>
         <ul class="dropdown-menu">
           <li><a href="branch_entry.php"> Branch Entry Form</a></li>
-          <li><a href="add_branch_admin.html"> Admin Entry</a></li>
-          <li><a href="branch_admin_list.php">Branch Admin List</a></li>
+          <li><a href="add_branch_admin.php"> Admin Entry</a></li>
+          <li><a href="b_admin_list.php">Branch Admin List</a></li>
         </ul>
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
