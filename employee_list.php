@@ -18,7 +18,93 @@ $result = pg_query($conn, $query);
 <head>
     <meta charset="UTF-8">
     <title>Employee List</title>
+    <link rel="stylesheet" href=""/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
+        .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+      padding-left: 20px;
+      
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      padding: 8px 10px;
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+
+        
+.sidebar {
+    margin-left: -20px;
+  position: relative;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: #2c3e50;
+  color: #fff;
+  position: fixed;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .welcome-section {
+  text-align: center;
+  padding: 30px 20px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .welcome-section img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #3498db;
+}
+
+.sidebar .welcome-section h3 {
+  margin: 5px 0 0;
+}
+
+.sidebar .welcome-section p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 15px 20px;
+  transition: all 0.5s ease;
+}
+
+.sidebar ul li a:hover {
+  background: #3498db;
+  padding-left: 30px;
+}
+
+.sidebar i {
+  margin-right: 10px;
+}
+
         body {
             font-family: Arial, sans-serif;
             background: #f4f7f8;
@@ -27,7 +113,7 @@ $result = pg_query($conn, $query);
 
         .container {
             max-width: 1200px;
-            margin: auto;
+            margin-left: 250px;
             background: #fff;
             padding: 30px;
             border-radius: 10px;
@@ -69,9 +155,9 @@ $result = pg_query($conn, $query);
             background-color: #f2f2f2;
         }
 
-        tr:hover {
+        /* tr:hover {
             background-color: #e0e0e0;
-        }
+        } */
 
         .action-btns button {
             margin-right: 5px;
@@ -88,6 +174,31 @@ $result = pg_query($conn, $query);
     </style>
 </head>
 <body>
+
+        <div class="sidebar">
+    <div class="welcome-section">
+      <img src="image\user.jpg" alt="User" />
+      <h3>Welcome!</h3>
+      <p>Branch Admin</p>
+    </div>
+    <ul>
+      <li><a href="branch_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Employees  <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="employee_list.php">Employee List</a></li>
+         
+        </ul>
+      </li>
+      <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+
 <div class="container">
     <h2>Employee List</h2>
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name or Branch Code">
@@ -143,6 +254,27 @@ function searchTable() {
         rows[i].style.display = name.includes(input) || branch.includes(input) ? "" : "none";
     }
 }
+
+ function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
 </script>
 </body>
 </html>
