@@ -71,9 +71,66 @@ pg_close($conn);
 <head>
     <title>Employee Entry Form</title>
     <link rel="stylesheet" href="employee_entry.css" />
+    <link rel="stylesheet" href="branch_dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .sidebar ul li ul {
+      display: none;
+      list-style-type: none;
+      padding-left: 20px;
+      background: #444;
+    }
+    .sidebar ul li.active > ul {
+      display: block;
+    }
+    .sidebar ul li ul li {
+      padding: 8px 10px;
+      color: #fff;
+    }
+    .sidebar ul li ul li:hover {
+      background: #555;
+      cursor: pointer;
+    }
+  </style>
+
 </head>
 <body>
+     <div class="sidebar">
+    <h2>Branch Admin</h2>
+    <ul>
+      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
 
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users" ></i> Employee<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="employee.php"> Employee Entry Form</a></li>
+          <li><a href="employee_list.php"> Employee List</a></li>
+          
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-cog"></i>Settings<i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Update</a></li>
+          <li><a href="#">Change Password</a></li>
+        </ul>
+      </li>
+
+      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+  <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+  </script>
     <h2>Employee Entry Form</h2>
 
     <form  method="post">
