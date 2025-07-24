@@ -116,7 +116,7 @@ $result = pg_query($conn, $query);
 
         .container {
             max-width: 1200px;
-            margin-left: 250px;
+            margin-left: 375px;
             background: #fff;
             padding: 30px;
             border-radius: 10px;
