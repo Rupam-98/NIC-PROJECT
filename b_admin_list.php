@@ -18,9 +18,9 @@ $result = pg_query($conn, $query);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+     <meta charset="UTF-8">
     <title>Branch Admin List</title>
-     <link rel="stylesheet" href="system_admin_dashboard.css" />
+     <link rel="stylesheet" href="dept_dashboard.css" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
 
@@ -43,6 +43,9 @@ $result = pg_query($conn, $query);
       cursor: pointer;
     }
 
+     .sidebar {
+      margin-left: -20px;
+    }
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f8;
@@ -140,39 +143,6 @@ $result = pg_query($conn, $query);
 </head>
 <body>
 
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Branch Entry</title>
-  <link rel="stylesheet" href="branch_entry.css" />
-  <link rel="stylesheet" href="dept_dashboard.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
-  <style>
-    .sidebar ul li ul {
-      display: none;
-      list-style-type: none;
-      padding-left: 20px;
-      
-    }
-    .sidebar ul li.active > ul {
-      display: block;
-    }
-    .sidebar ul li ul li {
-      padding: 8px 10px;
-      color: #fff;
-    }
-    .sidebar ul li ul li:hover {
-      background: #555;
-      cursor: pointer;
-    }
-  </style>
-
-</head>
-<body>
-
     <div class="sidebar">
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
@@ -180,7 +150,7 @@ $result = pg_query($conn, $query);
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
