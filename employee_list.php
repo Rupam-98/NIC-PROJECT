@@ -44,10 +44,10 @@ $result = pg_query($conn, $query);
 
         
 .sidebar {
-    margin-left: -20px;
+    margin-left: 0px;
   position: relative;
   top: 0;
-  width: 250px;
+  width: 275px;
   height: 100vh;
   background-color: #2c3e50;
   color: #fff;

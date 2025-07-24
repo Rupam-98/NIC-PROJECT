@@ -259,6 +259,7 @@ function toggledropdown(event) {
       icon.classList.add('fa-plus');
     }
   }
+  
 
 </script>
 
