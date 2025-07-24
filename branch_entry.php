@@ -36,12 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $result = pg_query_params($conn, $query, array_values($data));
 
-    if ($result) {
-        echo "<p style='color: green;'>Branch record inserted successfully!</p>";
+     if ($result) {
+        echo "<script>alert('Branch Added successfully.'); window.location.href = 'branch_entry.php';</script>";
     } else {
-        echo "<p style='color: red;'>Error: " . pg_last_error($conn) . "</p>";
+        echo "<script>alert('Error Inserting Branch: " . pg_last_error() . "'); window.history.back();</script>";
     }
-
     pg_close($conn);
 }
 ?>
