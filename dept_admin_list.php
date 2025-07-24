@@ -61,7 +61,7 @@ $result = pg_query($conn, $query);
           <i class="fas fa-users" ></i> Department<i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="dept_entry.html"> Dept. Entry Form</a></li>
+          <li><a href="dept_entry.php"> Dept. Entry Form</a></li>
           <li><a href="add_dept_admin.html"> Admin Entry</a></li>
           <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
         </ul>

@@ -16,22 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'branchcode' => $_POST['branchcode'],
         'deptcode' => $_POST['deptcode'],
         'branch_type' => $_POST['branch_type'],
+        'branch_lac' => $_POST['branch_lac'],
         'branch_name' => $_POST['branch_name'],
+        'address' => $_POST['address'],
         'beeocode' => $_POST['beeocode'],
-        'officer_name' => $_POST['officer_name'],
-        'officer_designation' => $_POST['officer_designation'],
-        'office_email' => $_POST['office_email'],
-        'office_phone' => $_POST['office_phone'],
-        'office_address' => $_POST['office_address']
+        'head' => $_POST['head'],
+        
     ];
 
     // Insert query (id will auto-increment)
     $query = "
         INSERT INTO branches (
-            branchcode, deptcode, branch_type, branch_name, beeocode,
-            officer_name, officer_designation, office_email, office_phone, office_address
+            branchcode, deptcode, branch_type, branch_lac, branch_name, address, beeocode, head
+            
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+            $1, $2, $3, $4, $5, $6, $7, $8 
         )
     ";
 
@@ -129,10 +128,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <option value="b">Bank</option>
         </select>
       </div>
+     <div class="form-group">
+          <label for="branch_lac">Branch LAC</label>
+          <input type="text" id="branch_lac" name="branch_lac" placeholder="Enter Branch LAC" required />
+      </div>
 
       <div class="form-group">
         <label for="branch_name">Branch Name</label>
         <input type="text" id="branch_name" name="branch_name" placeholder="Enter Branch Name" required />
+      </div>
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" placeholder="Enter Address" required></textarea>
       </div>
 
       <div class="form-group">
@@ -141,33 +148,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="form-group">
-        <label for="officer_name">Officer Name</label>
-        <input type="text" id="officer_name" name="officer_name" placeholder="Enter Officer Name" required />
-      </div>
-
-      <div class="form-group">
-        <label for="officer_designation">Officer Designation</label>
-        <select id="officer_designation" name="officer_designation" required>
+        <label for="head">Head</label>
+        <select id="head" name="head" required>
           <option value="">-- Select Type --</option>
           <option value="Principal">Principal</option>
           <option value="Inspector of School">Inspector of School</option>
           <option value="Head Master">Head Master</option>
         </select>
-      </div>
-
-      <div class="form-group">
-        <label for="office_email">Office Email</label>
-        <input type="email" id="office_email" name="office_email" placeholder="Enter Office Email" required />
-      </div>
-
-      <div class="form-group">
-        <label for="office_phone">Office Phone</label>
-        <input type="tel" id="office_phone" name="office_phone" placeholder="Enter Office Phone" required />
-      </div>
-
-      <div class="form-group">
-        <label for="office_address">Office Address</label>
-        <textarea id="office_address" name="office_address" placeholder="Enter Office Address" required></textarea>
       </div>
 
       <button type="submit" class="submit-btn">Submit</button>
