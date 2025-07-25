@@ -1,27 +1,32 @@
 <?php
 session_start();
 
-// Unset all session variables
-$_SESSION = [];
+/*
+  If you want, you can manually unset specific keys, for example:
+  unset($_SESSION['system_admin']);
+  unset($_SESSION['branch_admin']);
+  unset($_SESSION['dept_admin']);
+  unset($_SESSION['employee_id']);
+  unset($_SESSION['user_id']);
+  // etc.
+*/
 
-// If session cookie exists, delete it
+// Or simply clear everything:
+$_SESSION = array();
+
+// Destroy the whole session
+session_destroy();
+
+// Remove session cookie (good practice)
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
-    setcookie(
-        session_name(),
-        '',
-        time() - 42000,
-        $params["path"],
-        $params["domain"],
-        $params["secure"],
-        $params["httponly"]
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
     );
 }
 
-// Destroy session
-session_destroy();
-
-// Redirect back to the login page
-header("Location: dept_admin.php");
-exit;
+// Redirect to your main login or landing page
+header("Location: main.html");
+exit();
 ?>

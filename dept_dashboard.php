@@ -1,9 +1,13 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['dept_admin_id'])) {
-//     header("Location: dept_admin.php");
-//     exit;
-// }
+session_start();
+if ( !isset($_SESSION['dept_admin_id'])) {
+  echo "<script>
+    alert('Session expired or unauthorized access. Please log in first.');
+    window.location.href = 'dept_admin.php';
+  </script>";
+  exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

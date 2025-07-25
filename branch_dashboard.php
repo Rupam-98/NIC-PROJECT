@@ -1,10 +1,22 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+  echo "<script>
+    alert('Session expired or unauthorized access. Please log in first.');
+    window.location.href = 'system_admin_login.php';
+  </script>";
+  exit();
+}
+$user_id = $_SESSION['user_id'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Branch Dashboard</title>
-  <link rel="stylesheet" href="" />
+  <link rel="stylesheet" href="dept_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     .sidebar ul li ul {
@@ -24,70 +36,10 @@
       background: #555;
       cursor: pointer;
     }
-      .sidebar {
-      margin-left: -8px;
-      position: relative;
-      top: 0;
-      width: 250px;
-      height: 100vh;
-      background-color: #2c3e50;
-      color: #fff;
-      position: fixed;
-      overflow-y: auto;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar .welcome-section {
-  text-align: center;
-  padding: 30px 20px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.sidebar .welcome-section img {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 10px;
-  border: 2px solid #3498db;
-}
-
-.sidebar .welcome-section h3 {
-  margin: 5px 0 0;
-}
-
-.sidebar .welcome-section p {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: #ddd;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-.sidebar ul li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.sidebar ul li a {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  padding: 15px 20px;
-  transition: all 0.5s ease;
-}
-
-.sidebar ul li a:hover {
-  background: #3498db;
-  padding-left: 30px;
-}
-
-.sidebar i {
-  margin-right: 10px;
-}
+    .sidebar{
+      width: 265px;
+    }
+     
 
     
   </style>
@@ -113,9 +65,70 @@
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href=""><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+
     </ul>
   </div>
+
+  <div class="main-content">
+    <header>
+      <h1>Department Dashboard</h1>
+    </header>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Total Staff</h3>
+        <p>24</p>
+      </div>
+      <div class="card">
+        <h3>Active Users</h3>
+        <p>180</p>
+      </div>
+      <div class="card">
+        <h3>Pending Tasks</h3>
+        <p>12</p>
+      </div>
+      <div class="card">
+        <h3>New Messages</h3>
+        <p>5</p>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <h2>Recent Activities</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Activity</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Updated Profile</td>
+            <td>John Doe</td>
+            <td>2025-07-05</td>
+            <td>Completed</td>
+          </tr>
+          <tr>
+            <td>Added New User</td>
+            <td>Jane Smith</td>
+            <td>2025-07-04</td>
+            <td>Completed</td>
+          </tr>
+          <tr>
+            <td>Generated Report</td>
+            <td>Michael</td>
+            <td>2025-07-03</td>
+            <td>Pending</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
    <script>
     function toggledropdown(event) {
       event.stopPropagation(); // stops bubbling up

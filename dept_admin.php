@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get data from form
     $username = $_POST['username'] ?? '';
@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = pg_fetch_assoc($result);
 
         if (password_verify($password, $row['password'])) {
+          // $_SESSION['user_id'] = $row['id'];
             $_SESSION['dept_admin_id'] = $row['id'];
             $_SESSION['dept_admin_username'] = $row['username'];
 

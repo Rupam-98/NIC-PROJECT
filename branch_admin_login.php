@@ -32,13 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $row = pg_fetch_assoc($result);
 
         if (password_verify($password, $row['password'])) {
+            $_SESSION['user_id'] = $row['id']; 
             $_SESSION['branch_admin_id'] = $row['id'];
             $_SESSION['branch_admin_username'] = $row['username'];
 
             echo "Login successful! Welcome, " . htmlspecialchars($row['officer_name']) . ".";
 
             // Redirect to dashboard if needed
-             header("Location: branch_dashboard.html");
+             header("Location: branch_dashboard.php");
             // exit;
 
         } else {

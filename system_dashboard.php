@@ -1,10 +1,15 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-  die("No user ID found in session. Please log in first.");
+  echo "<script>
+    alert('Session expired or unauthorized access. Please log in first.');
+    window.location.href = 'system_admin_login.php';
+  </script>";
+  exit();
 }
 $user_id = $_SESSION['user_id'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +74,8 @@ $user_id = $_SESSION['user_id'];
         </ul>
       </li>
 
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+
     </ul>
   </div>
 
