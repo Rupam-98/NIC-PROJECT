@@ -57,7 +57,10 @@ $query = "
 $result = pg_query_params($conn, $query, array_values($data));
 
 if ($result) {
-    echo "Employee record inserted successfully!";
+    echo "<script>
+    alert('Employee entry added successfully.');
+    window.location.href = 'employee.php';
+  </script>";
 } else {
     echo "Error: " . pg_last_error($conn);
 }
@@ -350,8 +353,18 @@ pg_close($conn);
         <input type="text" id="bank_branch_address" name="bank_branch_address" required>
 
         <input type="submit" value="Submit">
+       
+
 
     </form>
+
+    <form action="employee_import.php" method="POST" enctype="multipart/form-data">
+     <h2>Import Employees (Excel)</h2>
+        <a>
+       <label for="import_file">Select Excel File:</label>
+       <input type="file" name="import_file" accept=".xlsx, .xls" required>
+       <button>Import</button>
+</form>
     <script>
 function fetchDeptDetails() {
     var deptCode = document.getElementById("depcode").value;
