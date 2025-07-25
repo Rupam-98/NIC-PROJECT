@@ -228,19 +228,47 @@ pg_close($conn);
       </select>
 
         <label for="department">DEPARTMENT NAME</label>
-            <input type="text" id="department" name="department" readonly required>
+            <input type="text" id="department" name="department"  required>
 
-        <label for="branch_address">DEPARTMENT ADDRESS</label>
-            <input type="text" id="branch_address" name="branch_address" readonly required>
+        <label for="dept_address">DEPARTMENT ADDRESS</label>
+            <input type="text" id="dept_address" name="dept_address"  required>
 
         <label for="name">HEAD OF DEPARTMENT</label>
-            <input type="text" id="name" name="name" readonly required>
+            <input type="text" id="name" name="name"  required>
 
-        <label for="branch_code">BRANCH CODE</label>
-        <input type="text" id="branch_code" name="branch_code" required>
+            
+        <label for="branchcode">BRANCH CODE</label>
+          <select id="branchcode" name="branchcode" onchange="fetchBranchDetails()" required>
+            <option value="">Select Branch code </option>
+            <?php
+    // PHP code to populate dropdown
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+    $res = pg_query($conn, "SELECT branchcode FROM branches");
+    while ($row = pg_fetch_assoc($res)) {
+        echo "<option value='" . $row['branchcode'] . "'>" . $row['branchcode'] . "</option>";
+    }
+    ?>
+      </select>
 
         <label for="branch_address">BRANCH ADDRESS</label>
-        <input type="text" id="branch_address" name="branch_address" required>
+
+        <select id="branch_address" name="branch_address" onchange="fetchBranchDetails()" required>
+        <option value="">Select Branch address </option>
+            <?php
+    // PHP code to populate dropdown
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+    $res = pg_query($conn, "SELECT address FROM branches");
+    while ($row = pg_fetch_assoc($res)) {
+        echo "<option value='" . $row['address'] . "'>" . $row['address'] . "</option>";
+    }
+    ?>
+      </select>  
+        
+        <label for="branch_lac">BRANCH LAC</label>
+        <input type="text" id="branch_lac" name="branch_lac" readonly required>
+
+        <label for="beeo_code">BEEO CODE</label>
+        <input type="text" id="beeo_code" name="beeo_code" readonly required>
 
         <label for="name">NAME</label>
         <input type="text" id="name" name="name" required>
@@ -271,11 +299,6 @@ pg_close($conn);
         <label for="residential_lac">RESIDENTIAL LAC</label>
         <input type="text" id="residential_lac" name="residential_lac" required>
 
-        <label for="branch_lac">BRANCH LAC</label>
-        <input type="text" id="branch_lac" name="branch_lac" required>
-
-        <label for="beeo_code">BEEO CODE</label>
-        <input type="text" id="beeo_code" name="beeo_code" required>
 
         <label for="basic">BASIC</label>
         <input type="number" id="basic" name="basic" step="0.01" required>
@@ -317,7 +340,7 @@ function fetchDeptDetails() {
 
     if (deptCode === "") {
         document.getElementById("department").value = "";
-        document.getElementById("branch_address").value = "";
+        document.getElementById("dept_address").value = "";
         document.getElementById("name").value = "";
         return;
     }
@@ -328,13 +351,37 @@ function fetchDeptDetails() {
         if (xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
             document.getElementById("department").value = data.dept_name || '';
-            document.getElementById("branch_address").value = data.address || '';
+            document.getElementById("dept_address").value = data.address || '';
             document.getElementById("name").value = data.head || '';
         }
     };
     xhr.send();
 }
+
+function fetchBranchDetails() {
+    var branchCode = document.getElementById("branchcode").value;
+
+    if (branchCode === "") {
+        document.getElementById("branch_address").value = "";
+        document.getElementById("branch_lac").value = "";
+        document.getElementById("beeo_code").value = "";
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "get_branch_info.php?branch_code=" + branchCode, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            document.getElementById("branch_address").value = data.address || '';
+            document.getElementById("branch_lac").value = data.branch_lac || '';
+            document.getElementById("beeo_code").value = data.beeo_code || '';
+        }
+    };
+    xhr.send();
+}
 </script>
+
 
 </body>
 </html>
