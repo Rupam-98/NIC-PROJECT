@@ -138,8 +138,8 @@ $result = pg_query($conn, $query);
       </tbody>
     </table>
 
-    <a href="#" target="_blank">Download data</a>
-    <a href="#" target="_blank">HOME</a>
+    <!-- <a href="#" target="_blank">Download data</a>
+    <a href="#" target="_blank">HOME</a> -->
   </div>
 
   <!-- ✅ New iframe modal -->

@@ -28,7 +28,7 @@ $data = pg_fetch_assoc($result);
       border-radius: 18px;
       box-shadow: 0 12px 32px rgba(0,0,0,0.13);
       text-align: justify;
-      max-width: 420px;
+      max-width: 750px;
       width: 100%;
       transition: box-shadow 0.3s, transform 0.3s;
       border: 1.5px solid #e3e8f0;
@@ -65,7 +65,7 @@ $data = pg_fetch_assoc($result);
     <p><strong>IFSC Code :</strong> <?= htmlspecialchars($data['ifsc_code']) ?></p>
     <p><strong>Branch Name:</strong> <?= htmlspecialchars($data['branch_name']) ?></p>
     <p><strong>Bank Branch Address:</strong> <?= htmlspecialchars($data['bank_branch_address']) ?></p>
-    <!-- Add other fields similarly -->
+    
     <a href="employee_list.php">Back to List</a>
     </div>
 </body>

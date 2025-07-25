@@ -96,7 +96,17 @@ $result = pg_query($conn, $query);
         /* table tr:hover {
             background-color: #e0e0e0;
         } */
-
+          .action-links {
+        display: inline-flex;
+        margin-top: 4px;
+        margin-right: 20px;
+        background: #1f9d00;
+        color: #fff;
+       padding: 5px 5px;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: background 0.2s ease;
+}
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr {
                 display: block;
@@ -199,6 +209,7 @@ $result = pg_query($conn, $query);
                 <th>District</th>
                 <th>Phone</th>
                 <th>Email</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -213,14 +224,77 @@ $result = pg_query($conn, $query);
                     <td><?= htmlspecialchars($row['district']) ?></td>
                     <td><?= htmlspecialchars($row['phone']) ?></td>
                     <td><?= htmlspecialchars($row['email']) ?></td>
+                     <td>
+                <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
+                <i class="fas fa-edit"></i> Edit
+                </a>
+              
+                <a class="action-links" href="BA_delete.php?id=<?php echo $row['id']; ?>"
+                onclick="return confirm('Are you sure you want to delete this record?');">
+                <i class="fas fa-trash"></i> Delete
+              </a>
+            </td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
 </div>
 
-<script>
-function searchTable() {
+              
+  <!-- ✅ New iframe modal -->
+  <div id="editModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
+      <iframe id="editIframe" style="width:100%; height:600px; border:none;"></iframe>
+    </div>
+  </div>
+
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 0;
+      border: 1px solid #888;
+      width: 60%;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    function openIframeModal(id) {
+      $('#editIframe').attr('src', 'BA_edit.php?id=' + id);
+      $('#editModal').show();
+    }
+
+    $('.close').click(function() {
+      $('#editModal').hide();
+      $('#editIframe').attr('src', '');
+    });
+
+    window.onclick = function(event) {
+      if (event.target.id === 'editModal') {
+        $('#editModal').hide();
+        $('#editIframe').attr('src', '');
+      }
+    };
+
+
+    function searchTable() {
     const input = document.getElementById("searchInput").value.toUpperCase();
     const table = document.getElementById("adminTable");
     const tr = table.getElementsByTagName("tr");
@@ -236,10 +310,10 @@ function searchTable() {
                 ? ""
                 : "none";
         }
-    }
-}
+     }
+   }
 
-function toggledropdown(event) {
+      function toggledropdown(event) {
       event.stopPropagation(); // stops bubbling up
       const li = event.target.closest('li');
       li.classList.toggle('active');
@@ -257,8 +331,8 @@ function toggledropdown(event) {
     } else {
       icon.classList.remove('fa-minus');
       icon.classList.add('fa-plus');
-    }
-  }
+     }
+   }
   
 
 </script>

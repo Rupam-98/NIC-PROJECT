@@ -16,13 +16,9 @@ $result = pg_query($conn, $query);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="branch_dashboard.css" />
+    <link rel="stylesheet" href="" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-    <meta charset="UTF-8">
-    <title>Employee List</title>
-    <link rel="stylesheet" href=""/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
     <style>
         .sidebar ul li ul {
       display: none;
@@ -44,7 +40,7 @@ $result = pg_query($conn, $query);
 
         
 .sidebar {
-    margin-left: 0px;
+    margin-left: -28px;
   position: relative;
   top: 0;
   width: 275px;
@@ -116,7 +112,7 @@ $result = pg_query($conn, $query);
 
         .container {
             max-width: 1200px;
-            margin-left: 375px;
+            margin-left: 275px;
             background: #fff;
             padding: 30px;
             border-radius: 10px;
@@ -226,24 +222,36 @@ $result = pg_query($conn, $query);
                 <td><?= htmlspecialchars($row['phone']) ?></td>
                 <td><?= htmlspecialchars($row['branch_code']) ?></td>
                 <td class="action-btns">
-                    <form method="get" action="employee_view.php" style="display:inline;">
-                        <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
-                        <button class="view">View More</button>
-                    </form>
-                    <form method="get" action="employee_edit.php" style="display:inline;">
-                        <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
-                        <button class="edit">Edit</button>
-                    </form>
-                    <form method="post" action="employee_delete.php" style="display:inline;" onsubmit="return confirm('Are you sure to delete?');">
-                        <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
-                        <button class="delete">Delete</button>
-                    </form>
-                </td>
+                <button class="view" onclick="openModal(<?= $row['slno'] ?>)">View More</button>
+
+                <form method="get" action="employee_edit.php" style="display:inline;">
+                   <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
+                   <button class="edit">Edit</button>
+               </form>
+
+                <form method="post" action="employee_delete.php" style="display:inline;" onsubmit="return confirm('Are you sure to delete?');">
+                   <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
+                   <button class="delete">Delete</button>
+               </form>
+              </td>
+              
             </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
 </div>
+
+                <!-- Add this inside your <body>, ideally just above </body> -->
+
+<!-- ✅✅✅ MODAL HTML ✅✅✅ -->
+<div id="viewModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+    background: rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
+  <div style="position:relative; width:80%; height:80%; background:#fff; border-radius:8px; overflow:hidden;">
+    <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+    <button onclick="closeModal()" style="position:absolute; top:10px; right:10px; background:#dc3545; color:#fff; border:none; padding:8px 12px; cursor:pointer;">Close</button>
+  </div>
+</div>
+
 
 <script>
 function searchTable() {
@@ -278,6 +286,21 @@ function searchTable() {
       icon.classList.add('fa-plus');
     }
   }
+
+function openModal(slno) {
+  const modal = document.getElementById('viewModal');
+  const iframe = document.getElementById('modalIframe');
+  iframe.src = 'employee_view.php?slno=' + slno;
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  const modal = document.getElementById('viewModal');
+  const iframe = document.getElementById('modalIframe');
+  iframe.src = '';
+  modal.style.display = 'none';
+}
+
 </script>
 </body>
 </html>

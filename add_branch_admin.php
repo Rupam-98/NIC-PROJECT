@@ -11,52 +11,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . pg_last_error());
     }
 
-    // Collect POST data
-    $data = [
-        'branchcode' => $_POST['branchcode'],
-        'deptcode' => $_POST['deptcode'],
-        'branch_name' => $_POST['branch_name'],
-        'officer_name' => $_POST['officer_name'],
-        'designation' => $_POST['designation'],
-        'district' => $_POST['district'],
-        'email' => $_POST['email'],
-        'phone' => $_POST['phone'],
-        'username' => $_POST['username'],
-        'password' => $_POST['password']
-    ];
+    // Collect POST data properly
+    $branchCode = $_POST['branchCode'];
+    $deptCode = $_POST['deptCode'];
+    $branchName = $_POST['branchName'];
+    $officerName = $_POST['officerName'];
+    $designation = $_POST['designation'];
+    $district = $_POST['district'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $username = $_POST['username'];
+    $password_raw = $_POST['password'];
 
-    // Hash the password before saving
+    // Hash the password safely
     $hashed_password = password_hash($password_raw, PASSWORD_DEFAULT);
 
-    // Prepare query
-    
-
-    // Execute query
-    $result = pg_query_params($conn, $query, [
-        $branchCode, $deptCode, $branchName, $officerName, $designation,
-        $district, $email, $phone, $username, $hashed_password
-    ]);
-
-
-
-
     // Insert query (id will auto-increment)
-
     $query = "INSERT INTO branch_admins (
         branch_code, dept_code, branch_name, officer_name, designation, 
         district, email, phone, username, password
     ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
-    )
-    ";
+    )";
 
-
-    $result = pg_query_params($conn, $query, array_values($data));
+    $result = pg_query_params($conn, $query, [
+        $branchCode, $deptCode, $branchName, $officerName, $designation,
+        $district, $email, $phone, $username, $hashed_password
+    ]);
 
     if ($result) {
-        echo "<p style='color: green;'>Branch Admin record inserted successfully!</p>";
+        echo "<script>alert('Branch Admin Added successfully.'); window.location.href = 'add_branch_admin.php';</script>";
     } else {
-        echo "<p style='color: red;'>Error: " . pg_last_error($conn) . "</p>";
+        echo "<script>alert('Error Inserting Branch: " . pg_last_error() . "'); window.history.back();</script>";
     }
 
     pg_close($conn);

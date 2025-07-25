@@ -10,6 +10,8 @@ body {
 .admin-container {
   max-width: 95%;
   margin: 40px auto;
+  margin-left: 35px;
+  
   background: #fff;
   border-radius: 8px;
   padding: 30px;
