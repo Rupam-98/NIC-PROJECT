@@ -1,39 +1,40 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$host = "localhost";
-$port = "5432";
-$dbname = "PROJECT"; 
-$user = "postgres";     
-$password = "1035";   
+    $host = "localhost";
+    $port = "5432";
+    $dbname = "PROJECT"; 
+    $user = "postgres";     
+    $password = "1035";   
 
-// Connect to PostgreSQL
-$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+    // Connect to PostgreSQL
+    $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 
-if (!$conn) {
-    die("Connection failed: " . pg_last_error());
-}
+    if (!$conn) {
+        die("<script>alert('Connection failed: " . pg_last_error() . "');</script>");
+    }
 
-// Get form data safely
-$dept_type = $_POST['dept_type'];
-$dept_code = $_POST['dept_code'];
-$dept_name = $_POST['dept_name'];
-$address = $_POST['address'];
-$head = $_POST['head'];
+    // Get form data safely
+    $dept_type = $_POST['dept_type'];
+    $dept_code = $_POST['dept_code'];
+    $dept_name = $_POST['dept_name'];
+    $address = $_POST['address'];
+    $head = $_POST['head'];
 
-// Insert query
-$query = "INSERT INTO dept_entry (dept_type,dept_code, dept_name, address, head) VALUES ($1, $2, $3, $4,$5)";
-$result = pg_query_params($conn, $query, array($dept_type,$dept_code, $dept_name, $address, $head));
+    // Insert query
+    $query = "INSERT INTO dept_entry (dept_type, dept_code, dept_name, address, head) VALUES ($1, $2, $3, $4, $5)";
+    $result = pg_query_params($conn, $query, array($dept_type, $dept_code, $dept_name, $address, $head));
 
-if ($result) {
-    echo "Department added successfully.";
-} else {
-    echo "Error inserting department: " . pg_last_error();
-}
+    if ($result) {
+        echo "<script>alert('Department added successfully.'); window.location.href = 'dept_entry.php';</script>";
+    } else {
+        echo "<script>alert('Error inserting department: " . pg_last_error() . "'); window.history.back();</script>";
+    }
 
-// Close connection
-pg_close($conn);
+    // Close connection
+    pg_close($conn);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
