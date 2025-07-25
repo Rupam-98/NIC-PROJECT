@@ -12,11 +12,11 @@ h2 {
 }
 
 form {
-    max-width: 700px;
+    max-width: 1200px;
     margin: auto;
     background: #ddf585;
     padding: 30px 40px;
-    border-radius: 15px;
+    border-radius: 1px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 

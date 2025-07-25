@@ -71,14 +71,15 @@ pg_close($conn);
 <head>
     <title>Employee Entry Form</title>
     <link rel="stylesheet" href="employee_entry.css" />
+    <head>
     <link rel="stylesheet" href="branch_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    .sidebar ul li ul {
+      <style>
+        .sidebar ul li ul {
       display: none;
       list-style-type: none;
       padding-left: 20px;
-      background: #444;
+      
     }
     .sidebar ul li.active > ul {
       display: block;
@@ -91,57 +92,149 @@ pg_close($conn);
       background: #555;
       cursor: pointer;
     }
-  </style>
 
+        
+.sidebar {
+    margin-left: 0px;
+  position: relative;
+  top: 0;
+  width: 275px;
+  height: 100vh;
+  background-color: #2c3e50;
+  color: #fff;
+  position: fixed;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .welcome-section {
+  text-align: center;
+  padding: 30px 20px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .welcome-section img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #3498db;
+}
+
+.sidebar .welcome-section h3 {
+  margin: 5px 0 0;
+}
+
+.sidebar .welcome-section p {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 15px 20px;
+  transition: all 0.5s ease;
+}
+
+.sidebar ul li a:hover {
+  background: #3498db;
+  padding-left: 30px;
+}
+
+.sidebar i {
+  margin-right: 10px;
+}
+</style>
+  
 </head>
 <body>
-     <div class="sidebar">
-    <h2>Branch Admin</h2>
+  <div class="sidebar">
+    <div class="welcome-section">
+      <img src="image\user.jpg" alt="User" />
+      <h3>Welcome!</h3>
+      <p>Branch Admin</p>
+    </div>
     <ul>
-      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
-
+      <li><a href=""> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
-          <i class="fas fa-users" ></i> Employee<i class="fa fa-plus"></i>
+          <i class="fas fa-users" ></i> Employees  <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="employee.php"> Employee Entry Form</a></li>
           <li><a href="employee_list.php"> Employee List</a></li>
-          
+          <li><a href="employee.php"> Employee Entry</a></li>
         </ul>
       </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-cog"></i>Settings<i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Update</a></li>
-          <li><a href="#">Change Password</a></li>
-        </ul>
-      </li>
-
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li><a href=""><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
-  <script>
+   <script>
     function toggledropdown(event) {
       event.stopPropagation(); // stops bubbling up
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }
+
+     function toggledropdown(event) {
+    event.preventDefault();
+    const parent = event.target.closest('li');
+    parent.classList.toggle('active');
+
+    const icon = parent.querySelector('.fa-plus, .fa-minus');
+    if (parent.classList.contains('active')) {
+      icon.classList.remove('fa-plus');
+      icon.classList.add('fa-minus');
+    } else {
+      icon.classList.remove('fa-minus');
+      icon.classList.add('fa-plus');
+    }
+  }
   </script>
-    <h2>Employee Entry Form</h2>
+    
 
     <form  method="post">
+      <h2>Employee Entry Form</h2>
         <label for="slno">Sl. No</label>
         <input type="number" id="slno" name="slno" required>
 
         <label for="depcode">DEPCODE</label>
-        <input type="text" id="depcode" name="depcode" required>
+  <select id="depcode" name="depcode" onchange="fetchDeptDetails()" required>
+    <option value="">Select Department Code</option>
+    <?php
+    // PHP code to populate dropdown
+    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+    $res = pg_query($conn, "SELECT dept_code FROM dept_entry");
+    while ($row = pg_fetch_assoc($res)) {
+        echo "<option value='" . $row['dept_code'] . "'>" . $row['dept_code'] . "</option>";
+    }
+    ?>
+      </select>
 
-        <label for="department">DEPARTMENT</label>
-        <input type="text" id="department" name="department" required>
+        <label for="department">DEPARTMENT NAME</label>
+            <input type="text" id="department" name="department" readonly required>
+
+        <label for="branch_address">DEPARTMENT ADDRESS</label>
+            <input type="text" id="branch_address" name="branch_address" readonly required>
+
+        <label for="name">HEAD OF DEPARTMENT</label>
+            <input type="text" id="name" name="name" readonly required>
 
         <label for="branch_code">BRANCH CODE</label>
         <input type="text" id="branch_code" name="branch_code" required>
@@ -216,7 +309,32 @@ pg_close($conn);
         <input type="text" id="bank_branch_address" name="bank_branch_address" required>
 
         <input type="submit" value="Submit">
+
     </form>
+    <script>
+function fetchDeptDetails() {
+    var deptCode = document.getElementById("depcode").value;
+
+    if (deptCode === "") {
+        document.getElementById("department").value = "";
+        document.getElementById("branch_address").value = "";
+        document.getElementById("name").value = "";
+        return;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "get_dept_info.php?dept_code=" + deptCode, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            document.getElementById("department").value = data.dept_name || '';
+            document.getElementById("branch_address").value = data.address || '';
+            document.getElementById("name").value = data.head || '';
+        }
+    };
+    xhr.send();
+}
+</script>
 
 </body>
 </html>

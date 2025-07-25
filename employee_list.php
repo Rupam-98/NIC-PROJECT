@@ -193,7 +193,8 @@ $result = pg_query($conn, $query);
         </a>
         <ul class="dropdown-menu">
           <li><a href="employee_list.php">Employee List</a></li>
-         
+          <li><a href="employee.php"> Employee Entry</a></li>
+
         </ul>
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
