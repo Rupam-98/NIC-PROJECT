@@ -113,7 +113,7 @@ $result = pg_query($conn, $query);
         .container {
             max-width: 1200px;
             margin-left: 275px;
-            background: #fff;
+            background: #eeeeee73;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
@@ -170,6 +170,53 @@ $result = pg_query($conn, $query);
         .view { background-color: #17a2b8; color: white; }
         .edit { background-color: #ffc107; color: black; }
         .delete { background-color: #dc3545; color: white; }
+        
+      #viewModal {
+  position: fixed;
+  top: 40px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  display: none; /* this MUST be last */
+}
+
+
+    #viewModal .modal-content {
+      position: relative;
+      width: 80%;
+      height: 80%;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    #viewModal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #viewModal button.close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    #viewModal button.close-btn:hover {
+      background: #c82333;
+    }
     </style>
 </head>
 <body>
@@ -245,14 +292,12 @@ $result = pg_query($conn, $query);
                 <!-- Add this inside your <body>, ideally just above </body> -->
 
 <!-- ✅✅✅ MODAL HTML ✅✅✅ -->
-<div id="viewModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-    background: rgba(0,0,0,0.7); z-index:1000; justify-content:center; align-items:center;">
-  <div style="position:relative; width:80%; height:80%; background:#fff; border-radius:8px; overflow:hidden;">
-    <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
-    <button onclick="closeModal()" style="position:absolute; top:10px; right:10px; background:#dc3545; color:#fff; border:none; padding:8px 12px; cursor:pointer;">Close</button>
+<div id="viewModal">
+  <div class="modal-content">
+    <iframe id="modalIframe" src=""></iframe>
+    <button onclick="closeModal()" class="close-btn">Close</button>
   </div>
 </div>
-
 
 <script>
 function searchTable() {

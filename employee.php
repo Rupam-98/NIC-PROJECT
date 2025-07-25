@@ -72,7 +72,7 @@ pg_close($conn);
     <title>Employee Entry Form</title>
     <link rel="stylesheet" href="employee_entry.css" />
     <head>
-    <link rel="stylesheet" href="branch_dashboard.css" />
+    <link rel="stylesheet" href="" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       <style>
         .sidebar ul li ul {
@@ -98,6 +98,7 @@ pg_close($conn);
     margin-left: 0px;
   position: relative;
   top: 0;
+  left: 0;
   width: 275px;
   height: 100vh;
   background-color: #2c3e50;
@@ -169,7 +170,7 @@ pg_close($conn);
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href=""> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="branch_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
