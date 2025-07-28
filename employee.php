@@ -17,7 +17,7 @@ $data = [
     'slno' => $_POST['slno'],
     'depcode' => $_POST['depcode'],
     'department' => $_POST['department'],
-    'branch_code' => $_POST['branchcode'],
+    'branchcode' => $_POST['branchcode'],
     'branch_address' => $_POST['branch_address'],
     'name' => $_POST['name'],
     'desig' => $_POST['desig'],
@@ -242,9 +242,9 @@ pg_close($conn);
             <?php
     // PHP code to populate dropdown
     $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
-    $res = pg_query($conn, "SELECT branchcode FROM branches");
+    $res = pg_query($conn, "SELECT branch_code FROM branches");
     while ($row = pg_fetch_assoc($res)) {
-        echo "<option value='" . $row['branchcode'] . "'>" . $row['branchcode'] . "</option>";
+        echo "<option value='" . $row['branch_code'] . "'>" . $row['branch_code'] . "</option>";
     }
     ?>
       </select>

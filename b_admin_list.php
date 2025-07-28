@@ -1,5 +1,25 @@
 <?php
-// Connect to PostgreSQL DB
+session_start();
+
+// Check login and role
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'department_admin') {
+    echo "<script>
+        alert('Unauthorized access. Only Department Admins are allowed.');
+        window.location.href = 'admin_login.php';
+    </script>";
+    exit();
+}
+
+// Check dept_code
+// if ($_SESSION['dept_code'] !== '1001') {
+//     echo "<script>
+//         alert('Access restricted to Department Code 1001 only.');
+//         window.location.href = 'dept_dashboard.php';
+//     </script>";
+//     exit();
+// }
+
+// DB Connection
 $host = "localhost";
 $port = "5432";
 $dbname = "PROJECT";
@@ -11,55 +31,55 @@ if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-// Fetch data from branch_admins table
-$query = "SELECT * FROM branch_admins ORDER BY id ASC";
-$result = pg_query($conn, $query);
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-     <meta charset="UTF-8">
-    <title>Branch Admin List</title>
-     <link rel="stylesheet" href="dept_dashboard.css" />
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
 
-     .sidebar ul li ul {
+$deptCode = $_SESSION['dept_code'];
+$query = "SELECT * FROM admins WHERE role = 'branch_admin' AND dept_code = $1 ORDER BY branch_code ASC";
+$result = pg_query_params($conn, $query, [$deptCode]);
+
+?>
+
+
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Department Dashboard</title>
+  <link rel="stylesheet" href="dept_dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .sidebar ul li ul {
       display: none;
       list-style-type: none;
-     margin-left: 30px;
-      padding: 0;
+      padding-left: 20px;
       
     }
     .sidebar ul li.active > ul {
       display: block;
     }
     .sidebar ul li ul li {
-      
+      padding: 8px 10px;
       color: #fff;
     }
     .sidebar ul li ul li:hover {
       background: #555;
       cursor: pointer;
     }
-
-     .sidebar {
-      margin-left: -20px;
+    .sidebar{
+    
+        left: 0px;
     }
-        body {
+      body {
             font-family: Arial, sans-serif;
             background-color: #f4f7f8;
             padding: 20px;
         }
 
         .container {
-            max-width: 950px;
-            /* margin-right: 600px;
-            margin: auto; */   
-            margin-left: 335px;
-            margin-top :20px;
+            max-width: 1100px;
+            margin: auto;
+            margin-left: 275px;
             background: #fff;
-            padding: 50px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
@@ -79,7 +99,7 @@ $result = pg_query($conn, $query);
         }
 
         table {
-            width: 90%;
+            width: 100%;
             border-collapse: collapse;
             font-size: 14px;
         }
@@ -90,7 +110,7 @@ $result = pg_query($conn, $query);
         }
 
         table th, table td {
-            padding: 12px 13px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
             text-align: left;
         }
@@ -113,7 +133,6 @@ $result = pg_query($conn, $query);
         text-decoration: none;
         transition: background 0.2s ease;
 }
-
         @media screen and (max-width: 768px) {
             table, thead, tbody, th, td, tr {
                 display: block;
@@ -150,18 +169,18 @@ $result = pg_query($conn, $query);
             td:nth-of-type(7)::before { content: "Phone"; }
             td:nth-of-type(8)::before { content: "Email"; }
         }
-    </style>
+
+  </style>
 </head>
 <body>
-
-    <div class="sidebar">
+  <div class="sidebar">
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -175,11 +194,11 @@ $result = pg_query($conn, $query);
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
-  
-<div class="container">
+
+    <div class="container">
     <h2>Branch Admin List</h2>
 
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Officer Name or Branch Code">
@@ -211,19 +230,24 @@ $result = pg_query($conn, $query);
                     <td><?= htmlspecialchars($row['district']) ?></td>
                     <td><?= htmlspecialchars($row['phone']) ?></td>
                     <td><?= htmlspecialchars($row['email']) ?></td>
-                    <td>
-                        <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?= $row['id'] ?>)">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <a class="action-links" href="BA_delete.php?id=<?= $row['id'] ?>" onclick="return confirm('Are you sure you want to delete this record?');">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
+                     <td>
+                <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
+                <i class="fas fa-edit"></i> Edit
+                </a>
+              
+                <a class="action-links" href="BA_delete.php?id=<?php echo $row['id']; ?>"
+                onclick="return confirm('Are you sure you want to delete this record?');">
+                <i class="fas fa-trash"></i> Delete
+              </a>
+            </td>
                 </tr>
             <?php endwhile; ?>
         </tbody>
     </table>
 </div>
-<!-- !-- ✅ New iframe modal --> 
+
+              
+  <!-- ✅ New iframe modal -->
   <div id="editModal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
@@ -275,7 +299,8 @@ $result = pg_query($conn, $query);
       }
     };
 
-function searchTable() {
+
+    function searchTable() {
     const input = document.getElementById("searchInput").value.toUpperCase();
     const table = document.getElementById("adminTable");
     const tr = table.getElementsByTagName("tr");
@@ -291,10 +316,10 @@ function searchTable() {
                 ? ""
                 : "none";
         }
-    }
-}
+     }
+   }
 
-function toggledropdown(event) {
+      function toggledropdown(event) {
       event.stopPropagation(); // stops bubbling up
       const li = event.target.closest('li');
       li.classList.toggle('active');
@@ -312,8 +337,9 @@ function toggledropdown(event) {
     } else {
       icon.classList.remove('fa-minus');
       icon.classList.add('fa-plus');
-    }
-  }
+     }
+   }
+  
 
 </script>
 

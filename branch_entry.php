@@ -13,37 +13,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Collect POST data
     $data = [
-        'branchcode' => $_POST['branchcode'],
-        'deptcode' => $_POST['deptcode'],
+        'branch_code' => $_POST['branchcode'],
+        'dept_code' => $_POST['deptcode'],
         'branch_type' => $_POST['branch_type'],
         'branch_lac' => $_POST['branch_lac'],
         'branch_name' => $_POST['branch_name'],
         'address' => $_POST['address'],
         'beeocode' => $_POST['beeocode'],
         'head' => $_POST['head'],
-        
     ];
 
-    // Insert query (id will auto-increment)
+    // Step 1: Insert into `branch` table if branch_code doesn't exist
+    $checkBranch = "SELECT 1 FROM branch WHERE branch_code = $1";
+    $checkResult = pg_query_params($conn, $checkBranch, [$data['branch_code']]);
+
+    if (pg_num_rows($checkResult) === 0) {
+        $insertBranch = "INSERT INTO branch (branch_code, branch_name) VALUES ($1, $2)";
+        $insertResult = pg_query_params($conn, $insertBranch, [$data['branch_code'], $data['branch_name']]);
+
+        if (!$insertResult) {
+            echo "<script>alert('Error inserting into branch table: " . pg_last_error() . "'); window.history.back();</script>";
+            exit();
+        }
+    }
+
+    // Step 2: Insert into `branches` table
     $query = "
         INSERT INTO branches (
-            branchcode, deptcode, branch_type, branch_lac, branch_name, address, beeocode, head
-            
+            branch_code, dept_code, branch_type, branch_lac, branch_name, address, beeocode, head
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8 
+            $1, $2, $3, $4, $5, $6, $7, $8
         )
     ";
 
     $result = pg_query_params($conn, $query, array_values($data));
 
-     if ($result) {
+    if ($result) {
         echo "<script>alert('Branch Added successfully.'); window.location.href = 'branch_entry.php';</script>";
     } else {
         echo "<script>alert('Error Inserting Branch: " . pg_last_error() . "'); window.history.back();</script>";
     }
+
     pg_close($conn);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

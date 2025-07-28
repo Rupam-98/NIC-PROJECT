@@ -17,7 +17,7 @@ if (!$id) {
   die("No student ID specified.");
 }
 
-$query = "DELETE FROM branch_admins WHERE id = $1";
+$query = "DELETE FROM admins WHERE id = $1";
 $result = pg_query_params($conn, $query, [$id]);
 
 if ($result) {

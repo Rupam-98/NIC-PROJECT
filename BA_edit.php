@@ -15,7 +15,7 @@ if (!$id) {
   die("No branch admin ID specified.");
 }
 
-$query = "SELECT * FROM branch_admins WHERE id = $1";
+$query = "SELECT * FROM admins WHERE id = $1";
 $result = pg_query_params($conn, $query, [$id]);
 
 if (!$result || pg_num_rows($result) != 1) {
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $phone = $_POST['phone'];
   $email = $_POST['email'];
 
-  $query = "UPDATE branch_admins
+  $query = "UPDATE admins
             SET branch_code = $1, dept_code = $2, branch_name = $3, officer_name = $4,
                 designation = $5, district = $6, phone = $7, email = $8
             WHERE id = $9";

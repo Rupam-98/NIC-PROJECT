@@ -11,8 +11,7 @@ if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-// Fetch data from branch_admins table
-$query = "SELECT * FROM branch_admins ORDER BY id ASC";
+$query = "SELECT * FROM admins WHERE role = 'branch_admin' ORDER BY branch_code ASC";
 $result = pg_query($conn, $query);
 ?>
 <!DOCTYPE html>

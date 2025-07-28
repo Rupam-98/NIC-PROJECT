@@ -1,16 +1,30 @@
 <?php
-// DB Connection
+session_start();
+
+// Only allow branch_admins
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'branch_admin') {
+    echo "<script>
+        alert('Unauthorized access. Only Branch Admins are allowed.');
+        window.location.href = 'admin_login.php';
+    </script>";
+    exit();
+}
+
+$branchCode = $_SESSION['branch_code'];
+
 $host = "localhost";
+$port = "5432";
 $dbname = "PROJECT";
 $user = "postgres";
 $password = "1035";
-$conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+
 if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-$query = "SELECT * FROM employees ORDER BY slno ASC";
-$result = pg_query($conn, $query);
+$query = "SELECT * FROM employees WHERE branch_code = $1 ORDER BY slno ASC";
+$result = pg_query_params($conn, $query, [$branchCode]);
 ?>
 
 <!DOCTYPE html>
