@@ -1,13 +1,26 @@
 <?php
 session_start();
-if ( !isset($_SESSION['dept_admin_id'])) {
-  echo "<script>
-    alert('Session expired or unauthorized access. Please log in first.');
-    window.location.href = 'dept_admin.php';
-  </script>";
-  exit();
+
+// include ('header.php'); 
+
+
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'department_admin') {
+    echo "<script>
+        alert('Unauthorized access. Only Department Admins are allowed.');
+        window.location.href = 'admin_login.php';
+    </script>";
+    exit();
 }
 
+$deptCode = $_SESSION['dept_code'];
+
+$conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
+}
+
+$query = "SELECT * FROM admins WHERE role = 'branch_admin' AND dept_code = $1 ORDER BY branch_code ASC";
+$result = pg_query_params($conn, $query, [$deptCode]);
 ?>
 <!DOCTYPE html>
 <html lang="en">

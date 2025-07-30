@@ -15,7 +15,7 @@ if (!$id) {
   die("No department admin ID specified.");
 }
 
-$query = "SELECT * FROM dept_admins WHERE id = $1";
+$query = "SELECT * FROM admins WHERE id = $1 AND role = 'department_admin'";
 $result = pg_query_params($conn, $query, [$id]);
 
 if (!$result || pg_num_rows($result) != 1) {
@@ -33,11 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = $_POST['email'];
   $phone = $_POST['phone'];
 
-  $query = "UPDATE dept_admins 
-            SET dept_code = $1, dept_name = $2, officer_name = $3, designation = $4, district = $5, email = $6, phone = $7 
-            WHERE id = $8";
+  $updateQuery = "UPDATE admins 
+                  SET dept_code = $1, dept_name = $2, officer_name = $3, designation = $4, district = $5, email = $6, phone = $7 
+                  WHERE id = $8 AND role = 'department_admin'";
 
-  $result = pg_query_params($conn, $query, [
+  $result = pg_query_params($conn, $updateQuery, [
     $dept_code, $dept_name, $officer_name, $designation, $district, $email, $phone, $id
   ]);
 
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<!-- Same CSS and Form Markup -->
 <style>
   body {
     background: #f4f6fb;

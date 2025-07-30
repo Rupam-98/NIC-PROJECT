@@ -1,16 +1,30 @@
 <?php
-// DB Connection
+session_start();
+// include ('header.php'); 
+// Only allow branch_admins
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'branch_admin') {
+    echo "<script>
+        alert('Unauthorized access. Only Branch Admins are allowed.');
+        window.location.href = 'admin_login.php';
+    </script>";
+    exit();
+}
+
+$branchCode = $_SESSION['branch_code'];
+
 $host = "localhost";
+$port = "5432";
 $dbname = "PROJECT";
 $user = "postgres";
 $password = "1035";
-$conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+
 if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-$query = "SELECT * FROM employees ORDER BY slno ASC";
-$result = pg_query($conn, $query);
+$query = "SELECT * FROM employees WHERE branch_code = $1 ORDER BY slno ASC";
+$result = pg_query_params($conn, $query, [$branchCode]);
 ?>
 
 <!DOCTYPE html>
@@ -111,6 +125,7 @@ $result = pg_query($conn, $query);
         }
 
         .container {
+            position: relative;
             max-width: 1200px;
             margin-left: 275px;
             background: #eeeeee73;
@@ -125,7 +140,7 @@ $result = pg_query($conn, $query);
         }
 
         #searchInput {
-            width: 100%;
+            width: 98%;
             padding: 10px;
             margin-bottom: 20px;
             font-size: 16px;
@@ -228,7 +243,7 @@ $result = pg_query($conn, $query);
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href="branch_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="branch_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">

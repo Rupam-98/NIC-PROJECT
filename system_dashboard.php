@@ -1,13 +1,24 @@
 <?php
 session_start();
-if (!isset($_SESSION['user_id'])) {
+
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'super_admin') {
   echo "<script>
-    alert('Session expired or unauthorized access. Please log in first.');
-    window.location.href = 'system_admin_login.php';
+    alert('Unauthorized access. Only Super Admins are allowed.');
+    window.location.href = 'admin_login.php';
   </script>";
   exit();
 }
-$user_id = $_SESSION['user_id'];
+
+$username = $_SESSION['username'];
+$deptCode = $_SESSION['dept_code'];
+
+$conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
+}
+
+$query = "SELECT * FROM admins WHERE role = 'department_admin' AND dept_code = $1 ORDER BY dept_code ASC";
+$result = pg_query_params($conn, $query, [$deptCode]);
 ?>
 
 <!DOCTYPE html>
@@ -50,8 +61,9 @@ $user_id = $_SESSION['user_id'];
         </a>
         <ul class="dropdown-menu">
           <li><a href="dept_entry.php">Dept. Entry Form</a></li>
-          <li><a href="add_dept_admin.html">Admin Entry</a></li>
+          <li><a href="add_dept_admin.php">Admin Entry</a></li>
           <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
+           <li><a href="dept_info.php">Dept. Info List</a></li>
         </ul>
       </li>
 
@@ -69,13 +81,12 @@ $user_id = $_SESSION['user_id'];
           <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="user_list.php">Update Profile</a></li>
-          <li><a href="cng_user_pass.php?id=<?= htmlspecialchars($user_id) ?>">Change Password</a></li>
+          <li><a href="edit_user.php?username=<?= urlencode($username) ?>">Update Profile</a></li>
+          <li><a href="cng_user_pass.php?username=<?= urlencode($username) ?>">Change Password</a></li>
         </ul>
       </li>
 
       <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-
     </ul>
   </div>
 

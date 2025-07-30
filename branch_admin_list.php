@@ -11,8 +11,7 @@ if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-// Fetch data from branch_admins table
-$query = "SELECT * FROM branch_admins ORDER BY id ASC";
+$query = "SELECT * FROM admins WHERE role = 'branch_admin' ORDER BY branch_code ASC";
 $result = pg_query($conn, $query);
 ?>
 <!DOCTYPE html>
@@ -152,15 +151,15 @@ $result = pg_query($conn, $query);
   <div class="sidebar">
     <h2>System Admin</h2>
     <ul>
-      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
 
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
           <i class="fas fa-users" ></i> Department<i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="dept_entry.html"> Dept. Entry Form</a></li>
-          <li><a href="add_dept_admin.html"> Admin Entry</a></li>
+          <li><a href="dept_entry.php"> Dept. Entry Form</a></li>
+          <li><a href="add_dept_admin.php"> Admin Entry</a></li>
           <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
         </ul>
       </li>

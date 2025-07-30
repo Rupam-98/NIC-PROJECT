@@ -1,6 +1,6 @@
 <?php
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
-$id = $_GET['id'] ?? '';
+$id = $_GET['id'] ?? null;
 if (!ctype_digit($id)) {
   die("Invalid ID.");
 }

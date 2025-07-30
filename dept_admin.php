@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Look up user
-    $query = "SELECT * FROM dept_admins WHERE username = $1";
+    $query = "SELECT * FROM admins WHERE username = $1";
     $result = pg_query_params($conn, $query, [$username]);
 
     if ($result && pg_num_rows($result) === 1) {
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="text" id="otp" name="otp" placeholder="Enter the OTP" required />
       </div>
 
-      <button type="button" onclick="generateOTP()">Generate OTP</button>
+      <button type="submit" onclick="generateOTP()">Generate OTP</button>
       <button type="submit">Login</button>
     </form>
   </div>

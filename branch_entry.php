@@ -13,37 +13,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Collect POST data
     $data = [
-        'branchcode' => $_POST['branchcode'],
-        'deptcode' => $_POST['deptcode'],
+        'branch_code' => $_POST['branchcode'],
+        'dept_code' => $_POST['deptcode'],
         'branch_type' => $_POST['branch_type'],
         'branch_lac' => $_POST['branch_lac'],
         'branch_name' => $_POST['branch_name'],
         'address' => $_POST['address'],
         'beeocode' => $_POST['beeocode'],
         'head' => $_POST['head'],
-        
     ];
 
-    // Insert query (id will auto-increment)
+    // Step 1: Insert into `branch` table if branch_code doesn't exist
+    $checkBranch = "SELECT 1 FROM branch WHERE branch_code = $1";
+    $checkResult = pg_query_params($conn, $checkBranch, [$data['branch_code']]);
+
+    if (pg_num_rows($checkResult) === 0) {
+        $insertBranch = "INSERT INTO branch (branch_code, branch_name) VALUES ($1, $2)";
+        $insertResult = pg_query_params($conn, $insertBranch, [$data['branch_code'], $data['branch_name']]);
+
+        if (!$insertResult) {
+            echo "<script>alert('Error inserting into branch table: " . pg_last_error() . "'); window.history.back();</script>";
+            exit();
+        }
+    }
+
+    // Step 2: Insert into `branches` table
     $query = "
         INSERT INTO branches (
-            branchcode, deptcode, branch_type, branch_lac, branch_name, address, beeocode, head
-            
+            branch_code, dept_code, branch_type, branch_lac, branch_name, address, beeocode, head
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8 
+            $1, $2, $3, $4, $5, $6, $7, $8
         )
     ";
 
     $result = pg_query_params($conn, $query, array_values($data));
 
-     if ($result) {
+    if ($result) {
         echo "<script>alert('Branch Added successfully.'); window.location.href = 'branch_entry.php';</script>";
     } else {
         echo "<script>alert('Error Inserting Branch: " . pg_last_error() . "'); window.history.back();</script>";
     }
+
     pg_close($conn);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Branch Entry</title>
-  <link rel="stylesheet" href="branch_entry.css" />
+  <link rel="stylesheet" href="add_branch_admin.css" />
   <link rel="stylesheet" href="dept_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
@@ -73,6 +87,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background: #555;
       cursor: pointer;
     }
+    form .form-group select {
+     width: 100%;
+      padding: 10px;
+    }
+    .form-container {
+      flex: 1;
+      padding: 40px;
+      margin-left: 450px;
+    }
   </style>
 
 </head>
@@ -85,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -99,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="main.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
   
@@ -138,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div class="form-group">
         <label for="address">Address</label>
-        <textarea id="address" name="address" placeholder="Enter Address" required></textarea>
+        <textarea rows="3" cols="102" id="address" name="address" placeholder="Enter Address" required></textarea>
       </div>
 
       <div class="form-group">
