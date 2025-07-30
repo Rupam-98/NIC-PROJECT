@@ -26,21 +26,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (pg_num_rows($result) === 1) {
             $admin = pg_fetch_assoc($result);
 
-            if (password_verify($pass, $admin['password'])) {
-                $_SESSION['username'] = $admin['username'];
-                $_SESSION['role'] = $admin['role'];
-                $_SESSION['dept_code'] = $admin['dept_code'];
-                $_SESSION['branch_code'] = $admin['branch_code'];
+         if (password_verify($pass, $admin['password'])) {
+             $_SESSION['id'] = $admin['id'];  // ✅ Add this line
+             $_SESSION['username'] = $admin['username'];
+             $_SESSION['role'] = $admin['role'];
+             $_SESSION['dept_code'] = $admin['dept_code'];
+             $_SESSION['branch_code'] = $admin['branch_code'];
 
-                if ($admin['role'] == 'super_admin') {
-                    header("Location: system_dashboard.php");
-                } elseif ($admin['role'] == 'department_admin') {
-                    header("Location: dept_dashboard.php");
-                } elseif ($admin['role'] == 'branch_admin') {
-                    header("Location: branch_dashboard.php");
-                }
-                exit();
-            } else {
+             // Redirect based on role
+             if ($admin['role'] === 'super_admin') {
+                 header("Location: system_dashboard.php");
+             } elseif ($admin['role'] === 'department_admin') {
+                 header("Location: dept_dashboard.php");
+             } elseif ($admin['role'] === 'branch_admin') {
+                 header("Location: branch_dashboard.php");
+             }
+            exit();
+}
+ else {
                 $error = "Invalid username or password!";
             }
         } else {

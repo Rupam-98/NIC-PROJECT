@@ -64,25 +64,36 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href=""> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="branch_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
-          <i class="fas fa-users" ></i> Employees  <i class="fa fa-plus"></i>
+          <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="employee_list.php"> Employee List</a></li>
-          <li><a href="employee.php"> Employee Entry</a></li>
+          <li><a href="branch_entry.php"> Branch Entry Form</a></li>
+          <li><a href="add_branch_admin.php"> Admin Entry</a></li>
+          <li><a href="b_admin_list.php">Branch Admin List</a></li>
         </ul>
       </li>
-      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+         <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
 
+
+          <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
+        </ul>
+      </li>
+
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
   <div class="main-content">
     <header>
-      <h1>Department Dashboard</h1>
+      <h1>Branch Dashboard</h1>
     </header>
 
     <div class="cards">
@@ -138,8 +149,15 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       </table>
     </div>
   </div>
+          <!-- IFRAME MODAL -->
+<div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; z-index:1;">
+  <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
+    <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
+    <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
 
-   <script>
+  <script>
     function toggledropdown(event) {
       event.stopPropagation(); // stops bubbling up
       const li = event.target.closest('li');
@@ -160,7 +178,18 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       icon.classList.add('fa-plus');
     }
   }
+  function openIframeModal(url) {
+    document.getElementById('modalIframe').src = url;
+    document.getElementById('iframeModal').style.display = 'block';
+  }
+
+  function closeIframeModal() {
+    document.getElementById('modalIframe').src = '';
+    document.getElementById('iframeModal').style.display = 'none';
+    location.reload(); // Optional: Reload page after closing
+  }
   </script>
-  
+
 </body>
 </html>
+

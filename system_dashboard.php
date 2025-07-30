@@ -81,10 +81,10 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-         <li><a href="#" onclick="openIframeModal('edit_user.php?id=<?= $_SESSION['id'] ?? 1 ?>')">Update Profile</a></li>
+         <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
 
 
-          <li><a href="#" onclick="openIframeModal('cng_user_pass.php?id=<?= $_SESSION['id'] ?? 1 ?>')">Change Password</a></li>
+          <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
         </ul>
       </li>
 

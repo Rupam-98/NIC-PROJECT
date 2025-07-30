@@ -1,15 +1,15 @@
 <?php
+session_start();
+
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
 
-$id = $_GET['id'] ?? null;
-if (!$id || !ctype_digit($id)) {
-    die("Invalid ID.");
+if (!isset($_SESSION['id'])) {
+    die("Unauthorized access.");
 }
 
+$id = $_SESSION['id'];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-   $id = $_POST['id'] ?? null;
-
     $officer_name = $_POST['officer_name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -36,7 +36,7 @@ if (!$row) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Admin User</title>
+  <title>Edit Admin Info</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -86,13 +86,8 @@ if (!$row) {
 
 <h2>Edit Admin Info</h2>
 <form method="POST">
-  <input type="hidden" name="id" value="<?= $id ?>">
   <label>Officer Name:</label>
   <input type="text" name="officer_name" value="<?= htmlspecialchars($row['officer_name']) ?>" required>
-
-  <!-- <label>Designation:</label>
-  <input type="text" name="designation" value="<?= htmlspecialchars($row['designation']) ?>" required> -->
-
 
   <label>Email:</label>
   <input type="email" name="email" value="<?= htmlspecialchars($row['email']) ?>" required>
