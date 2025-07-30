@@ -16,7 +16,7 @@ if (!$id) {
 
 
 // Get current user info
-$query = "SELECT * FROM systemlogin WHERE id = $1";
+$query = "SELECT * FROM  WHERE id = $1";
 $result = pg_query_params($conn, $query, [$id]);
 
 if (!$result || pg_num_rows($result) !== 1) {

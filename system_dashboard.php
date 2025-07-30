@@ -81,7 +81,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="edit_user.php?username=<?= urlencode($username) ?>">Update Profile</a></li>
+          <li><a href="edit_user.php?id=1">Update Profile</a></li>
           <li><a href="cng_user_pass.php?username=<?= urlencode($username) ?>">Change Password</a></li>
         </ul>
       </li>

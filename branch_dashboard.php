@@ -65,7 +65,6 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     </div>
     <ul>
       <li><a href=""> <i class="fas fa-home"></i> Home</a></li>
-      <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
           <i class="fas fa-users" ></i> Employees  <i class="fa fa-plus"></i>
@@ -75,7 +74,6 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <li><a href="employee.php"> Employee Entry</a></li>
         </ul>
       </li>
-      <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
       <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 
