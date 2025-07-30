@@ -45,7 +45,7 @@ if ( !isset($_SESSION['dept_admin_id'])) {
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
