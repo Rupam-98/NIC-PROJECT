@@ -115,28 +115,6 @@ $result = pg_query_params($conn, $query, [$deptCode]);
         <p>#</p>
       </div>
     </div>
-
-    <div class="table-section">
-      <h2>#</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>###</th>
-            <th>###</th>
-            <th>###</th>
-            <th>###</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>###</td>
-            <td>###</td>
-            <td>###</td>
-            <td>###</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
  <!-- IFRAME MODAL -->
 <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; background-color:rgba(251, 251, 251, 0.5); z-index:1;">

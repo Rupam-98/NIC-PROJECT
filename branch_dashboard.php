@@ -98,56 +98,13 @@ $result = pg_query_params($conn, $query, [$deptCode]);
 
     <div class="cards">
       <div class="card">
-        <h3>Total Staff</h3>
-        <p>24</p>
+        <h3>Total employees</h3>
+        <p>#</p>
       </div>
-      <div class="card">
-        <h3>Active Users</h3>
-        <p>180</p>
-      </div>
-      <div class="card">
-        <h3>Pending Tasks</h3>
-        <p>12</p>
-      </div>
-      <div class="card">
-        <h3>New Messages</h3>
-        <p>5</p>
-      </div>
+      
     </div>
 
-    <div class="table-section">
-      <h2>Recent Activities</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Activity</th>
-            <th>User</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Updated Profile</td>
-            <td>John Doe</td>
-            <td>2025-07-05</td>
-            <td>Completed</td>
-          </tr>
-          <tr>
-            <td>Added New User</td>
-            <td>Jane Smith</td>
-            <td>2025-07-04</td>
-            <td>Completed</td>
-          </tr>
-          <tr>
-            <td>Generated Report</td>
-            <td>Michael</td>
-            <td>2025-07-03</td>
-            <td>Pending</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    
   </div>
           <!-- IFRAME MODAL -->
 <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; z-index:1;">
