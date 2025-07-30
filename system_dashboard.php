@@ -81,8 +81,10 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="edit_user.php?id=1">Update Profile</a></li>
-          <li><a href="cng_user_pass.php?username=<?= urlencode($username) ?>">Change Password</a></li>
+         <li><a href="#" onclick="openIframeModal('edit_user.php?id=<?= $_SESSION['id'] ?? 1 ?>')">Update Profile</a></li>
+
+
+          <li><a href="#" onclick="openIframeModal('cng_user_pass.php?id=<?= $_SESSION['id'] ?? 1 ?>')">Change Password</a></li>
         </ul>
       </li>
 
@@ -136,6 +138,13 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       </table>
     </div>
   </div>
+ <!-- IFRAME MODAL -->
+<div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; background-color:rgba(251, 251, 251, 0.5); z-index:1;">
+  <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
+    <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
+    <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+  </div>
+</div>
 
   <script>
     function toggledropdown(event) {
@@ -152,6 +161,19 @@ $result = pg_query_params($conn, $query, [$deptCode]);
         icon.classList.add('fa-plus');
       }
     }
+
+  function openIframeModal(url) {
+    document.getElementById('modalIframe').src = url;
+    document.getElementById('iframeModal').style.display = 'block';
+  }
+
+  function closeIframeModal() {
+    document.getElementById('modalIframe').src = '';
+    document.getElementById('iframeModal').style.display = 'none';
+    location.reload(); // Optional: Reload page after closing
+  }
+
+
   </script>
 </body>
 </html>

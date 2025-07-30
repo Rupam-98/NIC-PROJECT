@@ -8,15 +8,14 @@ $conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
 if (!$conn) {
   die("Connection failed: " . pg_last_error());
 }
-$id = $_GET['id'] ?? null;
 
+$id = $_GET['id'] ?? null;
 if (!$id) {
   die("No user ID specified.");
 }
 
-
-// Get current user info
-$query = "SELECT * FROM  WHERE id = $1";
+// Fetch existing password hash
+$query = "SELECT * FROM admins WHERE id = $1";
 $result = pg_query_params($conn, $query, [$id]);
 
 if (!$result || pg_num_rows($result) !== 1) {
@@ -24,20 +23,33 @@ if (!$result || pg_num_rows($result) !== 1) {
 }
 
 $userData = pg_fetch_assoc($result);
+$stored_hashed_password = $userData['password'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $new_username = $_POST['username'];
-  $new_password_raw = $_POST['password'];
-  $hashed_password = password_hash($new_password_raw, PASSWORD_DEFAULT);
+  $old_password = $_POST['old_password'];
+  $new_password = $_POST['new_password'];
+  $confirm_password = $_POST['confirm_password'];
 
-  $updateQuery = "UPDATE systemlogin SET username = $1, password = $2 WHERE id = $3";
-  $updateResult = pg_query_params($conn, $updateQuery, [$new_username, $hashed_password, $id]);
+  // 1. Check old password
+  if (!password_verify($old_password, $stored_hashed_password)) {
+    echo "<script>alert('Old password is incorrect.');</script>";
+  }
+  // 2. Check new and confirm match
+  elseif ($new_password !== $confirm_password) {
+    echo "<script>alert('New password and confirm password do not match.');</script>";
+  }
+  else {
+    // 3. Update password
+    $hashed_new = password_hash($new_password, PASSWORD_DEFAULT);
+    $updateQuery = "UPDATE admins SET password = $1 WHERE id = $2";
+    $updateResult = pg_query_params($conn, $updateQuery, [$hashed_new, $id]);
 
-  if ($updateResult) {
-    echo "<script>alert('Username & password updated successfully!'); window.location.href='';</script>";
-    exit;
-  } else {
-    echo "<p style='color:red;'>Update failed: " . pg_last_error($conn) . "</p>";
+    if ($updateResult) {
+      echo "<script>alert('Updated successfully'); window.parent.closeIframeModal();</script>";
+      exit;
+    } else {
+      echo "<p style='color:red;'>Update failed: " . pg_last_error($conn) . "</p>";
+    }
   }
 }
 
@@ -48,20 +60,16 @@ pg_close($conn);
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Edit User Login</title>
+  <title>Change Password</title>
   <style>
     body {
       background: #f4f6fb;
       font-family: 'Segoe UI', Arial, sans-serif;
       padding: 40px;
     }
-    form{
-        margin-right: 20px;
-    }
     .edit-container {
       max-width: 420px;
       margin: auto;
-      
       background: #fff;
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -80,9 +88,8 @@ pg_close($conn);
       color: #333;
     }
 
-    input[type="text"],
     input[type="password"] {
-      width: 100%;
+      width: 95%;
       padding: 10px 12px;
       margin-bottom: 18px;
       border: 1px solid #ccc;
@@ -109,17 +116,20 @@ pg_close($conn);
 </head>
 <body>
   <div class="edit-container">
-    <h2>Edit Username & Password</h2>
+    <h2>Change Password</h2>
     <form method="POST">
       <input type="hidden" name="id" value="<?= htmlspecialchars($userData['id']) ?>">
 
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" value="<?= htmlspecialchars($userData['username']) ?>" required>
+      <label for="old_password">Old Password:</label>
+      <input type="password" id="old_password" name="old_password" required>
 
-      <label for="password">New Password:</label>
-      <input type="password" id="password" name="password" placeholder="Enter new password" required>
+      <label for="new_password">New Password:</label>
+      <input type="password" id="new_password" name="new_password" required>
 
-      <button type="submit">Update</button>
+      <label for="confirm_password">Confirm New Password:</label>
+      <input type="password" id="confirm_password" name="confirm_password" required>
+
+      <button type="submit">Update Password</button>
     </form>
   </div>
 </body>
