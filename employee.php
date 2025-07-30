@@ -173,7 +173,7 @@ pg_close($conn);
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href="branch_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="branch_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -296,17 +296,10 @@ pg_close($conn);
 
          <label for="branch_lac">BRANCH LAC</label>
 
-        <select id="branch_lac" name="branch_lac" onchange="fetchBranchDetails()" required>
-        <option value="">Select Branch LAC </option>
-            <?php
-    // PHP code to populate dropdown
-    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
-    $res = pg_query($conn, "SELECT branch_lac FROM branches");
-    while ($row = pg_fetch_assoc($res)) {
-        echo "<option value='" . $row['branch_lac'] . "'>" . $row['branch_lac'] . "</option>";
-    }
-    ?>
-      </select>  
+        <input type="text" id="branch_lac" name="branch_lac" required>
+        <!-- <option value="">Select Branch LAC </option> -->
+       
+        
            <label for="beeocode">BEEO CODE</label>
          <select id="beeo_code" name="beeo_code" onchange="fetchBranchDetails()" required>
         <option value="">Select BEEO CODE </option>

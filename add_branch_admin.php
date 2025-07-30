@@ -11,14 +11,14 @@ if (!$conn) {
 }
 
 // Fetch departments
-$dept_result = pg_query($conn, "SELECT dept_code, dept_name FROM department ORDER BY dept_code ASC");
+$dept_result = pg_query($conn, "SELECT dept_code, dept_name FROM dept_entry ORDER BY dept_code ASC");
 $departments = [];
 while ($row = pg_fetch_assoc($dept_result)) {
     $departments[] = $row;
 }
 
 // Fetch branches
-$branch_result = pg_query($conn, "SELECT branch_code, branch_name FROM branch ORDER BY branch_code ASC");
+$branch_result = pg_query($conn, "SELECT branch_code, branch_name FROM branches ORDER BY branch_code ASC");
 $branches = [];
 while ($row = pg_fetch_assoc($branch_result)) {
     $branches[] = $row;
@@ -77,7 +77,7 @@ pg_close($conn);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Add Branch Admin</title>
-  <link rel="stylesheet" href="branch_entry.css" />
+  <link rel="stylesheet" href="add_branch_admin.css" />
   <link rel="stylesheet" href="dept_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
@@ -90,9 +90,9 @@ pg_close($conn);
     }
 
     .form-container {
-      flex: 0;
+      flex: 1;
       padding: 40px;
-      margin-left: 500px;
+      margin-left: 450px;
     }
 
     h2 {
@@ -110,12 +110,16 @@ pg_close($conn);
       font-weight: 600;
     }
 
-    .form-group input,
-    .form-group select {
-      width: 100%;
+    .form-group input {
+      width: 97%;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
+    }
+
+    form .form-group select {
+     width: 100%;
+      padding: 10px;
     }
 
     .submit {
@@ -179,7 +183,7 @@ pg_close($conn);
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -195,7 +199,7 @@ pg_close($conn);
         <option value="">-- Select Department --</option>
         <?php foreach ($departments as $d): ?>
           <option value="<?= htmlspecialchars($d['dept_code']) ?>" data-name="<?= htmlspecialchars($d['dept_name']) ?>">
-            <?= htmlspecialchars($d['dept_code'] ) ?>
+            <?= htmlspecialchars($d['dept_code'] ) ?> - <?= htmlspecialchars($d['dept_name']) ?>
           </option>
         <?php endforeach; ?>
       </select>
@@ -214,7 +218,7 @@ pg_close($conn);
         <option value="">-- Select Branch --</option>
         <?php foreach ($branches as $b): ?>
           <option value="<?= htmlspecialchars($b['branch_code']) ?>" data-name="<?= htmlspecialchars($b['branch_name']) ?>">
-            <?= htmlspecialchars($b['branch_code']) ?>
+            <?= htmlspecialchars($b['branch_code']) ?> - <?= htmlspecialchars($b['branch_name']) ?>
           </option>
         <?php endforeach; ?>
       </select>

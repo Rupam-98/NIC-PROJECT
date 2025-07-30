@@ -161,7 +161,7 @@ pg_close($conn);
   <div class="sidebar">
     <h2>System Admin</h2>
     <ul>
-      <li><a href="system_dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+      <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
 
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -169,7 +169,7 @@ pg_close($conn);
         </a>
         <ul class="dropdown-menu">
           <li><a href="dept_entry.php"> Dept. Entry Form</a></li>
-          <li><a href="add_dept_admin.html"> Admin Entry</a></li>
+          <li><a href="add_dept_admin.php"> Admin Entry</a></li>
           <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
         </ul>
       </li>

@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// include ('header.php'); 
+
+
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'department_admin') {
     echo "<script>
         alert('Unauthorized access. Only Department Admins are allowed.');
@@ -55,7 +58,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">

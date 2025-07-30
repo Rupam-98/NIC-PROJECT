@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unset($_SESSION['otp']);
             unset($_SESSION['temp_user']);
 
-            header("Location: system_dashboard.html");
+            header("Location: system_dashboard.php");
             exit();
         } else {
             echo "Invalid OTP. <a href='system_admin_login.html'>Try again</a>";

@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+// include ('header.php'); 
+
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'branch_admin') {
     echo "<script>
         alert('Unauthorized access. Only Branch Admins are allowed.');

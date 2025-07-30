@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Branch Entry</title>
-  <link rel="stylesheet" href="branch_entry.css" />
+  <link rel="stylesheet" href="add_branch_admin.css" />
   <link rel="stylesheet" href="dept_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
@@ -87,6 +87,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background: #555;
       cursor: pointer;
     }
+    form .form-group select {
+     width: 100%;
+      padding: 10px;
+    }
+    .form-container {
+      flex: 1;
+      padding: 40px;
+      margin-left: 450px;
+    }
   </style>
 
 </head>
@@ -99,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <p>Department Admin</p>
     </div>
     <ul>
-      <li><a href="dept_dashboard.html"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
@@ -113,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </li>
       <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-      <li><a href="main.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="main.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
   
@@ -152,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <div class="form-group">
         <label for="address">Address</label>
-        <textarea id="address" name="address" placeholder="Enter Address" required></textarea>
+        <textarea rows="3" cols="102" id="address" name="address" placeholder="Enter Address" required></textarea>
       </div>
 
       <div class="form-group">
