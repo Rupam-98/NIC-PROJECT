@@ -298,18 +298,7 @@ pg_close($conn);
         <!-- <option value="">Select Branch LAC </option> -->
        
         
-           <label for="beeocode">BEEO CODE</label>
-         <select id="beeo_code" name="beeo_code" onchange="fetchBranchDetails()" required>
-        <option value="">Select BEEO CODE </option>
-            <?php
-    // PHP code to populate dropdown
-    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
-    $res = pg_query($conn, "SELECT beeocode FROM branches");
-    while ($row = pg_fetch_assoc($res)) {
-        echo "<option value='" . $row['beeocode'] . "'>" . $row['beeocode'] . "</option>";
-    }
-    ?>
-      </select>
+           
         
 
         <label for="basic">BASIC</label>
