@@ -15,29 +15,29 @@ if (isset($_FILES['import_file']['tmp_name'])) {
   foreach ($rows as $index => $row) {
     if ($index === 0) continue; // skip header
 
-    list($slno, $depcode, $department, $branch_code, $branch_address, $name,
+    list($slno, $dept_code, $department, $branch_code, $branch_address, $name,
          $desig, $sex, $age, $epic, $phone, $home_lac, $residential_lac,
-         $branch_lac, $beeo_code, $basic, $gazeted, $remarks, $education,
+         $branch_lac, $basic, $gazeted, $remarks, $education,
          $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address) = $row;
 
-    $gazeted = $gazeted == "1" ? "TRUE" : "FALSE";
+    $gazeted = $gazeted == "1" ? "yes" : "no";
 
     $query = "
       INSERT INTO employees (
-        slno, depcode, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
-        home_lac, residential_lac, branch_lac, beeo_code, basic, gazeted, remarks, education, dor,
+        slno, dept_code, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
+        home_lac, residential_lac, branch_lac, basic, gazeted, remarks, education, dor,
         ac_no, ifsc_code, branch_name, bank_branch_address
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
         $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
-        $21, $22, $23, $24
+        $21, $22, $23
       )
     ";
 
     $result = pg_query_params($conn, $query, [
-      $slno, $depcode, $department, $branch_code, $branch_address, $name,
+      $slno, $dept_code, $department, $branch_code, $branch_address, $name,
       $desig, $sex, $age, $epic, $phone, $home_lac, $residential_lac,
-      $branch_lac, $beeo_code, $basic, $gazeted, $remarks, $education,
+      $branch_lac,  $basic, $gazeted, $remarks, $education,
       $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address
     ]);
 

@@ -1,24 +1,26 @@
 <?php
-if (isset($_GET['branch_code'])) {
-    $branch_code = $_GET['branch_code'];
+$host = "localhost";
+$dbname = "PROJECT";
+$user = "postgres";
+$password = "1035";
 
-    $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
+$conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
 
-    if (!$conn) {
-        echo json_encode(['error' => 'Database connection failed']);
-        exit;
-    }
-
-    $query = "SELECT address, branch_lac, beeo_code FROM branches WHERE branchcode = $1";
-    $result = pg_query_params($conn, $query, [$branch_code]);
-
-    if ($result && pg_num_rows($result) > 0) {
-        $row = pg_fetch_assoc($result);
-        echo json_encode($row);
-    } else {
-        echo json_encode(['error' => 'Branch not found']);
-    }
-
-    pg_close($conn);
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
 }
+
+$branch_code = $_GET['branch_code'];
+
+$query = "SELECT address  FROM branches WHERE branch_code = $1::int";
+$result = pg_query_params($conn, $query, array($branch_code));
+
+$data = array();
+if ($row = pg_fetch_assoc($result)) {
+    $data = $row;
+}
+
+echo json_encode($data);
+
+pg_close($conn);
 ?>
