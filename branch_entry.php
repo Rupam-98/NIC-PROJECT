@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'branch_lac' => $_POST['branch_lac'],
         'branch_name' => $_POST['branch_name'],
         'address' => $_POST['address'],
-        'beeocode' => $_POST['beeocode'],
+       
         'head' => $_POST['head'],
     ];
 
@@ -40,9 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Step 2: Insert into `branches` table
     $query = "
         INSERT INTO branches (
-            branch_code, dept_code, branch_type, branch_lac, branch_name, address, beeocode, head
+            branch_code, dept_code, branch_type, branch_lac, branch_name, address, head
         ) VALUES (
-            $1, $2, $3, $4, $5, $6, $7, $8
+            $1, $2, $3, $4, $5, $6, $7
         )
     ";
 
@@ -162,10 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <textarea rows="3" cols="102" id="address" name="address" placeholder="Enter Address" required></textarea>
       </div>
 
-      <div class="form-group">
-        <label for="beeocode">BEEO Code</label>
-        <input type="text" id="beeocode" name="beeocode" placeholder="Enter BEEO Code" />
-      </div>
+      
 
       <div class="form-group">
         <label for="head">Head</label>
