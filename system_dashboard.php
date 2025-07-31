@@ -14,7 +14,7 @@ $deptCode = $_SESSION['dept_code'];
 
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
 if (!$conn) {
-    die("Connection failed: " . pg_last_error());
+  die("Connection failed: " . pg_last_error());
 }
 
 $query = "SELECT * FROM admins WHERE role = 'department_admin' AND dept_code = $1 ORDER BY dept_code ASC";
@@ -23,6 +23,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,18 +31,34 @@ $result = pg_query_params($conn, $query, [$deptCode]);
   <link rel="stylesheet" href="system_admin_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    .sidebar ul li ul {
+    .sidebar ul li a {
+      color: #dcdde1;
+      text-decoration: none;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+      /* background: linear-gradient(135deg, #2f3542 80%, #2355d6 100%);  */
+
+    }
+
+    /* .sidebar ul li ul {
       display: none;
       list-style-type: none;
       margin-left: 30px;
       padding: 0;
-    }
-    .sidebar ul li.active > ul {
+    } */
+    .sidebar ul li.active>ul {
       display: block;
     }
+
     .sidebar ul li ul li {
       color: #fff;
     }
+
     .sidebar ul li ul li:hover {
       background: #555;
       cursor: pointer;
@@ -50,6 +67,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
 </head>
 
 <body>
+
   <div class="sidebar">
     <h2>System Admin</h2>
     <ul>
@@ -63,7 +81,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <li><a href="dept_entry.php">Dept. Entry Form</a></li>
           <li><a href="add_dept_admin.php">Admin Entry</a></li>
           <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
-           <li><a href="dept_info.php">Dept. Info List</a></li>
+          <li><a href="dept_info.php">Dept. Info List</a></li>
         </ul>
       </li>
 
@@ -81,7 +99,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-         <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
+          <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
 
 
           <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
@@ -98,31 +116,69 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     </header>
 
     <div class="cards">
+      <?php
+      $count = "select count(*) as total from dept_entry";
+      $countResult = pg_query($conn, $count);
+      $totalAdmins = 0;
+      if ($countResult && pg_num_rows($countResult) > 0) {
+        $row = pg_fetch_assoc($countResult);
+        $totalAdmins = $row['total'];
+      }
+
+      ?>
       <div class="card">
         <h3>Total Dept. Admin</h3>
-        <p>1</p>
+        <p><?php echo $totalAdmins; ?></p>
       </div>
+
+
+      <?php
+      $count = "select count(*) as total from branches";
+      $countResult = pg_query($conn, $count);
+      $totalBranches = 0;
+      if ($countResult && pg_num_rows($countResult) > 0) {
+        $row = pg_fetch_assoc($countResult);
+        $totalBranches = $row['total'];
+      }
+
+      ?>
       <div class="card">
         <h3>Total Branch Admin</h3>
-        <p>1</p>
+        <p><?php echo $totalBranches; ?></p>
       </div>
+
+
+      <?php
+      $count = "select count(*) as total from employees";
+      $countResult = pg_query($conn, $count);
+      $totalEmployees = 0;
+      if ($countResult && pg_num_rows($countResult) > 0) {
+        $row = pg_fetch_assoc($countResult);
+        $totalEmployees = $row['total'];
+      }
+
+      ?>
       <div class="card">
         <h3>Total Employees</h3>
-        <p>3</p>
+        <p><?php echo $totalEmployees; ?></p>
       </div>
-      <div class="card">
+
+      <!-- <div class="card">
         <h3>#</h3>
         <p>#</p>
-      </div>
+      </div> -->
     </div>
   </div>
- <!-- IFRAME MODAL -->
-<div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; background-color:rgba(251, 251, 251, 0.5); z-index:1;">
-  <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
-    <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
-    <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+
+  <?php include('all_employee_list.php'); ?>
+
+  <!-- IFRAME MODAL -->
+  <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; background-color:rgba(251, 251, 251, 0.5); z-index:1;">
+    <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
+      <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
+      <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
   </div>
-</div>
 
   <script>
     function toggledropdown(event) {
@@ -140,18 +196,17 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       }
     }
 
-  function openIframeModal(url) {
-    document.getElementById('modalIframe').src = url;
-    document.getElementById('iframeModal').style.display = 'block';
-  }
+    function openIframeModal(url) {
+      document.getElementById('modalIframe').src = url;
+      document.getElementById('iframeModal').style.display = 'block';
+    }
 
-  function closeIframeModal() {
-    document.getElementById('modalIframe').src = '';
-    document.getElementById('iframeModal').style.display = 'none';
-    location.reload(); // Optional: Reload page after closing
-  }
-
-
+    function closeIframeModal() {
+      document.getElementById('modalIframe').src = '';
+      document.getElementById('iframeModal').style.display = 'none';
+      location.reload(); // Optional: Reload page after closing
+    }
   </script>
 </body>
+
 </html>

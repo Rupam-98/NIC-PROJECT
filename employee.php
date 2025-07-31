@@ -15,7 +15,7 @@ if (!$conn) {
 
 $data = [
     'slno' => $_POST['slno'],
-    'depcode' => $_POST['depcode'],
+    'dept_code' => $_POST['dept_code'],
     'department' => $_POST['department'],
     'branchcode' => $_POST['branchcode'],
     'branch_address' => $_POST['branch_address'],
@@ -43,7 +43,7 @@ $data = [
 
 $query = "
     INSERT INTO employees (
-        slno, depcode, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
+        slno, dept_code, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
         home_lac, residential_lac, branch_lac, beeo_code, basic, gazeted, remarks, education, dor,
         ac_no, ifsc_code, branch_name, bank_branch_address
     ) VALUES (
@@ -216,8 +216,8 @@ pg_close($conn);
         <label for="slno">Sl. No</label>
         <input type="number" id="slno" name="slno" required>
 
-        <label for="depcode">DEPCODE</label>
-  <select id="depcode" name="depcode" onchange="fetchDeptDetails()" required>
+        <label for="dept_code">DEPARTMENT CODE</label>
+  <select id="dept_code" name="dept_code" onchange="fetchDeptDetails()" required>
     <option value="">Select Department Code</option>
     <?php
     // PHP code to populate dropdown
@@ -292,7 +292,7 @@ pg_close($conn);
         <label for="residential_lac">RESIDENTIAL LAC</label>
         <input type="text" id="residential_lac" name="residential_lac" required>
 
-         <label for="branch_lac">BRANCH LAC</label>
+         <label for="branch_lac">WORK LAC</label>
 
         <input type="text" id="branch_lac" name="branch_lac" required>
         <!-- <option value="">Select Branch LAC </option> -->
@@ -358,7 +358,7 @@ pg_close($conn);
 </form>
     <script>
 function fetchDeptDetails() {
-    var deptCode = document.getElementById("depcode").value;
+    var deptCode = document.getElementById("dept_code").value;
 
     if (deptCode === "") {
         document.getElementById("department").value = "";

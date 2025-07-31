@@ -70,9 +70,11 @@ $result = pg_query_params($conn, $query, [$deptCode]);
           <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="branch_entry.php"> Branch Entry Form</a></li>
-          <li><a href="add_branch_admin.php"> Admin Entry</a></li>
-          <li><a href="b_admin_list.php">Branch Admin List</a></li>
+
+        <li><a href="employee_list.php"> Employee List</a></li>
+          <li><a href="employee.php"> Employee Entry</a></li>
+          
+
         </ul>
       </li>
       <li class="dropdown">
@@ -95,11 +97,25 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     <header>
       <h1>Branch Dashboard</h1>
     </header>
+    <?php
+    $branchCode = $_SESSION['branch_code'] ?? null;
+$totalEmployees = 0;
+
+if ($branchCode && $conn) {
+    $query = "SELECT COUNT(*) AS total FROM employees WHERE branch_code = $1";
+    $result = pg_query_params($conn, $query, [$branchCode]);
+
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
+        $totalEmployees = $row['total'];
+    }
+}
+?>
 
     <div class="cards">
       <div class="card">
         <h3>Total employees</h3>
-        <p>#</p>
+        <p><?php echo $totalEmployees; ?></p>
       </div>
       
     </div>

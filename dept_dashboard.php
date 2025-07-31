@@ -12,7 +12,8 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'department_admin') {
     exit();
 }
 
-$deptCode = $_SESSION['dept_code'];
+$deptCode = $_SESSION['dept_code'] ?? null;
+$branchCode = $_SESSION['branch_code'] ?? null;
 
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
 if (!$conn) {
@@ -89,15 +90,46 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     <header>
       <h1>Department Dashboard</h1>
     </header>
-
+           
     <div class="cards">
+       <?php
+      $count = "select count(*) as total from branches  where dept_code = $1";
+      $countResult = pg_query_params($conn, $count, [$deptCode]);
+      $totalBranches = 0;
+      if ($countResult && pg_num_rows($countResult) > 0) {
+        $row = pg_fetch_assoc($countResult);
+        $totalBranches = $row['total'];
+      }
+
+      ?>
       <div class="card">
         <h3>Total Branches</h3>
-        <p>#</p>
+        <p><?php echo $totalBranches; ?></p>
       </div>
+
+<?php
+$totalEmployees = 0;
+
+if ($deptCode && $conn) {
+    $query = "
+    SELECT COUNT(*) AS total
+    FROM employees
+    WHERE branch_code IN (
+        SELECT branch_code::text FROM branches WHERE dept_code = $1
+    )
+";
+    $result = pg_query_params($conn, $query, [$deptCode]);
+
+    if ($result && pg_num_rows($result) > 0) {
+        $row = pg_fetch_assoc($result);
+        $totalEmployees = $row['total'];
+    }
+}
+?>
+
       <div class="card">
         <h3>Total Employees</h3>
-        <p>#</p>
+        <p><?php echo $totalEmployees; ?></p>
       </div>
 
       </div>
