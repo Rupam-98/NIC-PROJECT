@@ -30,7 +30,7 @@ $data = [
     'branch_lac' => $_POST['branch_lac'],
     
     'basic' => $_POST['basic'],
-    'gazeted' => $_POST['gazeted'] === "1" ? "TRUE" : "FALSE",
+    'gazeted' => $_POST['gazeted'] === "1" ? "Yes" : "No",
     'remarks' => $_POST['remarks'],
     'education' => $_POST['education'],
     'dor' => $_POST['dor'],
