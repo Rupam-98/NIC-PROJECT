@@ -20,6 +20,18 @@ if (!$conn) {
 
 $query = "SELECT * FROM admins WHERE role = 'branch_admin' AND dept_code = $1 ORDER BY branch_code ASC";
 $result = pg_query_params($conn, $query, [$deptCode]);
+
+// Initialize name variables
+$branch_name = "";
+// For branch admin
+if (isset($_SESSION['branch_code']) && $_SESSION['role'] === 'branch_admin') {
+    $branch_code = $_SESSION['branch_code'];
+    $query = "SELECT branch_name FROM admins WHERE branch_code = '$branch_code'";
+    $result = pg_query($conn, $query);
+    if ($row = pg_fetch_assoc($result)) {
+        $branch_name = $row['branch_name'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +73,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
+      <h3><?= htmlspecialchars($branch_name) ?></h3>
       <p>Branch Admin</p>
     </div>
     <ul>
@@ -95,7 +108,9 @@ $result = pg_query_params($conn, $query, [$deptCode]);
 
   <div class="main-content">
     <header>
-      <h1>Branch Dashboard</h1>
+      <?php if (!empty($branch_name)) : ?>
+    <h1><?= htmlspecialchars($branch_name) ?> Branch Dashboard</h1>
+<?php endif; ?>
     </header>
     <?php
     $branchCode = $_SESSION['branch_code'] ?? null;

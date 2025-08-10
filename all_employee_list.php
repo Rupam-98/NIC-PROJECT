@@ -43,7 +43,7 @@ $result = pg_query($conn, $query);
 
         
 .sidebar {
-    margin-left: -28px;
+    margin-left: 0;
   position: relative;
   top: 0;
   width: 275px;

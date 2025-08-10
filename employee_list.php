@@ -22,9 +22,11 @@ $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pa
 if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
-
+include 'admin.php';
 $query = "SELECT * FROM employees WHERE branch_code = $1 ORDER BY slno ASC";
 $result = pg_query_params($conn, $query, [$branchCode]);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -192,7 +194,7 @@ $result = pg_query_params($conn, $query, [$branchCode]);
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  /* background: rgba(0, 0, 0, 0.7); */
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -240,6 +242,7 @@ $result = pg_query_params($conn, $query, [$branchCode]);
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
+      <h3><?= htmlspecialchars($branch_name) ?></h3>
       <p>Branch Admin</p>
     </div>
     <ul>

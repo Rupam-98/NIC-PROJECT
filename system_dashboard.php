@@ -41,7 +41,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
       padding: 10px 14px;
       border-radius: 6px;
       transition: background 0.2s, color 0.2s;
-      /* background: linear-gradient(135deg, #2f3542 80%, #2355d6 100%);  */
+      background: linear-gradient(135deg, #2f3542 80%, #2355d6 100%); 
 
     }
 
