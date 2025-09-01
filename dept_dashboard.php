@@ -75,7 +75,7 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
-      <p><?= htmlspecialchars($dept_name) ?></p>
+      <p><h3><?= htmlspecialchars($dept_name) ?></h3></p>
       <p>Department Admin</p>
     </div>
     <ul>
@@ -138,8 +138,7 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
     FROM employees
     WHERE branch_code IN (
         SELECT branch_code::text FROM branches WHERE dept_code = $1
-    )
-";
+    )";
         $result = pg_query_params($conn, $query, [$deptCode]);
 
         if ($result && pg_num_rows($result) > 0) {
@@ -158,6 +157,7 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
 
 
   </div>
+  
   <!-- IFRAME MODAL -->
   <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; z-index:1;">
     <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
@@ -198,8 +198,24 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
       document.getElementById('iframeModal').style.display = 'none';
       location.reload(); // Optional: Reload page after closing
     }
+
+    function openModal(slno) {
+  const modal = document.getElementById('viewModal');
+  const iframe = document.getElementById('modalIframe');
+  iframe.src = 'employee_view.php?slno=' + slno;
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  const modal = document.getElementById('viewModal');
+  const iframe = document.getElementById('modalIframe');
+  iframe.src = '';
+  modal.style.display = 'none';
+}
   </script>
+
 
 </body>
 
 </html>
+<?php include('all_employee_list.php'); ?>

@@ -177,7 +177,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
-      <p><?= htmlspecialchars($dept_name) ?></p>
+      <p><h3><?= htmlspecialchars($dept_name) ?></h3></p>
       <p>Department Admin</p>
     </div>
     <ul>

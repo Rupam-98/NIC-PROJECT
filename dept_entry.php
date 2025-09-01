@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>System Admin Dashboard</title>
   <link rel="stylesheet" href="system_admin_dashboard.css" />
-  <!-- <link rel="stylesheet" href="dept_entry.css" /> -->
+  <link rel="stylesheet" href="dept_entry.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     .sidebar ul li ul {
@@ -65,70 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       background: #555;
       cursor: pointer;
     }
-    body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background:linear-gradient(135deg,  #b0cce7, #808283);
-  margin: 0;
-  padding: 0;
-}
 
-.form-container {
-  background: #bde3f5;
-  min-width: 600px;
-  margin-left: -220px ;
-  padding: 30px 40px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-}
-
-.form-container h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #333333;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #080808;
-  font-weight: 600;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px 1px;
-  border: 1px solid #cccccc;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #4a90e2;
-  outline: none;
-}
-
-.submit-btn {
-  width: 100%;
-  background-color: #4a90e2;
-  color: #ffffff;
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.submit-btn:hover {
-  background-color: #357ABD;
-}
 
   </style>
 </head>
@@ -170,12 +107,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <i class="fas fa-cog"></i>Settings<i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Update</a></li>
-          <li><a href="#">Change Password</a></li>
+          <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
+
+
+          <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
         </ul>
       </li>
 
-      <li><a href="main.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
@@ -190,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <option value="">-- Select Type --</option>
           <option value="c">College</option>
           <option value="h">High School</option>
-          <option value="O">Office</option>
+          <option value="O">State Govt. Office</option>
           <option value="g">Central Govt. Office</option>
           <option value="b">Bank</option>
         </select>

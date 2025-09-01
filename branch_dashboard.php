@@ -77,7 +77,7 @@ if (isset($_SESSION['branch_code']) && $_SESSION['role'] === 'branch_admin') {
       <p>Branch Admin</p>
     </div>
     <ul>
-      <li><a href="branch_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
+      <li><a href=""> <i class="fas fa-home"></i> Home</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
           <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
