@@ -17,12 +17,12 @@ $query = "SELECT * FROM employees";
 
 // Restrict data based on role
 if ($_SESSION['role'] === 'department_admin' && isset($_SESSION['dept_code'])) {
-    $dept_code = pg_escape_string($conn, $_SESSION['dept_code']);
-    $query .= " WHERE dept_code = '$dept_code'";
+  $dept_code = pg_escape_string($conn, $_SESSION['dept_code']);
+  $query .= " WHERE dept_code = '$dept_code'";
 } elseif ($_SESSION['role'] === 'branch_admin' && isset($_SESSION['branch_code'])) {
-    $branch_code = pg_escape_string($conn, $_SESSION['branch_code']);
-    $query .= " WHERE branch_code = '$branch_code'";
-} 
+  $branch_code = pg_escape_string($conn, $_SESSION['branch_code']);
+  $query .= " WHERE branch_code = '$branch_code'";
+}
 
 // Add ordering
 $query .= " ORDER BY slno ASC";
@@ -30,19 +30,20 @@ $query .= " ORDER BY slno ASC";
 // Execute
 $result = pg_query($conn, $query);
 if (!$result) {
-    die("Query failed: " . pg_last_error());
+  die("Query failed: " . pg_last_error());
 }
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- <link rel="stylesheet" href="system_admin_dashboard.css" />
+  <!-- <link rel="stylesheet" href="system_admin_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> -->
 
-    <style>
-        /* .sidebar ul li ul {
+  <style>
+    /* .sidebar ul li ul {
       display: none;
       list-style-type: none;
       padding-left: 20px;
@@ -60,8 +61,8 @@ if (!$result) {
       cursor: pointer;
     } */
 
-        
-/* .sidebar {
+
+    /* .sidebar {
     margin-left: 0;
   position: relative;
   top: 0;
@@ -126,87 +127,100 @@ if (!$result) {
   margin-right: 10px;
 }
  */
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7f8;
-            padding: 20px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7f8;
+      padding: 20px;
+    }
 
-        .container {
-            position: relative;
-            bottom: 0;
-            max-width: 1200px;
-            margin-left: 275px;
-            background: #eeeeee73;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+    .container {
+      position: absolute;
+     top: 40%;
+      width: 78%;
+      margin-left: 275px;
+      background: #eeeeee73;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        #searchInput {
-            width: 98%;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-        }
+    #searchInput {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 6px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
 
-        th, td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
+    th,
+    td {
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
 
-        thead {
-            background-color: #007BFF;
-            color: white;
-        }
+    thead {
+      background-color: #007BFF;
+      color: white;
+    }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
 
-        /* tr:hover {
+    /* tr:hover {
             background-color: #e0e0e0;
         } */
 
-        .action-btns button {
-            margin-right: 5px;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-        }
+    .action-btns button {
+      margin-right: 5px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
 
-        .view { background-color: #17a2b8; color: white; }
-        .edit { background-color: #ffc107; color: black; }
-        .delete { background-color: #dc3545; color: white; }
-        
-      #viewModal {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* background: rgba(0, 0, 0, 0.7); */
-  z-index: 1000;
-  justify-content: center;
-  align-items: center;
-  display: none; /* this MUST be last */
-}
+    .view {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+    .edit {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    .delete {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #viewModal {
+      position: fixed;
+      top: 40px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* background: rgba(0, 0, 0, 0.7); */
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      display: none;
+      /* this MUST be last */
+    }
 
 
     #viewModal .modal-content {
@@ -241,11 +255,12 @@ if (!$result) {
     #viewModal button.close-btn:hover {
       background: #c82333;
     }
-    </style>
+  </style>
 </head>
+
 <body>
 
-        <!-- <div class="sidebar">
+  <!-- <div class="sidebar">
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
@@ -268,106 +283,106 @@ if (!$result) {
     </ul>
   </div> -->
 
-<div class="container">
+  <div class="container">
     <h2>Employee List</h2>
     <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search by Name or Branch Code">
 
     <table id="employeeTable">
-        <thead>
-            <tr>
-                <th>Sl No</th>
-                <th>Name</th>
-                <th>Designation</th>
-                <th>Phone</th>
-                <th>Branch Code</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($row = pg_fetch_assoc($result)) : ?>
-            <tr>
-                <td><?= htmlspecialchars($row['slno']) ?></td>
-                <td><?= htmlspecialchars($row['name']) ?></td>
-                <td><?= htmlspecialchars($row['desig']) ?></td>
-                <td><?= htmlspecialchars($row['phone']) ?></td>
-                <td><?= htmlspecialchars($row['branch_code']) ?></td>
-                <td class="action-btns">
-                <button class="view" onclick="openModal(<?= $row['slno'] ?>)">View More</button>
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Phone</th>
+          <th>Branch Code</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = pg_fetch_assoc($result)) : ?>
+          <tr>
+            <td><?= htmlspecialchars($row['slno']) ?></td>
+            <td><?= htmlspecialchars($row['name']) ?></td>
+            <td><?= htmlspecialchars($row['desig']) ?></td>
+            <td><?= htmlspecialchars($row['phone']) ?></td>
+            <td><?= htmlspecialchars($row['branch_code']) ?></td>
+            <td class="action-btns">
+              <button class="view" onclick="openModal(<?= $row['slno'] ?>)">View More</button>
 
-                <!-- <form method="get" action="employee_edit.php" style="display:inline;">
+              <!-- <form method="get" action="employee_edit.php" style="display:inline;">
                    <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
                    <button class="edit">Edit</button>
                </form> -->
 
-                <!-- <form method="post" action="employee_delete.php" style="display:inline;" onsubmit="return confirm('Are you sure to delete?');">
+              <!-- <form method="post" action="employee_delete.php" style="display:inline;" onsubmit="return confirm('Are you sure to delete?');">
                    <input type="hidden" name="slno" value="<?= $row['slno'] ?>">
                    <button class="delete">Delete</button>
                </form> -->
-              </td>
-              
-            </tr>
-            <?php endwhile; ?>
-        </tbody>
+            </td>
+
+          </tr>
+        <?php endwhile; ?>
+      </tbody>
     </table>
-</div>
-
-                                                  <!--  MODAL HTML  -->
-
-<div id="viewModal">
-  <div class="modal-content">
-    <iframe id="modalIframe" src=""></iframe>
-    <button onclick="closeModal()" class="close-btn">Close</button>
   </div>
-</div>
 
-<script>
-function searchTable() {
-    const input = document.getElementById("searchInput").value.toUpperCase();
-    const table = document.getElementById("employeeTable");
-    const rows = table.getElementsByTagName("tr");
+  <!--  MODAL HTML  -->
 
-    for (let i = 1; i < rows.length; i++) {
+  <div id="viewModal">
+    <div class="modal-content">
+      <iframe id="modalIframe" src=""></iframe>
+      <button onclick="closeModal()" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function searchTable() {
+      const input = document.getElementById("searchInput").value.toUpperCase();
+      const table = document.getElementById("employeeTable");
+      const rows = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < rows.length; i++) {
         const name = rows[i].getElementsByTagName("td")[1].textContent.toUpperCase();
         const branch = rows[i].getElementsByTagName("td")[4].textContent.toUpperCase();
         rows[i].style.display = name.includes(input) || branch.includes(input) ? "" : "none";
+      }
     }
-}
 
-//  function toggledropdown(event) {
-//       event.stopPropagation(); // stops bubbling up
-//       const li = event.target.closest('li');
-//       li.classList.toggle('active');
-//     }
+    //  function toggledropdown(event) {
+    //       event.stopPropagation(); // stops bubbling up
+    //       const li = event.target.closest('li');
+    //       li.classList.toggle('active');
+    //     }
 
-//      function toggledropdown(event) {
-//     event.preventDefault();
-//     const parent = event.target.closest('li');
-//     parent.classList.toggle('active');
+    //      function toggledropdown(event) {
+    //     event.preventDefault();
+    //     const parent = event.target.closest('li');
+    //     parent.classList.toggle('active');
 
-//     const icon = parent.querySelector('.fa-plus, .fa-minus');
-//     if (parent.classList.contains('active')) {
-//       icon.classList.remove('fa-plus');
-//       icon.classList.add('fa-minus');
-//     } else {
-//       icon.classList.remove('fa-minus');
-//       icon.classList.add('fa-plus');
-//     }
-//   }
+    //     const icon = parent.querySelector('.fa-plus, .fa-minus');
+    //     if (parent.classList.contains('active')) {
+    //       icon.classList.remove('fa-plus');
+    //       icon.classList.add('fa-minus');
+    //     } else {
+    //       icon.classList.remove('fa-minus');
+    //       icon.classList.add('fa-plus');
+    //     }
+    //   }
 
-function openModal(slno) {
-  const modal = document.getElementById('viewModal');
-  const iframe = document.getElementById('modalIframe');
-  iframe.src = 'employee_view.php?slno=' + slno;
-  modal.style.display = 'flex';
-}
+    function openModal(slno) {
+      const modal = document.getElementById('viewModal');
+      const iframe = document.getElementById('modalIframe');
+      iframe.src = 'employee_view.php?slno=' + slno;
+      modal.style.display = 'flex';
+    }
 
-function closeModal() {
-  const modal = document.getElementById('viewModal');
-  const iframe = document.getElementById('modalIframe');
-  iframe.src = '';
-  modal.style.display = 'none';
-}
-
-</script>
+    function closeModal() {
+      const modal = document.getElementById('viewModal');
+      const iframe = document.getElementById('modalIframe');
+      iframe.src = '';
+      modal.style.display = 'none';
+    }
+  </script>
 </body>
+
 </html>

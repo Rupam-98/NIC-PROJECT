@@ -70,6 +70,7 @@ body {
   width: calc(100% - 240px);
   min-height: 100vh;
   transition: margin-left 0.3s, width 0.3s;
+  position: relative;
 }
 
 header h1 {
