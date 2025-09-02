@@ -1,25 +1,36 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // DB connection
-    $host = "localhost";
-    $dbname = "PROJECT";
-    $user = "postgres";
-    $password = "1035";
+session_start();
 
-    $conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
-    if (!$conn) {
-        die("Connection failed: " . pg_last_error());
+$host = "localhost";
+$dbname = "PROJECT";
+$user = "postgres";
+$password = "1035";
+$conn = pg_connect("host=$host dbname=$dbname user=$user password=$password");
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
+}
+
+// Prepare Department dropdown for the logged-in admin
+$dept_code = $_SESSION['dept_code'] ?? null;
+$deptOptions = "";
+if ($dept_code) {
+    $deptQuery = "SELECT dept_code, dept_name FROM admins WHERE dept_code = $1";
+    $deptResult = pg_query_params($conn, $deptQuery, [$dept_code]);
+    if ($deptResult && pg_num_rows($deptResult) > 0) {
+        $row = pg_fetch_assoc($deptResult);
+        $deptOptions = "<option value='{$row['dept_code']}'>{$row['dept_code']} - {$row['dept_name']}</option>";
     }
+}
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Collect POST data
     $data = [
         'branch_code' => $_POST['branchcode'],
-        'dept_code' => $_POST['deptcode'],
+        'dept_code' => $_POST['dept_code'],
         'branch_type' => $_POST['branch_type'],
         'branch_lac' => $_POST['branch_lac'],
         'branch_name' => $_POST['branch_name'],
         'address' => $_POST['address'],
-       
         'head' => $_POST['head'],
     ];
 
@@ -56,11 +67,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     pg_close($conn);
 }
-?>
 
+include 'admin.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -74,23 +87,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       display: none;
       list-style-type: none;
       padding-left: 20px;
-      
+
     }
-    .sidebar ul li.active > ul {
+
+    .sidebar ul li.active>ul {
       display: block;
     }
+
     .sidebar ul li ul li {
       padding: 8px 10px;
       color: #fff;
     }
+
     .sidebar ul li ul li:hover {
       background: #555;
       cursor: pointer;
     }
+
     form .form-group select {
-     width: 100%;
+      width: 100%;
       padding: 10px;
     }
+
     .form-container {
       flex: 1;
       padding: 40px;
@@ -99,19 +117,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </style>
 
 </head>
+
 <body>
 
-    <div class="sidebar">
+  <div class="sidebar">
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
+      <h3><?= htmlspecialchars($dept_name) ?></h3>
       <p>Department Admin</p>
     </div>
     <ul>
       <li><a href="dept_dashboard.php"> <i class="fas fa-home"></i> Home</a></li>
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
-          <i class="fas fa-users" ></i> Branch  <i class="fa fa-plus"></i>
+          <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">
           <li><a href="branch_entry.php"> Branch Entry Form</a></li>
@@ -123,18 +143,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <li><a href="main.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
-  
+
   <div class="form-container">
     <h2>Branch Entry Form</h2>
     <form action="" method="POST">
+
+
+    <div class="form-group">
+      <label for="dept_code">Department Code</label>
+      <select id="dept_code" name="dept_code" required>
+        <?php echo $deptOptions; ?>
+      </select>
+    </div>
+
       <div class="form-group">
         <label for="branchcode">Branch Code</label>
         <input type="text" id="branchcode" name="branchcode" placeholder="Enter Branch Code" required />
-      </div> 
-
-      <div class="form-group">
-        <label for="deptcode">Department Code</label>
-        <input type="text" id="deptcode" name="deptcode" placeholder="Enter Department Code" required />
       </div>
 
       <div class="form-group">
@@ -148,9 +172,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <option value="b">Bank</option>
         </select>
       </div>
-     <div class="form-group">
-          <label for="branch_lac">Branch LAC</label>
-          <input type="text" id="branch_lac" name="branch_lac" placeholder="Enter Branch LAC" required />
+      <div class="form-group">
+        <label for="branch_lac">Branch LAC</label>
+        <input type="text" id="branch_lac" name="branch_lac" placeholder="Enter Branch LAC" required />
       </div>
 
       <div class="form-group">
@@ -162,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <textarea rows="3" cols="102" id="address" name="address" placeholder="Enter Address" required></textarea>
       </div>
 
-      
+
 
       <div class="form-group">
         <label for="head">Head</label>
@@ -171,6 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <option value="Principal">Principal</option>
           <option value="Inspector of School">Inspector of School</option>
           <option value="Head Master">Head Master</option>
+          <option value="Vice-Chancellor">Vice-Chancellor</option>
         </select>
       </div>
 
@@ -183,20 +208,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }
-     function toggledropdown(event) {
-    event.preventDefault();
-    const parent = event.target.closest('li');
-    parent.classList.toggle('active');
 
-    const icon = parent.querySelector('.fa-plus, .fa-minus');
-    if (parent.classList.contains('active')) {
-      icon.classList.remove('fa-plus');
-      icon.classList.add('fa-minus');
-    } else {
-      icon.classList.remove('fa-minus');
-      icon.classList.add('fa-plus');
+    function toggledropdown(event) {
+      event.preventDefault();
+      const parent = event.target.closest('li');
+      parent.classList.toggle('active');
+
+      const icon = parent.querySelector('.fa-plus, .fa-minus');
+      if (parent.classList.contains('active')) {
+        icon.classList.remove('fa-plus');
+        icon.classList.add('fa-minus');
+      } else {
+        icon.classList.remove('fa-minus');
+        icon.classList.add('fa-plus');
+      }
     }
-  }
   </script>
 </body>
+
 </html>

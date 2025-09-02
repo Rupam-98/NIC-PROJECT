@@ -13,7 +13,7 @@ if (!$conn) {
 if (!isset($_GET['slno'])) {
     die("No employee ID specified.");
 }
-
+include 'admin.php';
 $slno = $_GET['slno'];
 
 $query = "SELECT * FROM employees WHERE slno = $1";
@@ -26,9 +26,9 @@ if (!$row = pg_fetch_assoc($result)) {
 // === HANDLE UPDATE ===
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fields = [
-        'depcode', 'department', 'branch_code', 'branch_address',
+        'dept_code', 'department', 'branch_code', 'branch_address',
         'name', 'desig', 'sex', 'age', 'epic', 'phone',
-        'home_lac', 'residential_lac', 'branch_lac', 'beeo_code',
+        'home_lac', 'residential_lac', 'branch_lac',
         'basic', 'gazeted', 'remarks', 'education', 'dor',
         'ac_no', 'ifsc_code', 'branch_name', 'bank_branch_address'
     ];
@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Update failed: " . pg_last_error($conn);
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -213,11 +214,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="welcome-section">
     <img src="image/user.jpg" alt="User" />
     <h3>Welcome!</h3>
+    <h3><?= htmlspecialchars($branch_name) ?></h3>
     <p>Branch Admin</p>
   </div>
   <ul>
     <li><a href="branch_dashboard.html"><i class="fas fa-home"></i> Home</a></li>
-    <li><a href="#"><i class="fas fa-user"></i> Profile</a></li>
+
     <li class="dropdown">
       <a href="#" onclick="toggleDropdown(event)">
         <i class="fas fa-users"></i> Employees <i class="fa fa-plus"></i>
@@ -227,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <li><a href="employee.php">Employee Entry</a></li>
       </ul>
     </li>
-    <li><a href="#"><i class="fas fa-chart-line"></i> Reports</a></li>
+
     <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
     <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
   </ul>
@@ -242,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo "<label>$label</label><input type='text' name='$name' value='" . htmlspecialchars($value) . "' required>";
     }
 
-    input('Dept Code', 'depcode', $row['depcode']);
+    input('Dept Code', 'dept_code', $row['dept_code']);
     input('Department', 'department', $row['department']);
     input('Branch Code', 'branch_code', $row['branch_code']);
     input('Branch Address', 'branch_address', $row['branch_address']);
@@ -263,8 +265,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     input('Phone', 'phone', $row['phone']);
     input('Home LAC', 'home_lac', $row['home_lac']);
     input('Residential LAC', 'residential_lac', $row['residential_lac']);
-    input('Branch LAC', 'branch_lac', $row['branch_lac']);
-    input('BEEO Code', 'beeo_code', $row['beeo_code']);
+    input('Work LAC', 'branch_lac', $row['branch_lac']);
+
     input('Basic', 'basic', $row['basic']);
     input('Gazeted', 'gazeted', $row['gazeted']);
     input('Remarks', 'remarks', $row['remarks']);

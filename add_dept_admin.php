@@ -219,7 +219,7 @@ pg_close($conn);
 
 <div class="form-group">
   <label for="deptName">Department Name</label>
-  <input type="text" id="deptName" name="deptName" placeholder="Department name will be auto-filled" readonly required />
+  <input type="text" id="deptName" name="deptName" placeholder="Department Name " readonly required />
 </div>
 
   <div class="form-group">

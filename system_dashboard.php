@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'super_admin') {
   exit();
 }
 
-$username = $_SESSION['username'];
+// $username = $_SESSION['username'];
 $deptCode = $_SESSION['dept_code'];
 
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
@@ -17,8 +17,7 @@ if (!$conn) {
   die("Connection failed: " . pg_last_error());
 }
 
-$query = "SELECT * FROM admins WHERE role = 'department_admin' AND dept_code = $1 ORDER BY dept_code ASC";
-$result = pg_query_params($conn, $query, [$deptCode]);
+
 ?>
 
 <!DOCTYPE html>
@@ -31,26 +30,14 @@ $result = pg_query_params($conn, $query, [$deptCode]);
   <link rel="stylesheet" href="system_admin_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    .sidebar ul li a {
-      color: #dcdde1;
-      text-decoration: none;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 14px;
-      border-radius: 6px;
-      transition: background 0.2s, color 0.2s;
-      /* background: linear-gradient(135deg, #2f3542 80%, #2355d6 100%);  */
-
-    }
-
-    /* .sidebar ul li ul {
+    .sidebar ul li ul {
       display: none;
       list-style-type: none;
       margin-left: 30px;
       padding: 0;
-    } */
+
+    }
+
     .sidebar ul li.active>ul {
       display: block;
     }
@@ -181,6 +168,12 @@ $result = pg_query_params($conn, $query, [$deptCode]);
   </div>
 
   <script>
+    function toggledropdown(event) {
+      event.stopPropagation(); // stops bubbling up
+      const li = event.target.closest('li');
+      li.classList.toggle('active');
+    }
+
     function toggledropdown(event) {
       event.preventDefault();
       const parent = event.target.closest('li');

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $host = "localhost";
 $port = "5432";
 $dbname = "PROJECT";
@@ -10,28 +12,40 @@ if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
 
-// Fetch departments
-$dept_result = pg_query($conn, "SELECT dept_code, dept_name FROM dept_entry ORDER BY dept_code ASC");
-$departments = [];
-while ($row = pg_fetch_assoc($dept_result)) {
-    $departments[] = $row;
+include 'admin.php';
+
+$loggedInDeptCode = $_SESSION['dept_code'] ?? '';
+if (empty($loggedInDeptCode)) {
+    die("Access denied. No department code in session.");
 }
 
-// Fetch branches
-$branch_result = pg_query($conn, "SELECT branch_code, branch_name FROM branches ORDER BY branch_code ASC");
+// Fetch department details
+$dept_result = pg_query_params(
+    $conn,
+    "SELECT dept_code, dept_name FROM dept_entry WHERE dept_code = $1",
+    [$loggedInDeptCode]
+);
+$deptData = pg_fetch_assoc($dept_result);
+if (!$deptData) {
+    die("Department not found.");
+}
+
+// Fetch branches for this department
+$branch_result = pg_query_params(
+    $conn,
+    "SELECT branch_code, branch_name FROM branches WHERE dept_code = $1 ORDER BY branch_code ASC",
+    [$loggedInDeptCode]
+);
 $branches = [];
 while ($row = pg_fetch_assoc($branch_result)) {
     $branches[] = $row;
 }
 
-$branchCode = $_POST['branchCode'] ?? '';
-$branchName = $_POST['branchName'] ?? '';
-
-
-// Form handling
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $deptCode = $_POST['deptCode'];
-    $deptName = $_POST['deptName'];
+    $deptCode = $deptData['dept_code'];
+    $deptName = $deptData['dept_name'];
+    $branchCode = $_POST['branchCode'];
+    $branchName = $_POST['branchName'];
     $officerName = $_POST['officerName'];
     $designation = $_POST['designation'];
     $district = $_POST['district'];
@@ -43,24 +57,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $role = "branch_admin";
 
-     $query = "INSERT INTO admins (username, password, role, dept_code, branch_code, dept_name, branch_name, officer_name, designation, district, email, phone)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+    $query = "INSERT INTO admins (username, password, role, dept_code, branch_code, dept_name, branch_name, officer_name, designation, district, email, phone)
+              VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
 
     $result = pg_query_params($conn, $query, [
-    $username,
-    $hashed_password,
-    $role,
-    $deptCode,
-    $branchCode,
-    $deptName,
-    $branchName,
-    $officerName,
-    $designation,
-    $district,
-    $email,
-    $phone
-]);
-
+        $username,
+        $hashed_password,
+        $role,
+        $deptCode,
+        $branchCode,
+        $deptName,
+        $branchName,
+        $officerName,
+        $designation,
+        $district,
+        $email,
+        $phone
+    ]);
 
     if ($result) {
         echo "<script>alert('Branch admin added successfully!'); window.location.href = 'add_branch_admin.php';</script>";
@@ -68,8 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . pg_last_error($conn);
     }
 }
+
 pg_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,7 +137,7 @@ pg_close($conn);
       padding: 10px;
     }
 
-    .submit {
+    [type="submit"] {
       display: block;
       margin: 0 auto;
       background-color: #4CAF50;
@@ -134,7 +149,7 @@ pg_close($conn);
       cursor: pointer;
     }
 
-    .submit:hover {
+    [type="submit"]:hover {
       background-color: #45a049;
     }
 
@@ -166,6 +181,9 @@ pg_close($conn);
     <div class="welcome-section">
       <img src="image/user.jpg" alt="User" />
       <h3>Welcome!</h3>
+            <?php if (!empty($dept_name)) : ?>
+        <h3><?= htmlspecialchars($dept_name) ?></h3>
+      <?php endif; ?>
       <p>Department Admin</p>
     </div>
     <ul>
@@ -190,24 +208,19 @@ pg_close($conn);
   <h2>Add Branch Admin</h2>
   <form method="POST" action="">
     
-    <!-- Department Dropdown -->
-    <div class="form-group">
-      <label for="deptCode">Department Code</label>
-      <select name="deptCode" id="deptCode" required>
-        <option value="">-- Select Department --</option>
-        <?php foreach ($departments as $d): ?>
-          <option value="<?= htmlspecialchars($d['dept_code']) ?>" data-name="<?= htmlspecialchars($d['dept_name']) ?>">
-            <?= htmlspecialchars($d['dept_code'] ) ?> - <?= htmlspecialchars($d['dept_name']) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-    </div>
+<!-- Department Code (read-only) -->
+<div class="form-group">
+  <label for="deptCode">Department Code</label>
+  <input type="text" name="deptCode_display" id="deptCode_display" value="<?= htmlspecialchars($deptData['dept_code']) ?>" readonly>
+  <input type="hidden" name="deptCode" value="<?= htmlspecialchars($deptData['dept_code']) ?>">
+</div>
 
-    <!-- Auto-filled Department Name -->
-    <div class="form-group">
-      <label for="deptName">Department Name</label>
-      <input type="text" name="deptName" id="deptName" readonly>
-    </div>
+<!-- Department Name (read-only) -->
+<div class="form-group">
+  <label for="deptName">Department Name</label>
+  <input type="text" name="deptName" id="deptName" value="<?= htmlspecialchars($deptData['dept_name']) ?>" readonly>
+</div>
+
 
     <!-- Branch Dropdown -->
     <div class="form-group">

@@ -208,7 +208,7 @@ $result = pg_query($conn, $query);
                 <th>District</th>
                 <th>Phone</th>
                 <th>Email</th>
-                <th>Actions</th>
+                <!-- <th>Actions</th> -->
             </tr>
         </thead>
         <tbody>
@@ -223,7 +223,7 @@ $result = pg_query($conn, $query);
                     <td><?= htmlspecialchars($row['district']) ?></td>
                     <td><?= htmlspecialchars($row['phone']) ?></td>
                     <td><?= htmlspecialchars($row['email']) ?></td>
-                     <td>
+                     <!-- <td>
                 <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
                 <i class="fas fa-edit"></i> Edit
                 </a>
@@ -232,7 +232,7 @@ $result = pg_query($conn, $query);
                 onclick="return confirm('Are you sure you want to delete this record?');">
                 <i class="fas fa-trash"></i> Delete
               </a>
-            </td>
+            </td> -->
                 </tr>
             <?php endwhile; ?>
         </tbody>

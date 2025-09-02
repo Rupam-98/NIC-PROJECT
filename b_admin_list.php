@@ -30,7 +30,7 @@ $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pa
 if (!$conn) {
     die("Connection failed: " . pg_last_error());
 }
-
+include 'admin.php';
 
 $deptCode = $_SESSION['dept_code'];
 $query = "SELECT * FROM admins WHERE role = 'branch_admin' AND dept_code = $1 ORDER BY branch_code ASC";
@@ -177,6 +177,7 @@ $result = pg_query_params($conn, $query, [$deptCode]);
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
+      <p><h3><?= htmlspecialchars($dept_name) ?></h3></p>
       <p>Department Admin</p>
     </div>
     <ul>

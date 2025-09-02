@@ -42,7 +42,7 @@ $data = pg_fetch_assoc($result);
 <body>
     <div class="div">
     <h2>Employee Details</h2>
-    <p><strong>Dept code :</strong> <?= htmlspecialchars($data['depcode']) ?></p>
+    <p><strong>Dept code :</strong> <?= htmlspecialchars($data['dept_code']) ?></p>
     <p><strong>Department :</strong> <?= htmlspecialchars($data['department']) ?></p>
     <p><strong>Branch Code :</strong> <?= htmlspecialchars($data['branch_code']) ?></p>
     <p><strong>Branch Address:</strong> <?= htmlspecialchars($data['branch_address']) ?></p>
@@ -54,8 +54,8 @@ $data = pg_fetch_assoc($result);
     <p><strong>Phone:</strong> <?= htmlspecialchars($data['phone']) ?></p>
     <p><strong>Home LAC :</strong> <?= htmlspecialchars($data['home_lac']) ?></p>
     <p><strong>Residential LAC:</strong> <?= htmlspecialchars($data['residential_lac']) ?></p>
-    <p><strong>Branch LAC:</strong> <?= htmlspecialchars($data['branch_lac']) ?></p>
-    <p><strong>BEEO Code :</strong> <?= htmlspecialchars($data['beeo_code']) ?></p>
+    <p><strong>Work LAC:</strong> <?= htmlspecialchars($data['branch_lac']) ?></p>
+
     <p><strong>Basic :</strong> <?= htmlspecialchars($data['basic']) ?></p>
     <p><strong>Gazeted :</strong> <?= htmlspecialchars($data['gazeted']) ?></p>
     <p><strong>Remarks :</strong> <?= htmlspecialchars($data['remarks']) ?></p>

@@ -12,18 +12,37 @@
 //     die("Connection failed: " . pg_last_error());
 // }
 
-$query = "SELECT * FROM employees ORDER BY slno ASC";
+// Base query
+$query = "SELECT * FROM employees";
+
+// Restrict data based on role
+if ($_SESSION['role'] === 'department_admin' && isset($_SESSION['dept_code'])) {
+    $dept_code = pg_escape_string($conn, $_SESSION['dept_code']);
+    $query .= " WHERE dept_code = '$dept_code'";
+} elseif ($_SESSION['role'] === 'branch_admin' && isset($_SESSION['branch_code'])) {
+    $branch_code = pg_escape_string($conn, $_SESSION['branch_code']);
+    $query .= " WHERE branch_code = '$branch_code'";
+} 
+
+// Add ordering
+$query .= " ORDER BY slno ASC";
+
+// Execute
 $result = pg_query($conn, $query);
+if (!$result) {
+    die("Query failed: " . pg_last_error());
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- <link rel="stylesheet" href="system_admin_dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" /> -->
 
     <style>
-        .sidebar ul li ul {
+        /* .sidebar ul li ul {
       display: none;
       list-style-type: none;
       padding-left: 20px;
@@ -39,11 +58,11 @@ $result = pg_query($conn, $query);
     .sidebar ul li ul li:hover {
       background: #555;
       cursor: pointer;
-    }
+    } */
 
         
-.sidebar {
-    margin-left: -28px;
+/* .sidebar {
+    margin-left: 0;
   position: relative;
   top: 0;
   width: 275px;
@@ -106,7 +125,7 @@ $result = pg_query($conn, $query);
 .sidebar i {
   margin-right: 10px;
 }
-
+ */
         body {
             font-family: Arial, sans-serif;
             background: #f4f7f8;
@@ -115,7 +134,7 @@ $result = pg_query($conn, $query);
 
         .container {
             position: relative;
-            bottom: 465px;
+            bottom: 0;
             max-width: 1200px;
             margin-left: 275px;
             background: #eeeeee73;
@@ -182,7 +201,7 @@ $result = pg_query($conn, $query);
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  /* background: rgba(0, 0, 0, 0.7); */
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -292,9 +311,8 @@ $result = pg_query($conn, $query);
     </table>
 </div>
 
-                <!-- Add this inside your <body>, ideally just above </body> -->
+                                                  <!--  MODAL HTML  -->
 
-<!-- ✅✅✅ MODAL HTML ✅✅✅ -->
 <div id="viewModal">
   <div class="modal-content">
     <iframe id="modalIframe" src=""></iframe>
@@ -315,26 +333,26 @@ function searchTable() {
     }
 }
 
- function toggledropdown(event) {
-      event.stopPropagation(); // stops bubbling up
-      const li = event.target.closest('li');
-      li.classList.toggle('active');
-    }
+//  function toggledropdown(event) {
+//       event.stopPropagation(); // stops bubbling up
+//       const li = event.target.closest('li');
+//       li.classList.toggle('active');
+//     }
 
-     function toggledropdown(event) {
-    event.preventDefault();
-    const parent = event.target.closest('li');
-    parent.classList.toggle('active');
+//      function toggledropdown(event) {
+//     event.preventDefault();
+//     const parent = event.target.closest('li');
+//     parent.classList.toggle('active');
 
-    const icon = parent.querySelector('.fa-plus, .fa-minus');
-    if (parent.classList.contains('active')) {
-      icon.classList.remove('fa-plus');
-      icon.classList.add('fa-minus');
-    } else {
-      icon.classList.remove('fa-minus');
-      icon.classList.add('fa-plus');
-    }
-  }
+//     const icon = parent.querySelector('.fa-plus, .fa-minus');
+//     if (parent.classList.contains('active')) {
+//       icon.classList.remove('fa-plus');
+//       icon.classList.add('fa-minus');
+//     } else {
+//       icon.classList.remove('fa-minus');
+//       icon.classList.add('fa-plus');
+//     }
+//   }
 
 function openModal(slno) {
   const modal = document.getElementById('viewModal');
@@ -353,4 +371,3 @@ function closeModal() {
 </script>
 </body>
 </html>
-<?php pg_close($conn); ?>
