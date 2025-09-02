@@ -74,6 +74,28 @@ if (!$conn) {
 
       <li class="dropdown">
         <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> Cenral Govt. <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="cp_employee.php">Employee Entry Form</a></li>
+          <li><a href="cp_employee_list.php">Employee List</a></li>
+  
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> PSU <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="cp_employee.php">Employee Entry Form</a></li>
+          <li><a href="#cp_employee_list.php">Employee List</a></li>
+  
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
           <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
         </a>
         <ul class="dropdown-menu">

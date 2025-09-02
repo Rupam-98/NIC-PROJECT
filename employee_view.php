@@ -66,7 +66,7 @@ $data = pg_fetch_assoc($result);
     <p><strong>Branch Name:</strong> <?= htmlspecialchars($data['branch_name']) ?></p>
     <p><strong>Bank Branch Address:</strong> <?= htmlspecialchars($data['bank_branch_address']) ?></p>
     
-    <a href="employee_list.php">Back to List</a>
+   
     </div>
 </body>
 </html>
