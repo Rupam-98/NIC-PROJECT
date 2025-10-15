@@ -19,20 +19,45 @@ body {
   height: 100vh;
   padding: 32px 20px 20px;
   position: fixed;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   overflow-y: auto;
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
   z-index: 100;
   transition: width 0.3s;
 }
 
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 36px;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 1px;
+/* Sidebar header section */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 20px;
+  border-bottom: 2px solid rgb(133 142 193);
+  background: linear-gradient(0deg, #021216, #596c71c9);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
+
+.sidebar-logo {
+  width: 60px;
+  height: 50px;
+  border-radius: 40%;
+  object-fit: cover;
+  border: 2px solid white;
+  background: white;
+}
+
+.sidebar-header h2 {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 
 .sidebar ul {
   list-style: none;
@@ -139,7 +164,8 @@ table thead {
   color: #fff;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 14px 10px;
   text-align: left;
 }

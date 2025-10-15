@@ -241,11 +241,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
 
     <label for="emp_type">EMPLOYEE TYPE</label>
     <select id="emp_type" name="emp_type" required>
-        <option value="">Select</option>
-        <option value="Central Employee">Central Employee</option>
-        <option value="PSU Employee">PSU Employee</option>
-        <option value="State Employee">State Employee</option>
-    </select>
 
     <label for="name">NAME</label>
     <input type="text" id="name" name="name" required>

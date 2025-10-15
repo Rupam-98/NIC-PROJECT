@@ -18,7 +18,7 @@ if (isset($_FILES['import_file']['tmp_name'])) {
     list($slno, $dept_code, $department, $branch_code, $branch_address, $name,
          $desig, $sex, $age, $epic, $phone, $home_lac, $residential_lac,
          $branch_lac, $basic, $gazeted, $remarks, $education,
-         $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address) = $row;
+         $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address, $emp_type) = $row;
 
     $gazeted = $gazeted == "1" ? "yes" : "no";
 
@@ -26,11 +26,11 @@ if (isset($_FILES['import_file']['tmp_name'])) {
       INSERT INTO employees (
         slno, dept_code, department, branch_code, branch_address, name, desig, sex, age, epic, phone,
         home_lac, residential_lac, branch_lac, basic, gazeted, remarks, education, dor,
-        ac_no, ifsc_code, branch_name, bank_branch_address
+        ac_no, ifsc_code, branch_name, bank_branch_address, emp_type
       ) VALUES (
         $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
         $11, $12, $13, $14, $15, $16, $17, $18, $19, $20,
-        $21, $22, $23
+        $21, $22, $23, $24
       )
     ";
 
@@ -38,7 +38,7 @@ if (isset($_FILES['import_file']['tmp_name'])) {
       $slno, $dept_code, $department, $branch_code, $branch_address, $name,
       $desig, $sex, $age, $epic, $phone, $home_lac, $residential_lac,
       $branch_lac,  $basic, $gazeted, $remarks, $education,
-      $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address
+      $dor, $ac_no, $ifsc_code, $branch_name, $bank_branch_address, $emp_type
     ]);
 
     if (!$result) {

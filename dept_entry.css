@@ -7,8 +7,8 @@
 
 .form-container {
   background: #bde3f5;
-  min-width: 600px;
-  margin-left: -220px ;
+  width: 65%;
+  margin-left: 17%;
   padding: 30px 40px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;

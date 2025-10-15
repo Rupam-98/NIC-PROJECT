@@ -33,7 +33,7 @@ $result = pg_query($conn, $query);
       padding: 0;
     }
 
-    .sidebar ul li.active > ul {
+    .sidebar ul li.active>ul {
       display: block;
     }
 
@@ -49,158 +49,122 @@ $result = pg_query($conn, $query);
 </head>
 
 <body>
+  <!-- <div class="main-content"> -->
+    <?php include('sidebar.php'); ?>
+    <div class="main-content">
 
-  <div class="main-content">
-
-    <div class="sidebar">
-      <h2>System Admin</h2>
-      <ul>
-        <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
-
-        <li class="dropdown">
-          <a onclick="toggledropdown(event)">
-            <i class="fas fa-users"></i> Department <i class="fa fa-plus"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="dept_entry.php">Dept. Entry Form</a></li>
-            <li><a href="add_dept_admin.php">Admin Entry</a></li>
-            <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a onclick="toggledropdown(event)">
-            <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="branch_admin_list.php">Branch Admin List</a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a onclick="toggledropdown(event)">
-            <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Update</a></li>
-            <li><a href="#">Change Password</a></li>
-          </ul>
-        </li>
-
-        <li><a href="main.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-      </ul>
-    </div>
-
-    <div class="admin-container">
-      <h1>Department Admin List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>DEPT CODE</th>
-            <th>DEPT NAME</th>
-            <th>OFFICER NAME</th>
-            <th>DESIGNATION</th>
-            <th>DISTRICT</th>
-            <th>EMAIL</th>
-            <th>PHONE</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = pg_fetch_assoc($result)) : ?>
+      <div class="admin-container">
+        <h1>Department Admin List</h1>
+        <table>
+          <thead>
             <tr>
-              <td><?php echo htmlspecialchars($row['id']); ?></td>
-              <td><?php echo htmlspecialchars($row['dept_code']); ?></td>
-              <td><?php echo htmlspecialchars($row['dept_name']); ?></td>
-              <td><?php echo htmlspecialchars($row['officer_name']); ?></td>
-              <td><?php echo htmlspecialchars($row['designation']); ?></td>
-              <td><?php echo htmlspecialchars($row['district']); ?></td>
-              <td><?php echo htmlspecialchars($row['email']); ?></td>
-              <td><?php echo htmlspecialchars($row['phone']); ?></td>
-              <td>
-                <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-                <a class="action-links" href="delete_admin.php?id=<?php echo $row['id']; ?>"
-                  onclick="return confirm('Are you sure you want to delete this record?');">
-                  <i class="fas fa-trash"></i> Delete
-                </a>
-              </td>
+              <th>S.No</th>
+              <th>ID</th>
+              <th>DEPT CODE</th>
+              <th>DEPT NAME</th>
+              <th>OFFICER NAME</th>
+              <th>DESIGNATION</th>
+              <th>DISTRICT</th>
+              <th>EMAIL</th>
+              <th>PHONE</th>
+              <th>Actions</th>
             </tr>
-          <?php endwhile; ?>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- ✅ Modal for Edit -->
-    <div id="editModal" class="modal" style="display:none;">
-      <div class="modal-content">
-        <span class="close" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
-        <iframe id="editIframe" style="width:100%; height:600px; border:none;"></iframe>
+          </thead>
+          <tbody>
+            <?php $i = 1; while ($row = pg_fetch_assoc($result)) : ?>
+              <tr>
+                <td><?php echo $i; ?></td>
+                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                <td><?php echo htmlspecialchars($row['dept_code']); ?></td>
+                <td><?php echo htmlspecialchars($row['dept_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['officer_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['designation']); ?></td>
+                <td><?php echo htmlspecialchars($row['district']); ?></td>
+                <td><?php echo htmlspecialchars($row['email']); ?></td>
+                <td><?php echo htmlspecialchars($row['phone']); ?></td>
+                <td>
+                  <a class="action-links" href="javascript:void(0);" onclick="openIframeModal(<?php echo $row['id']; ?>)">
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <a class="action-links" href="delete_admin.php?id=<?php echo $row['id']; ?>"
+                    onclick="return confirm('Are you sure you want to delete this record?');">
+                    <i class="fas fa-trash"></i> Delete
+                  </a>
+                </td>
+              </tr>
+            <?php $i++; endwhile; ?>
+          </tbody>
+        </table>
       </div>
-    </div>
 
-    <style>
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 9999;
-        padding-top: 60px;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
+      <!-- ✅ Modal for Edit -->
+      <div id="editModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" style="float:right; cursor:pointer; font-size:24px;">&times;</span>
+          <iframe id="editIframe" style="width:100%; height:600px; border:none;"></iframe>
+        </div>
+      </div>
 
-      .modal-content {
-        background-color: #fff;
-        margin: auto;
-        padding: 0;
-        border: 1px solid #888;
-        width: 60%;
-        border-radius: 8px;
-        overflow: hidden;
-      }
-    </style>
+      <style>
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          padding-top: 60px;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-      function openIframeModal(id) {
-        $('#editIframe').attr('src', 'DA_edit.php?id=' + id);
-        $('#editModal').show();
-      }
+        .modal-content {
+          background-color: #fff;
+          margin: auto;
+          padding: 0;
+          border: 1px solid #888;
+          width: 60%;
+          border-radius: 8px;
+          overflow: hidden;
+        }
+      </style>
 
-      $('.close').click(function () {
-        $('#editModal').hide();
-        $('#editIframe').attr('src', '');
-      });
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+        function openIframeModal(id) {
+          $('#editIframe').attr('src', 'DA_edit.php?id=' + id);
+          $('#editModal').show();
+        }
 
-      window.onclick = function (event) {
-        if (event.target.id === 'editModal') {
+        $('.close').click(function() {
           $('#editModal').hide();
           $('#editIframe').attr('src', '');
-        }
-      };
+        });
 
-      function toggledropdown(event) {
-        event.preventDefault();
-        const parent = event.target.closest('li');
-        parent.classList.toggle('active');
+        window.onclick = function(event) {
+          if (event.target.id === 'editModal') {
+            $('#editModal').hide();
+            $('#editIframe').attr('src', '');
+          }
+        };
 
-        const icon = parent.querySelector('.fa-plus, .fa-minus');
-        if (parent.classList.contains('active')) {
-          icon.classList.remove('fa-plus');
-          icon.classList.add('fa-minus');
-        } else {
-          icon.classList.remove('fa-minus');
-          icon.classList.add('fa-plus');
+        function toggledropdown(event) {
+          event.preventDefault();
+          const parent = event.target.closest('li');
+          parent.classList.toggle('active');
+
+          const icon = parent.querySelector('.fa-plus, .fa-minus');
+          if (parent.classList.contains('active')) {
+            icon.classList.remove('fa-plus');
+            icon.classList.add('fa-minus');
+          } else {
+            icon.classList.remove('fa-minus');
+            icon.classList.add('fa-plus');
+          }
         }
-      }
-    </script>
-  </div>
+      </script>
+    </div>
 </body>
 
 </html>

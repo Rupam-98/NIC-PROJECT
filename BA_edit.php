@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   .edit-container {
-    max-width: 420px;
+    max-width: 500px;
     margin: 40px auto;
     background: #fff;
     border-radius: 12px;

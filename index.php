@@ -90,9 +90,9 @@
 <body>
   <div class="container">
     <h1>Admin Portal</h1>
-    <a class="login-btn" href="admin_login.php">System Admin Login</a>   
-    <a class="login-btn" href="admin_login.php">Department Admin Login</a>
-    <a class="login-btn" href="admin_login.php">Branch Admin Login</a>
+    <a class="login-btn" href="system_admin_login.php">System Login</a>   
+    <a class="login-btn" href="admin_login.php">Department and Branch Login</a>
+    <!-- <a class="login-btn" href="admin_login.php">Branch Admin Login</a> -->
     <!-- <a class="login-btn" href="system_admin_login.php">System Admin Login</a>
     <a class="login-btn" href="dept_admin.php">Department Admin Login</a>
     <a class="login-btn" href="branch_admin_login.php">Branch Admin Login</a> -->

@@ -3,8 +3,8 @@ session_start();
 
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'super_admin') {
   echo "<script>
-    alert('Unauthorized access. Only Super Admins are allowed.');
-    window.location.href = 'admin_login.php';
+    alert('Unauthorized access. Please try logging in again.');
+    window.location.href = 'system_admin_login.php';
   </script>";
   exit();
 }
@@ -54,74 +54,10 @@ if (!$conn) {
 </head>
 
 <body>
-
-  <div class="sidebar">
-    <h2>System Admin</h2>
-    <ul>
-      <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> Department <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="dept_entry.php">Dept. Entry Form</a></li>
-          <li><a href="add_dept_admin.php">Admin Entry</a></li>
-          <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
-          <li><a href="dept_info.php">Dept. Info List</a></li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> Cenral Govt. <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="cp_employee.php">Employee Entry Form</a></li>
-          <li><a href="cp_employee_list.php">Employee List</a></li>
-  
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> PSU <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="cp_employee.php">Employee Entry Form</a></li>
-          <li><a href="#cp_employee_list.php">Employee List</a></li>
-  
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="branch_admin_list.php">Branch Admin List</a></li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
-
-
-          <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
-        </ul>
-      </li>
-
-      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-  </div>
-
+<?php include('sidebar.php'); ?>
   <div class="main-content">
     <header>
-      <h1>Dashboard</h1>
+      <h1>System Dashboard</h1>
     </header>
 
     <div class="cards">
@@ -181,20 +117,77 @@ if (!$conn) {
 
   <?php include('all_employee_list.php'); ?>
 
-  <!-- IFRAME MODAL -->
-  <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; background-color:rgba(251, 251, 251, 0.5); z-index:1;">
-    <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
-      <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
-      <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
-    </div>
+<!-- ✅ Modal Wrapper -->
+<div id="iframeModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeIframeModal()">&times;</span>
+    <h2>Edit Admin Info</h2>
+    <iframe id="iframeEdit" src="" frameborder="0"></iframe>
   </div>
+</div>
+
+<style>
+  /* Modal Background */
+  #iframeModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+
+  /* Modal Box */
+  #iframeModal .modal-content {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
+    height: 66%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    overflow: hidden;
+  }
+
+  /* Close button */
+  #iframeModal .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+  }
+
+  /* Iframe */
+  #iframeEdit {
+    flex: 1;
+    width: 100%;
+    border: none;
+  }
+
+  /* Title */
+  #iframeModal h2 {
+    margin: 12px 0;
+    text-align: center;
+    color: #444;
+  }
+</style>
+
 
   <script>
-    function toggledropdown(event) {
-      event.stopPropagation(); // stops bubbling up
-      const li = event.target.closest('li');
-      li.classList.toggle('active');
-    }
+    // function toggledropdown(event) {
+    //   event.stopPropagation(); // stops bubbling up
+    //   const li = event.target.closest('li');
+    //   li.classList.toggle('active');
+    // }
 
     function toggledropdown(event) {
       event.preventDefault();
@@ -210,17 +203,18 @@ if (!$conn) {
         icon.classList.add('fa-plus');
       }
     }
+  // ✅ Open iframe modal
+  function openIframeModal(url) {
+    document.getElementById("iframeEdit").src = url;
+    document.getElementById("iframeModal").style.display = "flex";
+  }
 
-    function openIframeModal(url) {
-      document.getElementById('modalIframe').src = url;
-      document.getElementById('iframeModal').style.display = 'block';
-    }
+  // ✅ Close iframe modal
+  function closeIframeModal() {
+    document.getElementById("iframeModal").style.display = "none";
+    document.getElementById("iframeEdit").src = ""; // reset iframe
+  }
 
-    function closeIframeModal() {
-      document.getElementById('modalIframe').src = '';
-      document.getElementById('iframeModal').style.display = 'none';
-      location.reload(); // Optional: Reload page after closing
-    }
   </script>
 </body>
 

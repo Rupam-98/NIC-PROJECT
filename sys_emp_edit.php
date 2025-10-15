@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $update_result = pg_query_params($conn, $sql, $values);
 
   if ($update_result) {
-    echo "<script>alert('Employee updated successfully!'); window.location.href = 'employee_list.php';</script>";
+    echo "<script>alert('Employee updated successfully!'); window.location.href = 'cp_employee_list.php';</script>";
     exit();
   } else {
     echo "Update Failed: " . pg_last_error($conn);
@@ -80,81 +80,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Edit Employee</title>
+  <link rel="stylesheet" href="system_admin_dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f7f8;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 275px;
-      height: 100vh;
-      background: #2c3e50;
-      color: #fff;
-      overflow-y: auto;
-    }
-
-    .sidebar .welcome-section {
-      text-align: center;
-      padding: 30px 20px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .sidebar .welcome-section img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 10px;
-      border: 2px solid #3498db;
-    }
-
-    .sidebar .welcome-section h3 {
-      margin: 5px 0 0;
-    }
-
-    .sidebar .welcome-section p {
-      margin: 5px 0 0;
-      font-size: 14px;
-      color: #ddd;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin-top: 20px;
-    }
-
-    .sidebar ul li {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .sidebar ul li a {
-      color: #fff;
-      text-decoration: none;
-      display: block;
-      padding: 15px 20px;
-      transition: all 0.5s ease;
-    }
-
-    .sidebar ul li a:hover {
-      background: #3498db;
-      padding-left: 30px;
-    }
-
     .sidebar ul li ul {
       display: none;
-      list-style: none;
-      padding-left: 20px;
+      list-style-type: none;
+      margin-left: 30px;
+      padding: 0;
+
     }
 
     .sidebar ul li.active>ul {
@@ -162,17 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     .sidebar ul li ul li {
-      padding: 8px 10px;
       color: #fff;
     }
 
     .sidebar ul li ul li:hover {
       background: #555;
       cursor: pointer;
-    }
-
-    .sidebar i {
-      margin-right: 10px;
     }
 
     .container {
@@ -234,35 +164,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   </style>
 </head>
-
 <body>
-
   <div class="sidebar">
-    <div class="welcome-section">
-      <img src="image/user.jpg" alt="User" />
-      <h3>Welcome!</h3>
-      <h3><?= htmlspecialchars($branch_name) ?></h3>
-      <p>Branch Admin</p>
-    </div>
+    <h2>System Admin</h2>
     <ul>
-      <li><a href="branch_dashboard.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
 
       <li class="dropdown">
-        <a href="#" onclick="toggleDropdown(event)">
-          <i class="fas fa-users"></i> Employees <i class="fa fa-plus"></i>
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> Department <i class="fa fa-plus"></i>
         </a>
-        <ul>
-          <li><a href="employee_list.php">Employee List</a></li>
-          <li><a href="employee.php">Employee Entry</a></li>
+        <ul class="dropdown-menu">
+          <li><a href="dept_entry.php">Dept. Entry Form</a></li>
+          <li><a href="add_dept_admin.php">Admin Entry</a></li>
+          <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
+          <li><a href="dept_info.php">Dept. Info List</a></li>
         </ul>
       </li>
 
-      <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> Central And PSU <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="cp_employee.php">Employee Entry Form</a></li>
+          <li><a href="cp_employee_list.php">Employee List</a></li>
+
+        </ul>
+      </li>
+
+      <!-- <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> PSU <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="cp_employee.php">Employee Entry Form</a></li>
+          <li><a href="#cp_employee_list.php">Employee List</a></li>
+  
+        </ul>
+      </li> -->
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="branch_admin_list.php">Branch Admin List</a></li>
+        </ul>
+      </li>
+
+      <li class="dropdown">
+        <a onclick="toggledropdown(event)">
+          <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="#" onclick="openIframeModal('edit_user.php')">Update Profile</a></li>
+
+
+          <li><a href="#" onclick="openIframeModal('cng_user_pass.php')">Change Password</a></li>
+        </ul>
+      </li>
+
       <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
     </ul>
   </div>
 
-  <div class="container">
+    <div class="container">
     <form class="edit-form" method="POST">
       <h2>Edit Employee</h2>
 
@@ -309,15 +276,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <button type="submit">Update Employee</button>
     </form>
   </div>
+  </style>
+
 
   <script>
-    function toggleDropdown(event) {
-      event.preventDefault();
-      const li = event.target.closest('li');
-      li.classList.toggle('active');
+    // function toggledropdown(event) {
+    //   event.stopPropagation(); // stops bubbling up
+    //   const li = event.target.closest('li');
+    //   li.classList.toggle('active');
+    // }
 
-      const icon = li.querySelector('.fa-plus, .fa-minus');
-      if (li.classList.contains('active')) {
+    function toggledropdown(event) {
+      event.preventDefault();
+      const parent = event.target.closest('li');
+      parent.classList.toggle('active');
+
+      const icon = parent.querySelector('.fa-plus, .fa-minus');
+      if (parent.classList.contains('active')) {
         icon.classList.remove('fa-plus');
         icon.classList.add('fa-minus');
       } else {
@@ -325,8 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         icon.classList.add('fa-plus');
       }
     }
-  </script>
-
+    </script>
 </body>
 
 </html>

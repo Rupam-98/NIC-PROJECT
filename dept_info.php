@@ -11,10 +11,11 @@ if (!$conn) {
 }
 
 $selected_code = $_POST['dept_code'] ?? '';
+$selected_name = $_POST['dept_name'] ?? '';
 $dept_info = null;
 
 if ($selected_code !== '') {
-  $query = "SELECT * FROM admins WHERE dept_code = $1 AND role = 'department_admin'";
+  $query = "SELECT * FROM dept_entry WHERE dept_code = $1 ";
   $result = pg_query_params($conn, $query, [$selected_code]);
 
   if ($result && pg_num_rows($result) === 1) {
@@ -23,7 +24,7 @@ if ($selected_code !== '') {
 }
 
 // Fetch list of all dept_codes
-$codeQuery = "SELECT DISTINCT dept_code FROM admins WHERE role = 'department_admin' ORDER BY dept_code";
+$codeQuery = "SELECT DISTINCT dept_code, dept_name FROM dept_entry ORDER BY dept_code, dept_name";
 $codeResult = pg_query($conn, $codeQuery);
 ?>
 
@@ -67,6 +68,7 @@ $codeResult = pg_query($conn, $codeQuery);
     .form-box {
       background: #fff;
       border-radius: 12px;
+      margin-left: 30%;
       padding: 28px;
       max-width: 480px;
       margin-bottom: 30px;
@@ -128,45 +130,7 @@ $codeResult = pg_query($conn, $codeQuery);
   </style>
 </head>
 <body>
-    <div class="sidebar">
-    <h2>System Admin</h2>
-    <ul>
-      <li><a href="system_dashboard.php"><i class="fas fa-home"></i> Dashboard</a></li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> Department <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="dept_entry.php">Dept. Entry Form</a></li>
-          <li><a href="add_dept_admin.php">Admin Entry</a></li>
-          <li><a href="dept_admin_list.php">Dept. Admin List</a></li>
-          <li><a href="dept_info.php">Dept. Info List</a></li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-users"></i> Branch <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="branch_admin_list.php">Branch Admin List</a></li>
-        </ul>
-      </li>
-
-      <li class="dropdown">
-        <a onclick="toggledropdown(event)">
-          <i class="fas fa-cog"></i> Settings <i class="fa fa-plus"></i>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="edit_user.php?username=<?= urlencode($username) ?>">Update Profile</a></li>
-          <li><a href="cng_user_pass.php?username=<?= urlencode($username) ?>">Change Password</a></li>
-        </ul>
-      </li>
-
-      <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
-  </div>
+  <?php include('sidebar.php'); ?>
 
   <div class="main-content">
     <div class="form-box">
@@ -176,7 +140,7 @@ $codeResult = pg_query($conn, $codeQuery);
           <option value="">-- Select Department Code --</option>
           <?php while ($row = pg_fetch_assoc($codeResult)) { ?>
             <option value="<?php echo htmlspecialchars($row['dept_code']); ?>" <?php if ($row['dept_code'] == $selected_code) echo 'selected'; ?>>
-              <?php echo htmlspecialchars($row['dept_code']); ?>
+              <?php echo htmlspecialchars($row['dept_code']); ?> - <?php echo htmlspecialchars($row['dept_name']); ?>
             </option>
           <?php } ?>
         </select>
@@ -187,13 +151,12 @@ $codeResult = pg_query($conn, $codeQuery);
     <?php if ($dept_info): ?>
       <div class="info-box">
         <h3>Department Details</h3>
-        <div class="info-item"><strong>Dept Code:</strong> <?php echo htmlspecialchars($dept_info['dept_code']); ?></div>
-        <div class="info-item"><strong>Dept Name:</strong> <?php echo htmlspecialchars($dept_info['dept_name']); ?></div>
-        <div class="info-item"><strong>Officer Name:</strong> <?php echo htmlspecialchars($dept_info['officer_name']); ?></div>
-        <div class="info-item"><strong>Designation:</strong> <?php echo htmlspecialchars($dept_info['designation']); ?></div>
-        <div class="info-item"><strong>District:</strong> <?php echo htmlspecialchars($dept_info['district']); ?></div>
-        <div class="info-item"><strong>Email:</strong> <?php echo htmlspecialchars($dept_info['email']); ?></div>
-        <div class="info-item"><strong>Phone:</strong> <?php echo htmlspecialchars($dept_info['phone']); ?></div>
+        <div class="info-item"><strong>Department Code:</strong> <?php echo htmlspecialchars($dept_info['dept_code']); ?></div>
+        <div class="info-item"><strong>Department Name:</strong> <?php echo htmlspecialchars($dept_info['dept_name']); ?></div>
+        <div class="info-item"><strong>Department Type:</strong> <?php echo htmlspecialchars($dept_info['dept_type']); ?></div>
+        <div class="info-item"><strong>Department Location:</strong> <?php echo htmlspecialchars($dept_info['address']); ?></div>
+        <div class="info-item"><strong>Department Head:</strong> <?php echo htmlspecialchars($dept_info['head']); ?></div>
+
       </div>
     <?php elseif ($selected_code !== ''): ?>
       <div class="info-box">
@@ -202,10 +165,9 @@ $codeResult = pg_query($conn, $codeQuery);
     <?php endif; ?>
   </div>
 
-  <!-- ========== Sidebar Toggle JS ========== -->
     <script>
     function toggledropdown(event) {
-      event.stopPropagation(); // stops bubbling up
+      event.stopPropagation(); 
       const li = event.target.closest('li');
       li.classList.toggle('active');
     }

@@ -88,12 +88,21 @@ if (isset($_POST['login'])) {
             display: block;
             color: #444;
         }
+        input[type="password"],
+        input[type="text"] {
+            width: 95%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border 0.2s ease;
 
+        }
         select,
-        input[type="text"],
         input[type="submit"],
-        input[type="button"],
-        input[type="password"] {
+        input[type="button"]
+         {
             width: 100%;
             padding: 12px;
             margin-top: 8px;
@@ -192,11 +201,11 @@ if (isset($_POST['login'])) {
                         });
 
                         let users = [];
-                        if (data.super_admin && data.super_admin.username) {
-                            users.push({
-                                username: data.super_admin.username
-                            });
-                        }
+                        // if (data.super_admin && data.super_admin.username) {
+                        //     users.push({
+                        //         username: data.super_admin.username
+                        //     });
+                        // }
                         if (Array.isArray(data.dept_admins)) {
                             users = users.concat(data.dept_admins);
                         }

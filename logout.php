@@ -27,6 +27,6 @@ if (ini_get("session.use_cookies")) {
 }
 
 // Redirect to your main login or landing page
-header("Location: index.html");
+header("Location: index.php");
 exit();
 ?>

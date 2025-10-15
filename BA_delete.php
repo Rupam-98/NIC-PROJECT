@@ -21,7 +21,7 @@ $query = "DELETE FROM admins WHERE id = $1";
 $result = pg_query_params($conn, $query, [$id]);
 
 if ($result) {
-  header("Location: branch_admin_list.php");
+  header("Location: b_admin_list.php");
   exit();
 } else {
   echo "Delete failed: " . pg_last_error($conn);

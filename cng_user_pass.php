@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         form {
           background: #fff;
-          padding: 30px;
+          padding: 32px;
           max-width: 450px;
           margin: auto;
           border-radius: 8px;
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           margin-bottom: 20px;
         }
         input {
-          width: 100%;
+          width: 95%;
           padding: 10px;
           margin: 10px 0;
           border-radius: 5px;

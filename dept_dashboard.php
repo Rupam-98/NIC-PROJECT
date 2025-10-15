@@ -6,7 +6,7 @@ session_start();
 
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'department_admin') {
   echo "<script>
-        alert('Unauthorized access. Only Department Admins are allowed.');
+        alert('Unauthorized access. Please try logging in again.');
         window.location.href = 'admin_login.php';
     </script>";
   exit();
@@ -75,7 +75,9 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
     <div class="welcome-section">
       <img src="image\user.jpg" alt="User" />
       <h3>Welcome!</h3>
-      <p><h3><?= htmlspecialchars($dept_name) ?></h3></p>
+      <p>
+      <h3><?= htmlspecialchars($dept_name) ?></h3>
+      </p>
       <p>Department Admin</p>
     </div>
     <ul>
@@ -157,14 +159,72 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
 
 
   </div>
-  
-  <!-- IFRAME MODAL -->
-  <div id="iframeModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:70%; z-index:1;">
-    <div style="position:relative; width:90%; max-width:600px; height:90%; margin:5% auto; background:#fff; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.3); overflow:hidden;">
-      <span onclick="closeIframeModal()" style="position:absolute; top:10px; right:15px; font-size:22px; font-weight:bold; cursor:pointer;">&times;</span>
-      <iframe id="modalIframe" src="" style="width:100%; height:100%; border:none;"></iframe>
+
+  <!-- ✅ Modal Wrapper -->
+  <div id="iframeModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeIframeModal()">&times;</span>
+      <h2>Edit Admin Info</h2>
+      <iframe id="iframeEdit" src="" frameborder="0"></iframe>
     </div>
   </div>
+
+  <style>
+    /* Modal Background */
+    #iframeModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    /* Modal Box */
+    #iframeModal .modal-content {
+      background: #fff;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 100%;
+      height: 66%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    /* Close button */
+    #iframeModal .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* Iframe */
+    #iframeEdit {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
+    /* Title */
+    #iframeModal h2 {
+      margin: 12px 0;
+      text-align: center;
+      color: #444;
+    }
+  </style>
+
 
   <script>
     function toggledropdown(event) {
@@ -188,34 +248,44 @@ if (isset($_SESSION['dept_code']) && $_SESSION['role'] === 'department_admin') {
       }
     }
 
-    function openIframeModal(url) {
-      document.getElementById('modalIframe').src = url;
-      document.getElementById('iframeModal').style.display = 'block';
-    }
+  // ✅ Open iframe modal
+  function openIframeModal(url) {
+    document.getElementById("iframeEdit").src = url;
+    document.getElementById("iframeModal").style.display = "flex";
+  }
 
-    function closeIframeModal() {
-      document.getElementById('modalIframe').src = '';
-      document.getElementById('iframeModal').style.display = 'none';
-      location.reload(); // Optional: Reload page after closing
-    }
+  // ✅ Close iframe modal
+  function closeIframeModal() {
+    document.getElementById("iframeModal").style.display = "none";
+    document.getElementById("iframeEdit").src = ""; // reset iframe
+  }
 
     function openModal(slno) {
-  const modal = document.getElementById('viewModal');
-  const iframe = document.getElementById('modalIframe');
-  iframe.src = 'employee_view.php?slno=' + slno;
-  modal.style.display = 'flex';
-}
+      // Show modal
+      const modal = document.getElementById("employeeModal");
+      modal.style.display = "block";
 
-function closeModal() {
-  const modal = document.getElementById('viewModal');
-  const iframe = document.getElementById('modalIframe');
-  iframe.src = '';
-  modal.style.display = 'none';
-}
+      // Load employee data into modal content
+      const content = document.getElementById("modalContent");
+      content.innerHTML = "<p>Loading...</p>";
+
+      fetch("employee_view.php?slno=" + slno)
+        .then(response => response.text())
+        .then(data => {
+          content.innerHTML = data;
+        })
+        .catch(err => {
+          content.innerHTML = "<p style='color:red;'>❌ Error loading employee data.</p>";
+          console.error(err);
+        });
+    }
+
+    function closeModal() {
+      document.getElementById("employeeModal").style.display = "none";
+    }
   </script>
-
 
 </body>
 
 </html>
-<?php include('all_employee_list.php'); ?>
+<?php include('employee_list_dept.php'); ?>

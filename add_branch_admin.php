@@ -238,7 +238,7 @@ pg_close($conn);
     <!-- Auto-filled Branch Name -->
     <div class="form-group">
       <label for="branchName">Branch Name</label>
-      <input type="text" name="branchName" id="branchName" readonly>
+      <input type="text" name="branchName" id="branchName" >
     </div>
 
     <!-- Rest of the fields -->

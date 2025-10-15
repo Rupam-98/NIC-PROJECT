@@ -1,8 +1,37 @@
 <?php
-$slno = $_GET['slno'];
+session_start();
+
 $conn = pg_connect("host=localhost dbname=PROJECT user=postgres password=1035");
-$query = "SELECT * FROM employees WHERE slno = $1";
-$result = pg_query_params($conn, $query, [$slno]);
+if (!$conn) {
+    die("❌ Database connection failed: " . pg_last_error());
+}
+
+$slno = $_GET['slno'] ?? null;
+if (!$slno) {
+    echo "<p style='color:red;'>Invalid request. Employee ID missing.</p>";
+    exit;
+}
+
+$role = $_SESSION['role'] ?? null;
+$dept_code = $_SESSION['dept_code'] ?? null;
+
+// Restrict for department admins
+if ($role === 'department_admin' && $dept_code) {
+    $query = "SELECT * FROM employees WHERE slno = $1 AND dept_code = $2";
+    $result = pg_query_params($conn, $query, [$slno, $dept_code]);
+} else {
+    // System admins (or other roles) can view all
+    $query = "SELECT * FROM employees WHERE slno = $1";
+    $result = pg_query_params($conn, $query, [$slno]);
+}
+
+if (!$result || pg_num_rows($result) === 0) {
+    echo "<p style='color:red; text-align:center; margin-top:20px;'>
+            No employee found or access denied.
+          </p>";
+    exit;
+}
+
 $data = pg_fetch_assoc($result);
 ?>
 
@@ -17,7 +46,7 @@ $data = pg_fetch_assoc($result);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 104vh;
       min-height: 100vh;
       transition: background 0.5s;
     }

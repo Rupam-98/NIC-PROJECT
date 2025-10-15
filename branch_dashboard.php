@@ -5,7 +5,7 @@ session_start();
 
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'branch_admin') {
     echo "<script>
-        alert('Unauthorized access. Only Branch Admins are allowed.');
+        alert('Unauthorized access. Please try logging in again.');
         window.location.href = 'admin_login.php';
     </script>";
     exit();

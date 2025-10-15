@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = pg_query_params($conn, $query, [$slno]);
 
     if ($result) {
-        header("Location: employee_list.php");
+        echo "<script>alert('Record deleted successfully'); window.location.href='cp_employee_list.php';</script>";
         exit;
     } else {
         echo "Error deleting record.";

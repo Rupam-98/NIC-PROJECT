@@ -36,12 +36,12 @@ if ($dept_code) {
 }
 
 // Always fetch super admin (for global login access)
-$res4 = pg_query($conn, "SELECT username FROM admins WHERE role = 'super_admin' LIMIT 1");
-$super_admin = pg_fetch_assoc($res4);
+// $res4 = pg_query($conn, "SELECT username FROM admins WHERE role = 'super_admin' LIMIT 1");
+// $super_admin = pg_fetch_assoc($res4);
 
 echo json_encode([
     'branches' => $branches,
     'dept_admins' => $dept_admins,
     'branch_admins' => $branch_admins,
-    'super_admin' => $super_admin
+    // 'super_admin' => $super_admin
 ]);
