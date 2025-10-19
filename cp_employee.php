@@ -104,11 +104,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
     <form method="post">
       <h2>Employee Entry Form</h2>
 
-      <label for="slno">Sl. No</label>
+      <label for="slno">Sl. No<span style="color: red;">* </span></label>
       <input type="number" id="slno" name="slno" required>
 
       <!-- Department Dropdown -->
-      <label for="dept_code">DEPARTMENT CODE</label>
+      <label for="dept_code">DEPARTMENT CODE <span style="color: red;">* </span></label>
       <input type ="text" id="dept_code" name="dept_code" required>
 
       <!-- <select id="dept_code" name="dept_code" required>
@@ -128,11 +128,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
         ?>
       </select> -->
 
-      <label for="dept_name">DEPARTMENT NAME</label>
+      <label for="dept_name">DEPARTMENT NAME<span style="color: red;">* </span></label>
       <input type="text" id="dept_name" name="dept_name" required>
 
       <!-- Branch Dropdown -->
-      <label for="branchcode">BRANCH CODE</label>
+      <label for="branchcode">BRANCH CODE<span style="color: red;">* </span></label>
       <input type="text" id="branchcode" name="branchcode" required>
 
       <!-- <select id="branchcode" name="branchcode" required>
@@ -155,10 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
         ?>
       </select> -->
 
-      <label for="branch_address">BRANCH ADDRESS</label>
+      <label for="branch_address">BRANCH ADDRESS<span style="color: red;">* </span></label>
       <input type="text" id="branchAddress" name="branch_address" required>
 
-      <label for="emp_type">EMPLOYEE TYPE</label>
+      <label for="emp_type">EMPLOYEE TYPE<span style="color: red;">* </span></label>
       <select id="emp_type" name="emp_type" required>
         <option value="">Select</option>
         <option value="Central Employee">Central Employee</option>
@@ -166,13 +166,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
         <!-- <option value="State Employee">State Employee</option> -->
       </select>
 
-      <label for="name">NAME</label>
+      <label for="name">NAME<span style="color: red;">* </span></label>
       <input type="text" id="name" name="name" required>
 
-      <label for="desig">DESIGNATION</label>
+      <label for="desig">DESIGNATION<span style="color: red;">* </span></label>
       <input type="text" id="desig" name="desig" required>
 
-      <label for="sex">SEX</label>
+      <label for="sex">SEX<span style="color: red;">* </span></label>
       <select id="sex" name="sex" required>
         <option value="">Select</option>
         <option value="Male">Male</option>
@@ -180,53 +180,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['slno'])) {
         <option value="Other">Other</option>
       </select>
 
-      <label for="age">AGE</label>
+      <label for="age">AGE<span style="color: red;">* </span></label>
       <input type="number" id="age" name="age" required>
 
-      <label for="epic">VOTER ID (EPIC)</label>
+      <label for="epic">VOTER ID (EPIC)<span style="color: red;">* </span></label>
       <input type="text" id="epic" name="epic" required>
 
-      <label for="phone">PHONE</label>
+      <label for="phone">PHONE<span style="color: red;">* </span></label>
       <input type="text" id="phone" name="phone" required>
 
-      <label for="home_lac">HOME LAC</label>
+      <label for="home_lac">HOME LAC<span style="color: red;">* </span></label>
       <input type="text" id="home_lac" name="home_lac" required>
 
-      <label for="residential_lac">RESIDENTIAL LAC</label>
+      <label for="residential_lac">RESIDENTIAL LAC<span style="color: red;">* </span></label>
       <input type="text" id="residential_lac" name="residential_lac" required>
 
-      <label for="branch_lac">WORK LAC</label>
+      <label for="branch_lac">WORK LAC<span style="color: red;">* </span></label>
       <input type="text" id="branch_lac" name="branch_lac" required>
 
-      <label for="basic">BASIC</label>
+      <label for="basic">BASIC<span style="color: red;">* </span></label>
       <input type="number" id="basic" name="basic" step="0.01" required>
 
-      <label for="gazeted">GAZETED</label>
+      <label for="gazeted">GAZETED<span style="color: red;">* </span></label>
       <select id="gazeted" name="gazeted" required>
         <option value="">Select</option>
         <option value="1">Yes</option>
         <option value="0">No</option>
       </select>
 
-      <label for="remarks">REMARKS</label>
+      <label for="remarks">REMARKS<span style="color: red;">* </span></label>
       <input type="text" id="remarks" name="remarks" required>
 
-      <label for="education">EDUCATION</label>
+      <label for="education">EDUCATION<span style="color: red;">* </span></label>
       <input type="text" id="education" name="education" required>
 
-      <label for="dor">DOR</label>
+      <label for="dor">DOR<span style="color: red;">* </span></label>
       <input type="date" id="dor" name="dor" required>
 
-      <label for="ac_no">ACCOUNT NUMBER</label>
+      <label for="ac_no">ACCOUNT NUMBER<span style="color: red;">* </span></label>
       <input type="text" id="ac_no" name="ac_no" required>
 
-      <label for="ifsc_code">IFSC CODE</label>
+      <label for="ifsc_code">IFSC CODE<span style="color: red;">* </span></label>
       <input type="text" id="ifsc_code" name="ifsc_code" required>
 
-      <label for="branch_name">BANK BRANCH NAME</label>
+      <label for="branch_name">BANK BRANCH NAME<span style="color: red;">* </span></label>
       <input type="text" id="branch_name" name="branch_name" required>
 
-      <label for="bank_branch_address">BANK BRANCH ADDRESS</label>
+      <label for="bank_branch_address">BANK BRANCH ADDRESS<span style="color: red;">* </span></label>
       <input type="text" id="bank_branch_address" name="bank_branch_address" required>
 
       <input type="submit" value="Submit">
