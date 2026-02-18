@@ -10,14 +10,12 @@ if (!$conn) {
   die("Connection failed: " . pg_last_error());
 }
 
-// Fetch department list
 $dept_result = pg_query($conn, "SELECT dept_code, dept_name FROM dept_entry ORDER BY dept_code ASC");
 $departments = [];
 while ($row = pg_fetch_assoc($dept_result)) {
   $departments[] = $row;
 }
 
-// Form handling
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $deptCode = $_POST['deptCode'];
   $deptName = $_POST['deptName'];
@@ -254,7 +252,6 @@ pg_close($conn);
         <!-- Hidden role input -->
         <input type="hidden" name="role" value="Department Admin" />
 
-        <!-- Username and Password moved to the bottom -->
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" placeholder="Enter username" required />
@@ -272,7 +269,7 @@ pg_close($conn);
 
     <script>
       function toggledropdown(event) {
-        event.stopPropagation(); // stops bubbling up
+        event.stopPropagation(); 
         const li = event.target.closest('li');
         li.classList.toggle('active');
       }
